@@ -4,7 +4,11 @@
   <img src="docs_src/canada_flag.svg" alt="Flag of Canada" width="200" height="150">
 </div>
 
-Processes new LMIA files from GoC into CSV for analysis
+### Processes new LMIA files from GoC into CSV for analysis
+
+In August 2025, there is a ton of discussion going on about the LMIA program, so I'm looking to better understand it. 
+
+This repo is intended to make it easier to consume publicly available data, to bring more data to the discussion. 
 
 
 [![.github/workflows/process_lmia.yml](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/process_lmia.yml/badge.svg)](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/process_lmia.yml)
