@@ -176,8 +176,21 @@ process_csv_files() {
                 echo "  Processing: $(basename "$file")"
                 processed_files=$((processed_files + 1))
                 
-                # Process each line (skip header) - handle proper CSV parsing for quarterly format
-                tail -n +2 "$file" | while IFS= read -r line; do
+                # Detect file format and skip appropriate number of lines
+                # Check if second line is a proper header (contains "Province" or "Territory")
+                second_line=$(sed -n '2p' "$file")
+                if [[ "$second_line" == *"Province"* || "$second_line" == *"Territory"* ]]; then
+                    # Excel-converted format: has title row + header, skip 2 lines
+                    echo "    → Detected Excel format (title + header), skipping 2 lines"
+                    skip_lines=3
+                else
+                    # Direct CSV format: header only, skip 1 line  
+                    echo "    → Detected CSV format (header only), skipping 1 line"
+                    skip_lines=2
+                fi
+                
+                # Process each line after skipping the appropriate number of header lines
+                tail -n +$skip_lines "$file" | while IFS= read -r line; do
                     if [[ -n "$line" ]]; then
                         # Parse quarterly CSV line (Period,Stream,Employer,Address,Positions)
                         local employer=$(parse_csv_line "$line" 3)
