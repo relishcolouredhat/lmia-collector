@@ -12,18 +12,26 @@ CSV_DIR="./outputs/csv/unprocessed"
 SLEEP_TIMER="${SLEEP_TIMER:-1}"  # Default 1 second, configurable via environment
 
 echo "=== LMIA Location Cache Update ==="
-echo "Sleep timer between API calls: ${SLEEP_TIMER} seconds"
-echo "Cache file: $LOCATION_CACHE_FILE"
+echo "Started at: $(date)"
+echo "Configuration:"
+echo "  Sleep timer: ${SLEEP_TIMER} seconds"
+echo "  Cache file: $LOCATION_CACHE_FILE"
+echo "  CSV directory: $CSV_DIR"
+echo ""
 
 # Ensure cache directory exists
 mkdir -p "$CACHE_DIR"
 
 # Initialize cache if it doesn't exist
 if [[ ! -f "$LOCATION_CACHE_FILE" ]]; then
-    echo "Postal Code,Latitude,Longitude,Sample Address,Sample Employer" > "$LOCATION_CACHE_FILE"
-    echo "✓ Created new cache file"
+    echo "📄 Creating new cache file..."
+    echo "Postal Code;Latitude;Longitude;Sample Address;Sample Employer" > "$LOCATION_CACHE_FILE"
+    echo "✓ Created new cache file: $LOCATION_CACHE_FILE"
 else
-    echo "✓ Using existing cache file"
+    initial_cache_size=$(tail -n +2 "$LOCATION_CACHE_FILE" | wc -l)
+    echo "📄 Using existing cache file"
+    echo "   Current cache size: $initial_cache_size postal codes"
+    echo "   Last updated: $(stat -c %y "$LOCATION_CACHE_FILE" 2>/dev/null | cut -d'.' -f1 || echo "unknown")"
 fi
 
 # Function to extract postal code from address
@@ -32,6 +40,11 @@ extract_postal_code() {
     # Extract Canadian postal code pattern: A1A 1A1 or A1A1A1
     echo "$address" | grep -o '[A-Z][0-9][A-Z] [0-9][A-Z][0-9]\|[A-Z][0-9][A-Z][0-9][A-Z][0-9]' | head -1 || echo ""
 }
+
+# Global counters for statistics
+CACHE_HITS=0
+API_CALLS=0
+FAILED_LOOKUPS=0
 
 # Function to get coordinates for a postal code using OpenStreetMap Nominatim
 get_postal_code_coordinates() {
@@ -43,21 +56,28 @@ get_postal_code_coordinates() {
     fi
     
     # Check cache first - postal code is now the first column
-    local cached_coords=$(grep "^$postal_code," "$LOCATION_CACHE_FILE" 2>/dev/null | head -1 | cut -d',' -f2,3)
+    local cached_coords=$(grep "^$postal_code;" "$LOCATION_CACHE_FILE" 2>/dev/null | head -1 | cut -d';' -f2,3 | tr ';' ',')
     
     if [[ -n "$cached_coords" && "$cached_coords" != "," ]]; then
+        CACHE_HITS=$((CACHE_HITS + 1))
+        echo "  ✓ Cache hit: $postal_code" >&2
         echo "$cached_coords"
         return
     fi
     
-    echo "  → Looking up postal code: $postal_code" >&2
+    # Not in cache, query API
+    API_CALLS=$((API_CALLS + 1))
+    echo "  → Looking up postal code: $postal_code (API call #$API_CALLS)" >&2
     
     # Query Nominatim API for Canadian postal codes
     local coordinates=$(curl -s "https://nominatim.openstreetmap.org/search?postalcode=${postal_code}&country=CA&format=json&limit=1" | jq -r '.[0] | "\(.lat),\(.lon)"' 2>/dev/null || echo ",")
     
     if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]]; then
+        FAILED_LOOKUPS=$((FAILED_LOOKUPS + 1))
+        echo "    ❌ No coordinates found for $postal_code" >&2
         echo ","
     else
+        echo "    ✅ Found coordinates: $coordinates" >&2
         echo "$coordinates"
     fi
     
@@ -109,8 +129,8 @@ cache_postal_code_location() {
     employer=$(echo "$employer" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//' | sed 's/"/""/g')
     
     # Check if this postal code already exists in cache
-    if ! grep -q "^$postal_code," "$LOCATION_CACHE_FILE" 2>/dev/null; then
-        echo "$postal_code,$latitude,$longitude,\"$address\",\"$employer\"" >> "$LOCATION_CACHE_FILE"
+    if ! grep -q "^$postal_code;" "$LOCATION_CACHE_FILE" 2>/dev/null; then
+        echo "$postal_code;$latitude;$longitude;$address;$employer" >> "$LOCATION_CACHE_FILE"
         echo "    ✓ Cached postal code: $postal_code ($latitude,$longitude) [$employer]" >&2
     fi
 }
@@ -120,24 +140,44 @@ process_csv_files() {
     local total_files=0
     local processed_files=0
     local new_entries=0
+    local cache_hits=0
+    local api_calls=0
+    local failed_lookups=0
+    local postal_codes_found=0
+    local lines_processed=0
     local initial_cache_size=$(tail -n +2 "$LOCATION_CACHE_FILE" | wc -l)
+    local start_time=$(date +%s)
     
     echo ""
-    echo "=== Scanning for CSV files to process ==="
+    echo "=== 🔍 Scanning for CSV files to process ==="
+    echo "📊 Initial Statistics:"
+    echo "   Cache size: $initial_cache_size postal codes"
+    echo "   Scan directory: $CSV_DIR"
     
-    # Count total files
+    # Count total files and get breakdown
     total_files=$(find "$CSV_DIR" -name "*.csv" | wc -l)
-    echo "Found $total_files CSV files to scan"
+    employer_files=$(find "$CSV_DIR/employer_format" -name "*.csv" 2>/dev/null | wc -l)
+    quarterly_files=$(find "$CSV_DIR/quarterly_format" -name "*.csv" 2>/dev/null | wc -l)
+    
+    echo ""
+    echo "📁 File Discovery:"
+    echo "   Total files found: $total_files"
+    echo "   Employer format: $employer_files files"
+    echo "   Quarterly format: $quarterly_files files"
+    echo ""
     
     # Process employer format files
     if [[ -d "$CSV_DIR/employer_format" ]]; then
         echo ""
-        echo "Processing employer format files..."
+        echo "🏢 Processing employer format files..."
         
         for file in "$CSV_DIR/employer_format"/*.csv; do
             if [[ -f "$file" ]]; then
-                echo "  Processing: $(basename "$file")"
+                local file_lines=$(wc -l < "$file")
+                local file_start_time=$(date +%s)
+                echo "  📄 Processing: $(basename "$file") ($file_lines lines)"
                 processed_files=$((processed_files + 1))
+                lines_processed=$((lines_processed + file_lines))
                 
                 # Process each line (skip header) - handle proper CSV parsing
                 tail -n +2 "$file" | while IFS= read -r line; do
@@ -169,12 +209,15 @@ process_csv_files() {
     # Process quarterly format files
     if [[ -d "$CSV_DIR/quarterly_format" ]]; then
         echo ""
-        echo "Processing quarterly format files..."
+        echo "📊 Processing quarterly format files..."
         
         for file in "$CSV_DIR/quarterly_format"/*.csv; do
             if [[ -f "$file" ]]; then
-                echo "  Processing: $(basename "$file")"
+                local file_lines=$(wc -l < "$file")
+                local file_start_time=$(date +%s)
+                echo "  📄 Processing: $(basename "$file") ($file_lines lines)"
                 processed_files=$((processed_files + 1))
+                lines_processed=$((lines_processed + file_lines))
                 
                 # Detect file format and skip appropriate number of lines
                 # Check if second line is a proper header (contains "Province" or "Territory")
@@ -217,15 +260,53 @@ process_csv_files() {
     fi
     
     local final_cache_size=$(tail -n +2 "$LOCATION_CACHE_FILE" | wc -l)
-    new_entries=$((final_cache_size - initial_cache_size))
+    local new_entries=$((final_cache_size - initial_cache_size))
+    local end_time=$(date +%s)
+    local total_time=$((end_time - start_time))
+    local success_rate=0
+    
+    if [[ $API_CALLS -gt 0 ]]; then
+        success_rate=$(( (API_CALLS - FAILED_LOOKUPS) * 100 / API_CALLS ))
+    fi
     
     echo ""
-    echo "=== Cache Update Summary ==="
-    echo "Files processed: $processed_files"
-    echo "Initial cache entries: $initial_cache_size"
-    echo "Final cache entries: $final_cache_size"
-    echo "New entries added: $new_entries"
-    echo "Cache file: $LOCATION_CACHE_FILE"
+    echo "=== 📈 COMPREHENSIVE CACHE UPDATE SUMMARY ==="
+    echo "⏱️  Processing Time:"
+    echo "   Total duration: ${total_time}s"
+    echo "   Started: $(date -d "@$start_time" '+%Y-%m-%d %H:%M:%S')"
+    echo "   Completed: $(date)"
+    echo ""
+    echo "📁 Files Processed:"
+    echo "   Total files: $processed_files of $total_files found"
+    echo "   Total lines: $lines_processed"
+    echo "   Employer format: $employer_files files"
+    echo "   Quarterly format: $quarterly_files files"
+    echo ""
+    echo "🎯 Cache Performance:"
+    echo "   Cache hits: $CACHE_HITS (instant lookups)"
+    echo "   API calls: $API_CALLS"
+    echo "   Failed lookups: $FAILED_LOOKUPS"
+    echo "   Success rate: ${success_rate}%"
+    echo ""
+    echo "📊 Cache Growth:"
+    echo "   Initial entries: $initial_cache_size"
+    echo "   Final entries: $final_cache_size"
+    echo "   New entries added: $new_entries"
+    echo "   Growth rate: $(( new_entries * 100 / (initial_cache_size + 1) ))%"
+    echo ""
+    echo "⚡ Performance Metrics:"
+    if [[ $total_time -gt 0 ]]; then
+        echo "   Files per second: $(( processed_files * 60 / total_time ))/min"
+        echo "   Lines per second: $(( lines_processed / total_time ))"
+        if [[ $API_CALLS -gt 0 ]]; then
+            echo "   Avg API response time: $(( total_time / API_CALLS ))s"
+        fi
+    fi
+    echo "   Cache hit ratio: $(( CACHE_HITS * 100 / (CACHE_HITS + API_CALLS + 1) ))%"
+    echo ""
+    echo "💾 Output:"
+    echo "   Cache file: $LOCATION_CACHE_FILE"
+    echo "   File size: $(du -h "$LOCATION_CACHE_FILE" 2>/dev/null | cut -f1 || echo "unknown")"
 }
 
 # Run the processing

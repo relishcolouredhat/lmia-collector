@@ -1,13 +1,279 @@
-Postal Code,Latitude,Longitude,Sample Address,Sample Employer
-A1C6C9,47.5630653,-52.7076773,"215 Water Street, Box20, Suite511, St. John's, NL A1C6C9 215 Water Street, Box20, Suite511, St. John's, NL A1C6C9","Aker Solutions AIM Aker Solutions AIM"
-A0P1G0,55.4514098,-60.2300023,"PO Box129, Hopedale, NL A0P1G0 PO Box129, Hopedale, NL A0P1G0","Amaguk Inn Amaguk Inn"
-A0P1C0,53.3061725,-60.3605867,"358 Hamilton River Road, PO Box177, STNC, Happy Valley-Goose Bay, NL A0P1C0 358 Hamilton River Road, PO Box177, STNC, Happy Valley-Goose Bay, NL A0P1C0","Astaldi Canada Inc. Astaldi Canada Inc."
-A0A1G0,47.5871535,-53.2787055,"1 Hope Avenue, Bay Roberts, NL A0A1G0 1 Hope Avenue, Bay Roberts, NL A0A1G0","Atlantic Grocery Distributors Atlantic Grocery Distributors"
-A1W3A6,47.5173136,-52.9625330,"152 Conception Bay Highway, Conception Bay South, NL A1W3A6 152 Conception Bay Highway, Conception Bay South, NL A1W3A6","CBS Foods Ltd CBS Foods Ltd"
-A2A2E1,48.9340010,-55.6445567,"50 Union Street, Grand Falls-Windsor, NL A2A2E1 50 Union Street, Grand Falls-Windsor, NL A2A2E1","Central Health Authority Central Health Authority"
-A0G3A0,49.2396062,-55.0930642,"PO Box910, Lewisporte, NL A0G3A0 PO Box910, Lewisporte, NL A0G3A0","Coastal Shipping Ltd Coastal Shipping Ltd"
-A0A1P0,47.0960066,-52.9472844,"PO Box29, Cape Broyle, NL A0A1P0 PO Box29, Cape Broyle, NL A0A1P0","Conche Seafoods Ltd. Conche Seafoods Ltd."
-A0R1B0,52.8984026,-66.8642894,"15 First Avenue, Wabush, NL A0R1B0 15 First Avenue, Wabush, NL A0R1B0","House-Man Limited House-Man Limited"
-A1C1H3,47.5657256,-52.7068058,"286 Duckworth Street, St. John's, NL A1C1H3 286 Duckworth Street, St. John's, NL A1C1H3","India Gate Restaurant India Gate Restaurant"
-A1V1W6,48.9525445,-54.6226523,"PO Box202, Gander, NL A1V1W6 PO Box202, Gander, NL A1V1W6","Jungle Jim's Gander Jungle Jim's Gander"
-A0K4S0,51.3689311,-55.5959421,"200 West Street, Suite178, St. Anthony, NL A0K4S0 200 West Street, Suite178, St. Anthony, NL A0K4S0","Labrador-Grenfell Health Labrador-Grenfell Health"
+Postal Code;Latitude;Longitude;Sample Address;Sample Employer
+A1C6C9;47.5630653;-52.7076773;215 Water Street, Box20, Suite511, St. John's, NL A1C6C9 215 Water Street, Box20, Suite511, St. John's, NL A1C6C9;Aker Solutions AIM Aker Solutions AIM
+A0P1G0;55.4514098;-60.2300023;PO Box129, Hopedale, NL A0P1G0 PO Box129, Hopedale, NL A0P1G0;Amaguk Inn Amaguk Inn
+A0P1C0;53.3061725;-60.3605867;358 Hamilton River Road, PO Box177, STNC, Happy Valley-Goose Bay, NL A0P1C0 358 Hamilton River Road, PO Box177, STNC, Happy Valley-Goose Bay, NL A0P1C0;Astaldi Canada Inc. Astaldi Canada Inc.
+A0A1G0;47.5871535;-53.2787055;1 Hope Avenue, Bay Roberts, NL A0A1G0 1 Hope Avenue, Bay Roberts, NL A0A1G0;Atlantic Grocery Distributors Atlantic Grocery Distributors
+A1W3A6;47.5173136;-52.9625330;152 Conception Bay Highway, Conception Bay South, NL A1W3A6 152 Conception Bay Highway, Conception Bay South, NL A1W3A6;CBS Foods Ltd CBS Foods Ltd
+A2A2E1;48.9340010;-55.6445567;50 Union Street, Grand Falls-Windsor, NL A2A2E1 50 Union Street, Grand Falls-Windsor, NL A2A2E1;Central Health Authority Central Health Authority
+A0G3A0;49.2396062;-55.0930642;PO Box910, Lewisporte, NL A0G3A0 PO Box910, Lewisporte, NL A0G3A0;Coastal Shipping Ltd Coastal Shipping Ltd
+A0A1P0;47.0960066;-52.9472844;PO Box29, Cape Broyle, NL A0A1P0 PO Box29, Cape Broyle, NL A0A1P0;Conche Seafoods Ltd. Conche Seafoods Ltd.
+A0R1B0;52.8984026;-66.8642894;15 First Avenue, Wabush, NL A0R1B0 15 First Avenue, Wabush, NL A0R1B0;House-Man Limited House-Man Limited
+A1C1H3;47.5657256;-52.7068058;286 Duckworth Street, St. John's, NL A1C1H3 286 Duckworth Street, St. John's, NL A1C1H3;India Gate Restaurant India Gate Restaurant
+A1V1W6;48.9525445;-54.6226523;PO Box202, Gander, NL A1V1W6 PO Box202, Gander, NL A1V1W6;Jungle Jim's Gander Jungle Jim's Gander
+A0K4S0;51.3689311;-55.5959421;200 West Street, Suite178, St. Anthony, NL A0K4S0 200 West Street, Suite178, St. Anthony, NL A0K4S0;Labrador-Grenfell Health Labrador-Grenfell Health
+A1B1W3;47.5613650;-52.7558211;56A Kenmount Road, St. John's, NL A1B1W3 56A Kenmount Road, St. John's, NL A1B1W3;Golden Phoenix Buffet Golden Phoenix Buffet
+A0E2M0;47.1675037;-55.1534157;PO Box487, Marystown, NL A0E2M0 PO Box487, Marystown, NL A0E2M0;Marystown Hotel & Conven Marystown Hotel & Conven
+A0B2Y0;47.2447573;-53.9630918;36 Prince William Drive, Placentia, NL A0B2Y0 36 Prince William Drive, Placentia, NL A0B2Y0;Provincial Ready Mix Provincial Ready Mix
+A5A0C3;48.1702042;-53.9897202;3 Coish Place, Clarenville, NL A5A0C3 3 Coish Place, Clarenville, NL A5A0C3;Uncle Li Restaurant Inc Uncle Li Restaurant Inc
+C0B1A0;46.2891968;-63.6297680;95 Train Station Road, Box 40, Albany, PE C0B1A0 95 Train Station Road, Box 40, Albany, PE C0B1A0;Atlantic Beef Products Inc. Atlantic Beef Products Inc.
+C0A2B0;46.3536076;-62.2465064;677 Route 2, PO Box418, Souris, PE C0A2B0 677 Route 2, PO Box418, Souris, PE C0A2B0;Eastern Exporters Ltd Eastern Exporters Ltd
+C0A1X0;46.4615165;-63.3204412;Box175, North Rustico, PE C0A1X0 Box175, North Rustico, PE C0A1X0;PEI Select Tours Inc PEI Select Tours Inc
+B3B1T4;44.7014414;-63.5861093;JK-61 Raddall Avenue, Dartmouth, NS B3B1T4 JK-61 Raddall Avenue, Dartmouth, NS B3B1T4;3043177 Nova Scotia Limited(Frontier Technology) 3043177 Nova Scotia Limited(Frontier Technology)
+B0P1J0;45.1286608;-64.5185054;7295 Highway221, RR2, Centreville, NS B0P1J0 7295 Highway221, RR2, Centreville, NS B0P1J0;Allen Farms Limited Allen Farms Limited
+B3B1Z4;44.7144659;-63.5821074;11 Frazee Avenue, Dartmouth, NS B3B1Z4 11 Frazee Avenue, Dartmouth, NS B3B1Z4;AMEC Black & McDonald Ltd AMEC Black & McDonald Ltd
+B3K3G9;44.6655689;-63.5965602;3139 Veith Street, Halifax, NS B3K3G9 3139 Veith Street, Halifax, NS B3K3G9;Atlantic Adventure Divers Atlantic Adventure Divers
+B0N2T0;44.9826447;-64.1350671;467 Kings Street, PO Box3696, Windsor, NS B0N2T0 467 Kings Street, PO Box3696, Windsor, NS B0N2T0;Baby Panda Asian Cuisine Baby Panda Asian Cuisine
+B0M1L0;45.4158460;-63.5974846;9036 Highway2, Great Village, NS B0M1L0 9036 Highway2, Great Village, NS B0M1L0;Balamore Farm Ltd Balamore Farm Ltd
+B0M1E0;45.5729240;-63.9166688;1536 Wyvern Road, PO Box60, Collingwood, NS B0M1E0 1536 Wyvern Road, PO Box60, Collingwood, NS B0M1E0;Bragg Lumber Company Bragg Lumber Company
+B3G1M5;44.6148509;-63.4971547;100 Government Warf Road, Eastern Passage, NS B3G1M5 100 Government Warf Road, Eastern Passage, NS B3G1M5;Capital Seafood International Incorporated Capital Seafood International Incorporated
+B0M1C0;45.4588814;-63.5243328;"Carstar Truro, Amherst and New Glasgow","12229 Highway2, Belmont, NS B0M1C0",1 "Carstar Truro, Amherst and New Glasgow","12229 Highway2, Belmont, NS B0M1C0",1;Carstar Truro, Amherst and New Glasgow","12229 Highway2, Belmont, NS B0M1C0",1 Carstar Truro, Amherst and New Glasgow","12229 Highway2, Belmont, NS B0M1C0",1
+B3T1P3;44.6019984;-63.6789834;8 Mills Drive, Goodwood, NS B3T1P3 8 Mills Drive, Goodwood, NS B3T1P3;Coastal Restoration & Masonry Limited Coastal Restoration & Masonry Limited
+B3J3N2;44.6517042;-63.5742521;1959 Upper Water Street, Suite1301, Halifax, NS B3J3N2 1959 Upper Water Street, Suite1301, Halifax, NS B3J3N2;DDI-Canada DDI-Canada
+B2W3E5;44.6794955;-63.5376858;58 Tacoma Drive, Suite101, Dartmouth, NS B2W3E5 58 Tacoma Drive, Suite101, Dartmouth, NS B2W3E5;Dr. Alzrighe Medical Inc. o/a Tacoma Family Medicine and Walk-In Dr. Alzrighe Medical Inc. o/a Tacoma Family Medicine and Walk-In
+B0N2H0;45.0373420;-63.2534940;138 Combe Road, Shubenacadie, NS B0N2H0 138 Combe Road, Shubenacadie, NS B0N2H0;Eastern Dairy Services Eastern Dairy Services
+B0H1X0;45.5702251;-61.9118759;"Elite Balsam Products, Inc","2345 Antigonish-Guysborough Road, St. Andrews, NS B0H1X0",12 "Elite Balsam Products, Inc","2345 Antigonish-Guysborough Road, St. Andrews, NS B0H1X0",12;Elite Balsam Products, Inc","2345 Antigonish-Guysborough Road, St. Andrews, NS B0H1X0",12 Elite Balsam Products, Inc","2345 Antigonish-Guysborough Road, St. Andrews, NS B0H1X0",12
+B3T1M3;44.6414144;-63.6844289;31 Dominion Crescent, Lakeside, NS B3T1M3 31 Dominion Crescent, Lakeside, NS B3T1M3;Emera Uitlities Services Incorporated Emera Uitlities Services Incorporated
+B2Y3S1;44.6571319;-63.5499618;40 Pleasant Street, Dartmouth, NS B2Y3S1 40 Pleasant Street, Dartmouth, NS B2Y3S1;Huminah Huminah Animation Inc. Huminah Huminah Animation Inc.
+B3K4C5;44.6552521;-63.5916196;2526 Agricola Street, Suite4, Halifax, NS B3K4C5 2526 Agricola Street, Suite4, Halifax, NS B3K4C5;Leaf Music Leaf Music
+B0S1P0;44.9242159;-65.0843058;PO Box 1676, Middleton, NS B0S1P0 PO Box 1676, Middleton, NS B0S1P0;Middleton Physiotherapy and Osteopathy Inc Middleton Physiotherapy and Osteopathy Inc
+B0M1P0;45.7473581;-63.8200711;115 Knol Drive, PO Box 368, Oxford, NS B0M1P0 115 Knol Drive, PO Box 368, Oxford, NS B0M1P0;Oxford Berry Farm Oxford Berry Farm
+B3K4P1;44.6565723;-63.5973218;2727 Robie Street, Halifax, NS B3K4P1 2727 Robie Street, Halifax, NS B3K4P1;PNL Communications Ltd. PNL Communications Ltd.
+B0P1T0;45.1379951;-64.4049546;1736 Church Street, Port Williams, NS B0P1T0 1736 Church Street, Port Williams, NS B0P1T0;Taproot Farms Inc. Taproot Farms Inc.
+B3J2B2;44.6459550;-63.5739760;1575 Argyle Street, Halifax, NS B3J2B2 1575 Argyle Street, Halifax, NS B3J2B2;The Argyle Bar & Grill The Argyle Bar & Grill
+B3A0A8;44.6848087;-63.5943122;146 Nadia Drive, Dartmouth, NS B3A0A8 146 Nadia Drive, Dartmouth, NS B3A0A8;The Battered Fish The Battered Fish
+B3K4M7;44.6513130;-63.5929360;2390 Robie Street, Halifax, NS B3K4M7 2390 Robie Street, Halifax, NS B3K4M7;Tony's Famous Donair Tony's Famous Donair
+B3R1Y9;44.5848629;-63.5894633;749 Herring Cove Road, Halifax, NS B3R1Y9 749 Herring Cove Road, Halifax, NS B3R1Y9;Tremblay Signs (1987) Ltd Tremblay Signs (1987) Ltd
+E3B3N5;45.9623066;-66.6435773;66 York Street, Fredericton, NB E3B3N5 66 York Street, Fredericton, NB E3B3N5;Andrei Master Tailor Ltd. Andrei Master Tailor Ltd.
+E3B5A6;45.8958394;-66.6090803;PO Box 550, STN A, Fredericton, NB E3B5A6 PO Box 550, STN A, Fredericton, NB E3B5A6;Econocrete Econocrete
+E1C1E3;46.0891038;-64.7765486;687 Main Street, Moncton, NB E1C1E3 687 Main Street, Moncton, NB E1C1E3;Japan Go! Japan Go!
+E3B3T4;45.9606543;-66.6418322;120 Carelton Street, Fredericton, NB E3B3T4 120 Carelton Street, Fredericton, NB E3B3T4;KSI Research International (2009) Inc. KSI Research International (2009) Inc.
+E3C2M6;45.9400385;-66.6709039;"Law Offices of Kelly Lamrock, Q.C.","401 Bishop Drive, Suite102, Fredericton, NB E3C2M6",1 "Law Offices of Kelly Lamrock, Q.C.","401 Bishop Drive, Suite102, Fredericton, NB E3C2M6",1;Law Offices of Kelly Lamrock, Q.C.","401 Bishop Drive, Suite102, Fredericton, NB E3C2M6",1 Law Offices of Kelly Lamrock, Q.C.","401 Bishop Drive, Suite102, Fredericton, NB E3C2M6",1
+E3L1G5;45.1929404;-67.2793955;73 Milltown Boulevard, Suite112, St. Stephen, NB E3L1G5 73 Milltown Boulevard, Suite112, St. Stephen, NB E3L1G5;Town of St. Stephen Town of St. Stephen
+E2J2C2;45.2952092;-66.0407499;324 Rothesay Avenue, Saint John, NB E2J2C2 324 Rothesay Avenue, Saint John, NB E2J2C2;Vitos Restaurant Vitos Restaurant
+H3G1L7;45.4969101;-73.5817932;1535 Sherbrooke Street West, Montreal, QC H3G1L7 1535 Sherbrooke Street West, Montreal, QC H3G1L7;6122159 Canada Inc. 6122159 Canada Inc.
+H3Z1X1;45.4835509;-73.5841407;3401 Saint-Antoine Street West, Westmount, QC H3Z1X1 3401 Saint-Antoine Street West, Westmount, QC H3Z1X1;7237502 CANADA INC. 7237502 CANADA INC.
+H2Y1H3;45.5092981;-73.5516076;393 Saint-Paul Street East, Montreal, QC H2Y1H3 393 Saint-Paul Street East, Montreal, QC H2Y1H3;7Grains/Seven grains 7Grains/Seven grains
+J0H1B0;45.6595940;-73.0414805;634, 5e Rang, La Prsentation, QC J0H1B0 634, 5e Rang, La Prsentation, QC J0H1B0;9008-1951 Qubec Inc. (Yves Sarrazin) 9008-1951 Qubec Inc. (Yves Sarrazin)
+G2K2E4;46.8353780;-71.2962398;1305 Lebourgneuf Boulevard, Qubec, QC G2K2E4 1305 Lebourgneuf Boulevard, Qubec, QC G2K2E4;9150-3193 Qubec Inc. (MCA Concept) 9150-3193 Qubec Inc. (MCA Concept)
+J0L1M0;45.4353271;-73.0454968;170, 5e Avenue, Rougemont, QC J0L1M0 170, 5e Avenue, Rougemont, QC J0L1M0;A. Lassonde Inc. A. Lassonde Inc.
+H9J3Y4;45.4427046;-73.8830463;18122 Elkas Boulevard, Kirkland, QC H9J3Y4 18122 Elkas Boulevard, Kirkland, QC H9J3Y4;Acadmie Marie-Claire Acadmie Marie-Claire
+H4C2C7;45.4721176;-73.5833353;4000 Saint-Ambroise Street, Suite173, Montreal, QC H4C2C7 4000 Saint-Ambroise Street, Suite173, Montreal, QC H4C2C7;Alex et Alex Montral Alex et Alex Montral
+J0N1E0;45.4698616;-74.0783939;125, rang Sainte-Sophie, Oka, QC J0N1E0 125, rang Sainte-Sophie, Oka, QC J0N1E0;Arbo-Design Inc. Arbo-Design Inc.
+J0B1C0;45.1601729;-72.0368639;700 Ripplecove Street, Ayer's Cliff, QC J0B1C0 700 Ripplecove Street, Ayer's Cliff, QC J0B1C0;Auberge Ripplecove Inn 1985 Inc Auberge Ripplecove Inn 1985 Inc
+H2J1X8;45.5282184;-73.5787521;1134 Mont-Royal Avenue East, Montreal, QC H2J1X8 1134 Mont-Royal Avenue East, Montreal, QC H2J1X8;Barraca rhumerie & tapas inc. Barraca rhumerie & tapas inc.
+J0Z3A0;48.9964317;-79.3609802;93 Commerciale Street, Normtal, QC J0Z3A0 93 Commerciale Street, Normtal, QC J0Z3A0;Boulangerie Normtal Inc. Boulangerie Normtal Inc.
+H1Z3E4;45.5653455;-73.6122712;8351 Saint-Michel Boulevard, Montreal, QC H1Z3E4 8351 Saint-Michel Boulevard, Montreal, QC H1Z3E4;Boulangerie Ptisserie Aoriana Boulangerie Ptisserie Aoriana
+H2X3L3;45.5173476;-73.5687406;3442 Saint-Denis Street, Montreal, QC H2X3L3 3442 Saint-Denis Street, Montreal, QC H2X3L3;BSP Concept Inc. BSP Concept Inc.
+H1Z2E2;45.5633335;-73.6097361;3206 Jarry Street East, Suite201, Montreal, QC H1Z2E2 3206 Jarry Street East, Suite201, Montreal, QC H1Z2E2;Caf Bistro da Bola Caf Bistro da Bola
+H3G2E8;45.4985268;-73.5795792;2189 Bishop Street, Montreal, QC H3G2E8 2189 Bishop Street, Montreal, QC H3G2E8;Caf Des Beaux-Arts Caf Des Beaux-Arts
+J0N1H0;45.7172375;-73.7832858;2, chemin du Lac, Sainte-Anne-des-Plaines, QC J0N1H0 2, chemin du Lac, Sainte-Anne-des-Plaines, QC J0N1H0;Camping Lac des Plaines Camping Lac des Plaines
+H7S1Y9;45.5610571;-73.7311941;1600 Le Corbusier Boulevard, Suite107, Laval, QC H7S1Y9 1600 Le Corbusier Boulevard, Suite107, Laval, QC H7S1Y9;Centre Japonais de la Photo Centre Japonais de la Photo
+J3Y5K2;45.4838033;-73.3880177;7500 Grande-Alle Boulevard, Saint-Hubert, QC J3Y5K2 7500 Grande-Alle Boulevard, Saint-Hubert, QC J3Y5K2;Certex Certex
+H3E1T9;45.4669728;-73.5413219;3000 Ren-Levesque Boulevard, Suite100, Verdun, QC H3E1T9 3000 Ren-Levesque Boulevard, Suite100, Verdun, QC H3E1T9;Chez carl pizza & vin inc. Chez carl pizza & vin inc.
+J0E2K0;45.0996950;-72.6020887;50 Principale Street North, Sutton, QC J0E2K0 50 Principale Street North, Sutton, QC J0E2K0;Chez Matis Traiteur Chez Matis Traiteur
+H2Y1Z5;45.5036145;-73.5548810;147 Saint-Paul Street West, Suite200, Montreal, QC H2Y1Z5 147 Saint-Paul Street West, Suite200, Montreal, QC H2Y1Z5;Chinook Trading Canada Limited Chinook Trading Canada Limited
+H3J2Z6;45.4795211;-73.5756690;151 Atwater Street, PO Box72129, Montreal, QC H3J2Z6 151 Atwater Street, PO Box72129, Montreal, QC H3J2Z6;Club De Gymnastique Artistique Gadbois Club De Gymnastique Artistique Gadbois
+J8E1S5;46.1863878;-74.5972776;6385, monte Ryan, Mont-Tremblant, QC J8E1S5 6385, monte Ryan, Mont-Tremblant, QC J8E1S5;Club Lespri Tremblant ULC Club Lespri Tremblant ULC
+H1N1C1;45.5775107;-73.5457440;6092 Sherbrooke Street East, Montreal, QC H1N1C1 6092 Sherbrooke Street East, Montreal, QC H1N1C1;Coiffure Donald Proulx Inc Coiffure Donald Proulx Inc
+J4B7L4;45.5707843;-73.4134964;1550 Ampre Street, Suite200, Boucherville, QC J4B7L4 1550 Ampre Street, Suite200, Boucherville, QC J4B7L4;Construction DJL Inc. Construction DJL Inc.
+G0X3M0;48.1095231;-75.3597974;8, chemin de la Gare, Clova, La Tuque, QC G0X3M0 8, chemin de la Gare, Clova, La Tuque, QC G0X3M0;Cooprative de Solidarit du Huitime Feu Cooprative de Solidarit du Huitime Feu
+G0L1X0;47.6156933;-68.8074132;PO Box1753, Tmiscouata-sur-le-Lac, QC G0L1X0 PO Box1753, Tmiscouata-sur-le-Lac, QC G0L1X0;CPA les Perce-Neige du Tmiscouata CPA les Perce-Neige du Tmiscouata
+J1X7K3;45.2813814;-72.1224105;2167 Louis-Faucher Street, Magog, QC J1X7K3 2167 Louis-Faucher Street, Magog, QC J1X7K3;Dbosselage Orford inc. Dbosselage Orford inc.
+H3H2E7;45.4920719;-73.5789315;1225 Saint Marc Street, Suite1208, Montreal, QC H3H2E7 1225 Saint Marc Street, Suite1208, Montreal, QC H3H2E7;Distribution Importex Distribution ImportexA1N2C4;47.5062835;-52.7918122;Box 392, Mount Pearl, NL A1N2C4 Box 392, Mount Pearl, NL A1N2C4;Lester's Farm Market Lester's Farm Market
+A0P1E0;53.3053793;-60.3073404;PO Box493, STNB, Happy Valley-Goose Bay, NL A0P1E0 PO Box493, STNB, Happy Valley-Goose Bay, NL A0P1E0;Maxwell's & Bentley's Maxwell's & Bentley's
+A1C5S7;47.5731022;-52.7348949;Elizabeth Avenue, PO Box4200, St. John's, NL A1C5S7 Elizabeth Avenue, PO Box4200, St. John's, NL A1C5S7;Memorial University Of Newfoundland and Labrador Memorial University Of Newfoundland and Labrador
+A1B3P9;47.5516193;-52.7738249;193 Kenmount Road, Unit2, St. John's, NL A1B3P9 193 Kenmount Road, Unit2, St. John's, NL A1B3P9;Merlo's Inferno Merlo's Inferno
+A0B1N0;47.9296636;-53.9480816;PO Box40, Come By Chance, NL A0B1N0 PO Box40, Come By Chance, NL A0B1N0;NARL Refining Ltd Partnership NARL Refining Ltd Partnership
+A0A1C0;47.3202414;-52.8183469;92 Farm Road, Bay Bulls, NL A0A1C0 92 Farm Road, Bay Bulls, NL A0A1C0;Ocean View Farm Ocean View Farm
+A1C1K4;47.5718845;-52.6997632;Baine Johson Centre, Suite701, St. John's, NL A1C1K4 Baine Johson Centre, Suite701, St. John's, NL A1C1K4;Oceanex Inc. Oceanex Inc.
+A0C1A0;48.3909943;-53.9054009;PO Box205, Musgravetown, NL A0C1A0 PO Box205, Musgravetown, NL A0C1A0;Sunrise Dairy Limited Sunrise Dairy Limited
+A5A1Z2;48.1510092;-53.9664524;2 Tilley's Road, Clarenville, NL A5A1Z2 2 Tilley's Road, Clarenville, NL A5A1Z2;Tai Hong Restaurant Tai Hong Restaurant
+A1B4J9;47.5743745;-52.7222000;PO Box23106, Churchill Square, St. John's, NL A1B4J9 PO Box23106, Churchill Square, St. John's, NL A1B4J9;West End Foods Limited oa Jungle Jims West End Foods Limited oa Jungle Jims
+A2H6J7;48.9489434;-57.9305661;1 Brookfield Avenue, Corner Brook, NL A2H6J7 1 Brookfield Avenue, Corner Brook, NL A2H6J7;Western Regional Integrated Health Authority Western Regional Integrated Health Authority
+C0B1M0;46.4722372;-63.5863612;713 Route 104, RR5, Kensington, PE C0B1M0 713 Route 104, RR5, Kensington, PE C0B1M0;Atlantic Grown Organics Inc Atlantic Grown Organics Inc
+C1A4P3;46.2460132;-63.1303914;550 University Avenue, Charlottetown, PE C1A4P3 550 University Avenue, Charlottetown, PE C1A4P3;Atlantic Veterinary College Atlantic Veterinary College
+C0A1V0;46.0106793;-62.5481593;75 Wharf Lane, Beach Point, PE C0A1V0 75 Wharf Lane, Beach Point, PE C0A1V0;Beach Point Processing Company Beach Point Processing Company
+C0A1B0;45.9557207;-62.7487869;12 Waterview Lane, Belle River, PE C0A1B0 12 Waterview Lane, Belle River, PE C0A1B0;Belle River Enterprises Ltd. Belle River Enterprises Ltd.
+C0B1N0;46.3336795;-63.4404369;1010 Newton Road, PO Box52, Kinkora, PE C0B1N0 1010 Newton Road, PO Box52, Kinkora, PE C0B1N0;Big Diesel Transport Inc Big Diesel Transport Inc
+C1N4J9;46.3742012;-63.7288548;220 Stavert Shore Road, North Bedeque, Summerside, PE C1N4J9 220 Stavert Shore Road, North Bedeque, Summerside, PE C1N4J9;Birch Farms Ltd Birch Farms Ltd
+C0A1N0;46.4423155;-63.3647072;7033 Rustico Road, Hunter River, PE C0A1N0 7033 Rustico Road, Hunter River, PE C0A1N0;Birkentree Holsteins Birkentree Holsteins
+C0A1Y0;46.2805973;-63.3500210;1067 Millboro Road, RR4, Brookfield, PE C0A1Y0 1067 Millboro Road, RR4, Brookfield, PE C0A1Y0;Brookfield Gardens Inc Brookfield Gardens Inc
+C0A1H0;46.2472756;-63.2277199;PO Box153, Cornwall, PE C0A1H0 PO Box153, Cornwall, PE C0A1H0;Bulk Carriers (P.E.I.) Limited Bulk Carriers (P.E.I.) Limited
+C0B1Y0;46.5067754;-63.9912626;3499 Grand River Route12, RR1, Richmond, PE C0B1Y0 3499 Grand River Route12, RR1, Richmond, PE C0B1Y0;Cedar Grove Farms Cedar Grove Farms
+C0A2E0;46.1774603;-62.8591839;70 McInnis Point Road, Vernon River, PE C0A2E0 70 McInnis Point Road, Vernon River, PE C0A2E0;Eastern Farms Ltd Eastern Farms Ltd
+C0A1E0;46.4691265;-63.4500854;71 MacKay Lane North Granville, RR1, Breadalbane, PE C0A1E0 71 MacKay Lane North Granville, RR1, Breadalbane, PE C0A1E0;Howardvale Holsteins Howardvale Holsteins
+C0A1T0;46.3413689;-62.8904682;1423 Mount Stewart Road, PO Box43, Mount Stewart, PE C0A1T0 1423 Mount Stewart Road, PO Box43, Mount Stewart, PE C0A1T0;International Genetics PEI Ltd International Genetics PEI Ltd
+C0A1P0;46.3339135;-63.0782777;1203 Covehead Road, York, PE C0A1P0 1203 Covehead Road, York, PE C0A1P0;Jewell's of PEI Inc Jewell's of PEI Inc
+C0B1B0;46.8134842;-64.0657369;15900 Route12, Alberton, PE C0B1B0 15900 Route12, Alberton, PE C0B1B0;Kildare Fisheries Ltd. Kildare Fisheries Ltd.
+C1B2A8;46.2243950;-63.0951130;15 Glen Stewart Drive, Stratford, PE C1B2A8 15 Glen Stewart Drive, Stratford, PE C1B2A8;Little Blessings Little Blessings
+C0A1R0;46.1611699;-62.6507932;PO Box1447, Montague, PE C0A1R0 PO Box1447, Montague, PE C0A1R0;Maplehurst Properties Maplehurst Properties
+C0A1S0;46.4162349;-62.7071529;318 Red Head Road, PO Box39, Morell, PE C0A1S0 318 Red Head Road, PO Box39, Morell, PE C0A1S0;PEI Mussel King Inc. PEI Mussel King Inc.
+C0B2B0;46.9513482;-64.0336435;175 Judes Point Road, PO Box69, Tignish, PE C0B2B0 175 Judes Point Road, PO Box69, Tignish, PE C0B2B0;Royal Star Foods Ltd. Royal Star Foods Ltd.
+C1A5P3;46.2568663;-63.1202392;121 St. Peter's Road, Charlottetown, PE C1A5P3 121 St. Peter's Road, Charlottetown, PE C1A5P3;Sam's Family Restaurant Charlottetown Sam's Family Restaurant Charlottetown
+C1A7M8;46.2322305;-63.1227088;PO Box1267, Charlottetown, PE C1A7M8 PO Box1267, Charlottetown, PE C1A7M8;Seafood Express (PEI) Limited Seafood Express (PEI) Limited
+C0B1E0;46.7616845;-64.1806720;PO Box31, Bloomfield, PE C0B1E0 PO Box31, Bloomfield, PE C0B1E0;South Shore Seafoods Ltd. South Shore Seafoods Ltd.
+C1A4B1;46.2337478;-63.1267340;92 Queen Street, Charlottetown, PE C1A4B1 92 Queen Street, Charlottetown, PE C1A4B1;Ta Ke Japanese Restaurant Ta Ke Japanese Restaurant
+C0B1T0;46.4326533;-63.8683884;621 Belmont Road, Route123, Miscouche, PE C0B1T0 621 Belmont Road, Route123, Miscouche, PE C0B1T0;Tiny Acres Holsteins Tiny Acres Holsteins
+B2T1C8;44.9229155;-63.5410760;6757 Highway2, Enfield, NS B2T1C8 6757 Highway2, Enfield, NS B2T1C8;3099794 NS Ltd (Enfield Big Stop) 3099794 NS Ltd (Enfield Big Stop)
+B3M2Y6;44.6614703;-63.6476695;46 Deepwood Crescent, Halifax, NS B3M2Y6 46 Deepwood Crescent, Halifax, NS B3M2Y6;3290067 Nova Scotia Limited 3290067 Nova Scotia Limited
+B3H0A8;44.6392875;-63.5828888;1344 Summer Street, Suite202, Halifax, NS B3H0A8 1344 Summer Street, Suite202, Halifax, NS B3H0A8;ABK Biomedical Inc. ABK Biomedical Inc.
+B3B1X8;44.6969416;-63.5968461;30 Brown Avenue, Dartmouth, NS B3B1X8 30 Brown Avenue, Dartmouth, NS B3B1X8;Acadian Seaplants Ltd. Acadian Seaplants Ltd.
+B4A0C1;44.7497005;-63.6404060;30 Damascus Road, Suite202, Bedford, NS B4A0C1 30 Damascus Road, Suite202, Bedford, NS B4A0C1;Admiral Administration (Canada) Ltd. Admiral Administration (Canada) Ltd.
+B2W6A4;44.6935989;-63.5009175;575 Main Street, Unit6, Dartmouth, NS B2W6A4 575 Main Street, Unit6, Dartmouth, NS B2W6A4;Ali's Seafood & Kabob Cuisine Ali's Seafood & Kabob Cuisine
+B3Z0E3;44.6732274;-63.8253111;196 Black Bear Circle, Lewis Lake, NS B3Z0E3 196 Black Bear Circle, Lewis Lake, NS B3Z0E3;Allure Construction Ltd. Allure Construction Ltd.
+B4P2R2;45.0379706;-64.4235991;266 Sunnyside Road, Wolfville, NS B4P2R2 266 Sunnyside Road, Wolfville, NS B4P2R2;Noggins Corner Farm Noggins Corner Farm
+B0P1E0;45.0016573;-64.7129426;54 Prospect Road, RR1, Berwick, NS B0P1E0 54 Prospect Road, RR1, Berwick, NS B0P1E0;Apple Lane Farm Inc Apple Lane Farm Inc
+B0P1V0;45.0729606;-64.6653910;23 Bent Road, Waterville, NS B0P1V0 23 Bent Road, Waterville, NS B0P1V0;Apples & Spice Apples & Spice
+B0K1Y0;45.8071202;-63.5171999;PO Box300, Wallace, NS B0K1Y0 PO Box300, Wallace, NS B0K1Y0;Aquashell Holdings Inc. Aquashell Holdings Inc.
+B3L1A4;44.6453229;-63.5981261;6273 Quinpool Road, Halifax, NS B3L1A4 6273 Quinpool Road, Halifax, NS B3L1A4;Athens Restaurant Athens Restaurant
+B3J1G1;44.6429432;-63.5770230;5415 Spring Garden Road, Halifax, NS B3J1G1 5415 Spring Garden Road, Halifax, NS B3J1G1;Athletigen Athletigen
+B0S1A0;44.7112624;-65.4898527;781 Highway201, Annapolis Royal, NS B0S1A0 781 Highway201, Annapolis Royal, NS B0S1A0;Barteaux Farms Barteaux Farms
+B0P1H0;45.1974221;-64.4104472;2077 Pereau Road, RR1 Canning, Canning, NS B0P1H0 2077 Pereau Road, RR1 Canning, Canning, NS B0P1H0;Basinview Farms Basinview Farms
+B2R1E3;44.7823529;-63.5979345;1 Lakewood Drive, Waverley, NS B2R1E3 1 Lakewood Drive, Waverley, NS B2R1E3;Becky's Day Care Becky's Day Care
+B3L4V2;44.6542613;-63.6259339;400 Bayers Road, Suite7051, Halifax, NS B3L4V2 400 Bayers Road, Suite7051, Halifax, NS B3L4V2;Blue Ocean Contact Centers Blue Ocean Contact Centers
+B3S1B3;44.6450832;-63.6688969;115 Chain Lake Drive, Suite41, Halifax, NS B3S1B3 115 Chain Lake Drive, Suite41, Halifax, NS B3S1B3;Boston Pizza Boston Pizza
+B3Z1H5;44.7080505;-63.8718220;151 Westwood Boulevard, Upper Tantallon, NS B3Z1H5 151 Westwood Boulevard, Upper Tantallon, NS B3Z1H5;British Living Housewares British Living Housewares
+B3M3W8;44.6725366;-63.6653599;30 Farnham Gate Road, Halifax, NS B3M3W8 30 Farnham Gate Road, Halifax, NS B3M3W8;Canton Garden Restaurant Canton Garden Restaurant
+B1P1P3;46.1132103;-60.1749979;1482 George Street, Sydney, NS B1P1P3 1482 George Street, Sydney, NS B1P1P3;Cape Breton District Health Authority Cape Breton District Health Authority
+B3H2Y9;44.6379203;-63.5800466;Bethune Building, 1276 South Park Street, Suite133, Halifax, NS B3H2Y9 Bethune Building, 1276 South Park Street, Suite133, Halifax, NS B3H2Y9;Capital District Health Authority Capital District Health Authority
+B3K3G1;44.6695619;-63.6088089;3619 Novalea Drive, Halifax, NS B3K3G1 3619 Novalea Drive, Halifax, NS B3K3G1;Caribbean Bliss Catering/South Park Catering Caribbean Bliss Catering/South Park Catering
+B4G1C5;44.8485996;-63.6819927;23 Kuryluk Court, Beaverbank, NS B4G1C5 23 Kuryluk Court, Beaverbank, NS B4G1C5;Cartoon Conrad Productions Inc Cartoon Conrad Productions Inc
+B3J2J6;44.6438461;-63.5771509;1545 Birmingham Street, Halifax, NS B3J2J6 1545 Birmingham Street, Halifax, NS B3J2J6;Cha Baa Thai Restaurant Bedford Ltd. Cha Baa Thai Restaurant Bedford Ltd.
+B3J2H8;44.6438567;-63.5769044;1546 Queen Street, Halifax, NS B3J2H8 1546 Queen Street, Halifax, NS B3J2H8;Cha Baa Thai Restaurant Ltd.(Halifax) Cha Baa Thai Restaurant Ltd.(Halifax)
+B4N3V7;45.0993132;-64.5379420;982 North Bishop Road, Kentville, NS B4N3V7 982 North Bishop Road, Kentville, NS B4N3V7;Charles Keddy Farms Ltd Charles Keddy Farms Ltd
+B3J1R9;44.6438400;-63.5697948;1496 Lower Water Street, Halifax, NS B3J1R9 1496 Lower Water Street, Halifax, NS B3J1R9;Cheelin Restaurant Cheelin Restaurant
+B0J2C0;44.3698843;-64.2836766;"Cilantro, The Cooks Shop Inc","PO Box219, Lunenburg, NS B0J2C0",1 "Cilantro, The Cooks Shop Inc","PO Box219, Lunenburg, NS B0J2C0",1;Cilantro, The Cooks Shop Inc","PO Box219, Lunenburg, NS B0J2C0",1 Cilantro, The Cooks Shop Inc","PO Box219, Lunenburg, NS B0J2C0",1
+B3L2W4;44.6534204;-63.6087646;2990 Oxford Street, Halifax, NS B3L2W4 2990 Oxford Street, Halifax, NS B3L2W4;Circle Time Friends Pre School Circle Time Friends Pre School
+B3N1N8;44.6354205;-63.6225466;50 Joseph Zatzman Drive, Dartmouth, NS B3N1N8 50 Joseph Zatzman Drive, Dartmouth, NS B3N1N8;Classic Freight Classic Freight
+B4A3Z7;44.7078739;-63.6649812;757 Bedford Highway, Bedford, NS B4A3Z7 757 Bedford Highway, Bedford, NS B4A3Z7;Clearwater Seafoods Limited Partnership Clearwater Seafoods Limited Partnership
+B0K1S0;45.5586963;-62.6603408;PO Box2080, Stellarton, NS B0K1S0 PO Box2080, Stellarton, NS B0K1S0;Connors Transfer Limited Connors Transfer Limited
+B0P1C0;45.0006860;-64.8061965;6640 Aylesford Road, Aylesford, NS B0P1C0 6640 Aylesford Road, Aylesford, NS B0P1C0;Craig Nichols Farms Ltd Craig Nichols Farms Ltd
+B3B1V7;44.7064492;-63.6103968;11 Ackerley Boulevard, Suite200, Dartmouth, NS B3B1V7 11 Ackerley Boulevard, Suite200, Dartmouth, NS B3B1V7;Current Studios Inc. Current Studios Inc.
+B3H4R2;44.6381673;-63.5871581;6299 South Street, PO Box15000, Room150, Halifax, NS B3H4R2 6299 South Street, PO Box15000, Room150, Halifax, NS B3H4R2;Dalhousie University Dalhousie University
+B3H1P8;44.6376981;-63.5741955;5576 Fenwick Street, Halifax, NS B3H1P8 5576 Fenwick Street, Halifax, NS B3H1P8;Darrell's Restaurant Darrell's Restaurant
+B0R1E0;44.5370329;-64.7485913;509 Barss Corner Road, RR1, New Germany, NS B0R1E0 509 Barss Corner Road, RR1, New Germany, NS B0R1E0;DeLong Farms DeLong Farms
+B0S1M0;44.8857714;-65.2160945;394 Fitch Road, RR3, Lawrencetown, NS B0S1M0 394 Fitch Road, RR3, Lawrencetown, NS B0S1M0;den Haan Greenhouses den Haan Greenhouses
+B4N3E2;45.0683925;-64.4611624;9006 Commercial Street, New Minas, NS B4N3E2 9006 Commercial Street, New Minas, NS B4N3E2;Double Dragon Restaurant Inc. Double Dragon Restaurant Inc.
+B4A4M1;44.7074093;-63.6767791;60 Strathaven Close, Bedford, NS B4A4M1 60 Strathaven Close, Bedford, NS B4A4M1;Eagle Ridge Estates Eagle Ridge Estates
+B3B1S1;44.6986682;-63.5920837;10 Thornhill Drive, Unit3, Dartmouth, NS B3B1S1 10 Thornhill Drive, Unit3, Dartmouth, NS B3B1S1;EM&I Stantec Ltd. EM&I Stantec Ltd.
+B3B0A9;44.6955675;-63.5708750;134 Eileen Stubbs Avenue, Suite102, Dartmouth, NS B3B0A9 134 Eileen Stubbs Avenue, Suite102, Dartmouth, NS B3B0A9;Enercon Services Nova Scotia Inc. Enercon Services Nova Scotia Inc.
+B3S1A2;44.6432918;-63.6684361;130 Chain Lake Drive, Halifax, NS B3S1A2 130 Chain Lake Drive, Halifax, NS B3S1A2;European Natural Stone & Marble Products Ltd. European Natural Stone & Marble Products Ltd.
+B3B1L3;44.7013340;-63.5903308;30 Ilsley Avenue, Dartmouth, NS B3B1L3 30 Ilsley Avenue, Dartmouth, NS B3B1L3;Farnell Packaging Ltd Farnell Packaging Ltd
+B0P1B0;45.1040750;-64.2570395;RR1, Avonport, NS B0P1B0 RR1, Avonport, NS B0P1B0;Fuller Bros Fuller Bros
+B0V1A0;44.5983576;-65.8296171;34 Water Street, Digby, NS B0V1A0 34 Water Street, Digby, NS B0V1A0;Fundy Restaurant Ltd. Fundy Restaurant Ltd.
+B0J2M0;44.7341396;-64.4980982;136 New Russell Road, RR2, New Ross, NS B0J2M0 136 New Russell Road, RR2, New Ross, NS B0J2M0;G & C Hughes Enterprises Ltd G & C Hughes Enterprises Ltd
+B0R1A0;44.5499522;-64.5791950;595 Farmington Road, RR1, Barss Corner, NS B0R1A0 595 Farmington Road, RR1, Barss Corner, NS B0R1A0;GAR Tree Farms Ltd GAR Tree Farms Ltd
+B0W1Z0;44.2990026;-66.1074641;455 Little Brook Station Road, Little Brook, NS B0W1Z0 455 Little Brook Station Road, Little Brook, NS B0W1Z0;Gary Belliveau Construction & Excavation Ltd Gary Belliveau Construction & Excavation Ltd
+B3L1A3;44.6456583;-63.5957811;6238 Quinpool Road, Halifax, NS B3L1A3 6238 Quinpool Road, Halifax, NS B3L1A3;Golding Lighting Golding Lighting
+B3L2C2;44.6549454;-63.6271515;7071 Bayers Road, Suite264, Halifax, NS B3L2C2 7071 Bayers Road, Suite264, Halifax, NS B3L2C2;Grace Note Child Care Centre Grace Note Child Care Centre
+B3J3P6;44.6451001;-63.5669002;1601 Lower Water Street, Suite602, Halifax, NS B3J3P6 1601 Lower Water Street, Suite602, Halifax, NS B3J3P6;Halifax Beach Club Limited Halifax Beach Club Limited
+B0E1X0;46.1113875;-61.3585917;11493 Route19, Mabou, NS B0E1X0 11493 Route19, Mabou, NS B0E1X0;Halifax Biomedical Inc. Halifax Biomedical Inc.
+B3N2C4;44.6593910;-63.6320641;19 Alma Crescent, Halifax, NS B3N2C4 19 Alma Crescent, Halifax, NS B3N2C4;Ihab Barber Shop Ihab Barber Shop
+B3K5M7;44.6688314;-63.5974859;PO Box9110, Halifax, NS B3K5M7 PO Box9110, Halifax, NS B3K5M7;Irving Shipbuilding Inc. Irving Shipbuilding Inc.
+B3S1P9;44.6709149;-63.6764843;480 Parkland Drive, Unit9, Halifax, NS B3S1P9 480 Parkland Drive, Unit9, Halifax, NS B3S1P9;It Takes a Village Inc It Takes a Village Inc
+B3K6R8;44.6375548;-63.5839315;5980 University Avenue, Suite5850, Halifax, NS B3K6R8 5980 University Avenue, Suite5850, Halifax, NS B3K6R8;IWK Health Centre IWK Health Centre
+B3A1V9;44.6756842;-63.5773017;174 Victoria Road, Dartmouth, NS B3A1V9 174 Victoria Road, Dartmouth, NS B3A1V9;Jani-King Jani-King
+B2V1J5;44.6641562;-63.4964771;99 Caldwell Road, Dartmouth, NS B2V1J5 99 Caldwell Road, Dartmouth, NS B2V1J5;Jani-King Jani-King
+B3K5K6;44.6554424;-63.5847719;2340 Longard Plaza, Halifax, NS B3K5K6 2340 Longard Plaza, Halifax, NS B3K5K6;Jay`s Convenience Barn Inc Jay`s Convenience Barn Inc
+B3B1S3;44.6930596;-63.5922487;"Jesse Stone Productions, Inc","170 Thornhill Drive, 2nd Floor, Dartmouth, NS B3B1S3",13 "Jesse Stone Productions, Inc","170 Thornhill Drive, 2nd Floor, Dartmouth, NS B3B1S3",13;Jesse Stone Productions, Inc","170 Thornhill Drive, 2nd Floor, Dartmouth, NS B3B1S3",13 Jesse Stone Productions, Inc","170 Thornhill Drive, 2nd Floor, Dartmouth, NS B3B1S3",13
+B3L3A9;44.6536401;-63.6159797;3199 Connaught Avenue, Halifax, NS B3L3A9 3199 Connaught Avenue, Halifax, NS B3L3A9;Kempt Screen Golf Kempt Screen Golf
+B0J1J0;44.5624981;-64.2426222;226 Duke Street, Chester, NS B0J1J0 226 Duke Street, Chester, NS B0J1J0;King Bo Restaurant King Bo Restaurant
+B3J2A4;44.6475723;-63.5740843;1550 Dresden Row, Suite805, Halifax, NS B3J2A4 1550 Dresden Row, Suite805, Halifax, NS B3J2A4;Ko-Doraka Ko-Doraka
+B0K1G0;45.6730545;-62.3368467;161 Factory Road, Merigomish, NS B0K1G0 161 Factory Road, Merigomish, NS B0K1G0;Lismore Seafoods Inc. Lismore Seafoods Inc.
+B3H2Y7;44.6369506;-63.5784656;1099 Tower Road, Halifax, NS B3H2Y7 1099 Tower Road, Halifax, NS B3H2Y7;Lobster Hub Inc. Lobster Hub Inc.
+B4P2R3;45.0703010;-64.3042991;1323 Grand-Pr Road, Wolfville, NS B4P2R3 1323 Grand-Pr Road, Wolfville, NS B4P2R3;Luckett Farms Ltd Luckett Farms Ltd
+B3J1Y2;44.6410537;-63.5707128;1245 Barrington Street, Halifax, NS B3J1Y2 1245 Barrington Street, Halifax, NS B3J1Y2;Maxwell Properties Limited Maxwell Properties Limited
+B3M3R1;44.6650890;-63.6525704;1 Sandhurst Close, Halifax, NS B3M3R1 1 Sandhurst Close, Halifax, NS B3M3R1;Messa Lebanese kitchen Messa Lebanese kitchen
+B3B0A3;44.7059706;-63.5827544;16 Garland Avenue, Dartmouth, NS B3B0A3 16 Garland Avenue, Dartmouth, NS B3B0A3;Mezza Lebanese Kitchen Mezza Lebanese Kitchen
+B0S1C0;44.8174990;-65.3300835;170 Church Street, RR1, Bridgetown, NS B0S1C0 170 Church Street, RR1, Bridgetown, NS B0S1C0;Mountain Lea Lodge Mountain Lea Lodge
+B3J3N4;44.6492871;-63.5735017;1801 Hollis Street, Suite1205, Halifax, NS B3J3N4 1801 Hollis Street, Suite1205, Halifax, NS B3J3N4;Natural Forces Wind Inc. Natural Forces Wind Inc.
+B4N3K9;45.0568793;-64.4704603;5477 Prospect Road, New Minas, NS B4N3K9 5477 Prospect Road, New Minas, NS B4N3K9;New Minas Big Stop New Minas Big Stop
+B0W1G0;43.5453384;-65.6199152;3589 Highway3, Barrington Passage, NS B0W1G0 3589 Highway3, Barrington Passage, NS B0W1G0;North East Ocean Lobster Ltd. North East Ocean Lobster Ltd.
+B0K1H0;45.6764275;-62.7172689;PO Box365, Pictou, NS B0K1H0 PO Box365, Pictou, NS B0K1H0;North Nova Seafoods Ltd North Nova Seafoods Ltd
+B2Y0A5;44.6560045;-63.5525710;80 Mawiomi Place, Dartmouth, NS B2Y0A5 80 Mawiomi Place, Dartmouth, NS B2Y0A5;Nova Scotia College of Early Childhood Education Nova Scotia College of Early Childhood Education
+B5A2P5;43.8503693;-66.1215607;60 Vancouver Street, Yarmouth, NS B5A2P5 60 Vancouver Street, Yarmouth, NS B5A2P5;Nova Scotia Health Authority Nova Scotia Health Authority
+B0E3B0;45.6653055;-60.8086219;PO Box100, St. Peter's, NS B0E3B0 PO Box100, St. Peter's, NS B0E3B0;P&K Hardware Ltd. P&K Hardware Ltd.
+B0E1H0;46.6194051;-61.0146407;38 La Digue Road, PO Box433, Chticamp, NS B0E1H0 38 La Digue Road, PO Box433, Chticamp, NS B0E1H0;Pecheries Cheticamp Fisheries Int'l Inc. Pecheries Cheticamp Fisheries Int'l Inc.
+B3P1E1;44.6327110;-63.6152148;355 Charlotte Street, Sydney, NS B3P1E1 355 Charlotte Street, Sydney, NS B3P1E1;Peking Restaurant Ltd Peking Restaurant Ltd
+B0E1A0;45.5115766;-61.0210129;449 Veteran's Memorial Drive, PO Box39, Arichat, NS B0E1A0 449 Veteran's Memorial Drive, PO Box39, Arichat, NS B0E1A0;Petit de Grat Packers Ltd. Petit de Grat Packers Ltd.
+B5A5L5;43.9934146;-66.0813864;1099 Richmond Road, Ireton, NS B5A5L5 1099 Richmond Road, Ireton, NS B5A5L5;Richmond Highland Farm Limited Richmond Highland Farm Limited
+B0W2L0;44.1994483;-66.0862256;PO Box147, Meteghan River, NS B0W2L0 PO Box147, Meteghan River, NS B0W2L0;Riverside Lobster International Inc. Riverside Lobster International Inc.
+B4C2N1;44.7562293;-63.6610721;103 Cobequid Road, Lower Sackville, NS B4C2N1 103 Cobequid Road, Lower Sackville, NS B4C2N1;Room to Grow Room to Grow
+B3P1C7;44.6227605;-63.5846303;376 Purcell's Cove Road, Halifax, NS B3P1C7 376 Purcell's Cove Road, Halifax, NS B3P1C7;Royal Nova Scotia Yacht Squadron Royal Nova Scotia Yacht Squadron
+B3H3C3;44.6313164;-63.5816691;923 Robie Street, Halifax, NS B3H3C3 923 Robie Street, Halifax, NS B3H3C3;Saint Mary's University Saint Mary's University
+B0N1Y0;44.9906761;-63.3533863;280 MacDonald Road, Hardwood Lands, NS B0N1Y0 280 MacDonald Road, Hardwood Lands, NS B0N1Y0;Sandy Desert Farms Sandy Desert Farms
+B2W6L4;44.6594356;-63.5310330;250 Baker Drive, Suite222, Dartmouth, NS B2W6L4 250 Baker Drive, Suite222, Dartmouth, NS B2W6L4;SBM Nova Scotia Contractors Inc. SBM Nova Scotia Contractors Inc.
+B3J1V7;44.6470526;-63.5727047;1660 Hollis Street, Suite701, Halifax, NS B3J1V7 1660 Hollis Street, Suite701, Halifax, NS B3J1V7;Shambhala Sun Shambhala Sun
+B3L1A5;44.6448362;-63.5986596;6290 Quinpool Road, Halifax, NS B3L1A5 6290 Quinpool Road, Halifax, NS B3L1A5;Shawarma Stop Shawarma Stop
+B4V3S6;44.3826701;-64.5108383;90 Glen Allan Drive, Bridgewater, NS B4V3S6 90 Glen Allan Drive, Bridgewater, NS B4V3S6;South Shore District Health Authority South Shore District Health Authority
+B0P1R0;44.9721750;-65.2435169;144 Bridge Street, RR2, Kingston, NS B0P1R0 144 Bridge Street, RR2, Kingston, NS B0P1R0;Spurr Brothers Farms Ltd Spurr Brothers Farms Ltd
+B4N3E6;45.0687676;-64.4541425;9141 Commerical Street, New Minas, NS B4N3E6 9141 Commerical Street, New Minas, NS B4N3E6;Subway Restaurant Subway Restaurant
+B3B1V1;44.6945396;-63.5844331;140 Ilsley Avenue, Dartmouth, NS B3B1V1 140 Ilsley Avenue, Dartmouth, NS B3B1V1;Sunnyvale Productions 10 Inc Sunnyvale Productions 10 Inc
+B3J1E5;44.6450255;-63.5719268;5171 Slater Street, Halifax, NS B3J1E5 5171 Slater Street, Halifax, NS B3J1E5;Sushi Jet Asian Cuisine Sushi Jet Asian Cuisine
+B3J3T1;44.6437213;-63.5781539;1535 Dresden Row, Suite132, Halifax, NS B3J3T1 1535 Dresden Row, Suite132, Halifax, NS B3J3T1;Sushi Nami Royale Sushi Nami Royale
+B0N1E0;45.0767723;-64.1088430;259 Red Bank Road, Centre Burlington, NS B0N1E0 259 Red Bank Road, Centre Burlington, NS B0N1E0;Sustainable Fish Farming Canada Ltd Sustainable Fish Farming Canada Ltd
+B3K5L2;44.6583281;-63.6032683;6080 Young Street, Suite1002, Halifax, NS B3K5L2 6080 Young Street, Suite1002, Halifax, NS B3K5L2;Syspro Software Ltd. Syspro Software Ltd.
+B2Y4P4;44.6521258;-63.5428872;61 Atlantic Street, Dartmouth, NS B2Y4P4 61 Atlantic Street, Dartmouth, NS B2Y4P4;Tacten Industrial Inc Tacten Industrial Inc
+B2V1E7;44.6716425;-63.4898857;984 Cole Harbour Road, Dartmouth, NS B2V1E7 984 Cole Harbour Road, Dartmouth, NS B2V1E7;Talay Thai Dartmouth Restaurant Talay Thai Dartmouth Restaurant
+B0H1A0;45.5935643;-61.7401910;9038 Highway4, RR1, Afton, NS B0H1A0 9038 Highway4, RR1, Afton, NS B0H1A0;TE Boyle Farm & Forestry Ltd TE Boyle Farm & Forestry Ltd
+B3K1G9;44.6523576;-63.5881631;5690 Woodill Street, Halifax, NS B3K1G9 5690 Woodill Street, Halifax, NS B3K1G9;Tell Tale International Inc. Tell Tale International Inc.
+B3H1R1;44.6376702;-63.5758504;5599 Fenwick Street, Suite102, Halifax, NS B3H1R1 5599 Fenwick Street, Suite102, Halifax, NS B3H1R1;Templeton Properties Templeton Properties
+B3S0E4;44.6397846;-63.6742826;117 Hobson Lake Drive, Halifax, NS B3S0E4 117 Hobson Lake Drive, Halifax, NS B3S0E4;The Coachworks Ltd The Coachworks Ltd
+B3Z3J3;44.5702864;-63.9212529;9976 Peggy's Cove Road, Hackett's Cove, NS B3Z3J3 9976 Peggy's Cove Road, Hackett's Cove, NS B3Z3J3;The Finer Diner The Finer Diner
+B3J1J7;44.6449942;-63.5739064;5240 Blower Street, Halifax, NS B3J1J7 5240 Blower Street, Halifax, NS B3J1J7;The Healer The Healer
+B0C1L0;46.6708245;-60.3814705;Middle Head Peninsula, Ingonish, NS B0C1L0 Middle Head Peninsula, Ingonish, NS B0C1L0;The Keltic Lodge Resort & Spa The Keltic Lodge Resort & Spa
+B4C2S4;44.7690197;-63.6861091;585 Sackville Drive, Lower Sackville, NS B4C2S4 585 Sackville Drive, Lower Sackville, NS B4C2S4;Tom's Family Restaurant Tom's Family Restaurant
+B4V2W6;44.3918488;-64.5275185;184 William Wile Road, Box25, Bridgewater, NS B4V2W6 184 William Wile Road, Box25, Bridgewater, NS B4V2W6;Traditional Evergreen Tree Farm Ltd Traditional Evergreen Tree Farm Ltd
+B3A4Z1;44.6863739;-63.5521183;95 Lakemist Court, Dartmouth, NS B3A4Z1 95 Lakemist Court, Dartmouth, NS B3A4Z1;Trullo Ristoranto Italiano Trullo Ristoranto Italiano
+B3L2W5;44.6539976;-63.6095989;3020 Oxford Street, Halifax, NS B3L2W5 3020 Oxford Street, Halifax, NS B3L2W5;United Dental Laboratory Ltd United Dental Laboratory Ltd
+B3L2H8;44.6486934;-63.6189846;7001 Mumford Road, Box07, Halifax, NS B3L2H8 7001 Mumford Road, Box07, Halifax, NS B3L2H8;Venus Donair Venus Donair
+B0C1N0;46.8100297;-60.3256067;PO Box38, Neil's Harbour, NS B0C1N0 PO Box38, Neil's Harbour, NS B0C1N0;Victoria Co-operative Fisheries Ltd. Victoria Co-operative Fisheries Ltd.
+B0P1G0;44.8931170;-64.9765947;5859 Highway1, Unit1, Cambridge, NS B0P1G0 5859 Highway1, Unit1, Cambridge, NS B0P1G0;Webster Farms Ltd Webster Farms Ltd
+B2G2L2;45.8766038;-61.9121115;1543 Harbour Centre, Antigonish, NS B2G2L2 1543 Harbour Centre, Antigonish, NS B2G2L2;West River Holsteins West River Holsteins
+B2Y3S4;44.6512150;-63.5465093;351 Pleasant Street, Darmouth, NS B2Y3S4 351 Pleasant Street, Darmouth, NS B2Y3S4;Woodside Manor Woodside Manor
+B3M3Y7;44.6632764;-63.6578219;287 Lacewood Drive, Unit119, Halifax, NS B3M3Y7 287 Lacewood Drive, Unit119, Halifax, NS B3M3Y7;Zen Chinese Cuisine Zen Chinese Cuisine
+E1C1E4;46.0887352;-64.7757671;720 Main Street, Moncton, NB E1C1E4 720 Main Street, Moncton, NB E1C1E4;659309 NB Inc oa Pink Sushi 659309 NB Inc oa Pink Sushi
+E1C5H7;46.0851509;-64.7801092;95 Foundry Street, Suite300, Moncton, NB E1C5H7 95 Foundry Street, Suite300, Moncton, NB E1C5H7;BEUMER Group Canada Corporation BEUMER Group Canada Corporation
+E1C2Z3;46.0982683;-64.7874218;330 Universit Avenue, Moncton, NB E1C2Z3 330 Universit Avenue, Moncton, NB E1C2Z3;Centre hospitalier universitaire Dr-Georges-L.-Dumont Centre hospitalier universitaire Dr-Georges-L.-Dumont
+E2L4L2;45.3024911;-66.0849763;PO Box2100, Saint John, NB E2L4L2 PO Box2100, Saint John, NB E2L4L2;DO NOT USE: SEE ID 134492 - Horizon Health Network DO NOT USE: SEE ID 134492 - Horizon Health Network
+E1C2R8;46.1001606;-64.8094377;824 Mountain Road, Moncton, NB E1C2R8 824 Mountain Road, Moncton, NB E1C2R8;Domino's Pizza Domino's Pizza
+E1W1A3;47.7742488;-64.9969040;370 Saint-Pierre Boulevard West, Caraquet, NB E1W1A3 370 Saint-Pierre Boulevard West, Caraquet, NB E1W1A3;Enterprise L' Oriental Lte Enterprise L' Oriental Lte
+E1A5R4;46.0960891;-64.7572267;465 Paul Street, Dieppe, NB E1A5R4 465 Paul Street, Dieppe, NB E1A5R4;Gallean Management Ltd ( o/a Burger King) Gallean Management Ltd ( o/a Burger King)
+E1C6Z8;46.1053055;-64.8048316;135 MacBeath Avenue, Moncton, NB E1C6Z8 135 MacBeath Avenue, Moncton, NB E1C6Z8;Horizon Health Network Horizon Health Network
+E4E3E6;45.7258631;-65.5290856;140 Main Street, Suite7, Sussex, NB E4E3E6 140 Main Street, Suite7, Sussex, NB E4E3E6;Jack's Pizza Jack's Pizza
+E3B9E1;45.8511837;-66.5613298;415 Nevers Road, Waasis, NB E3B9E1 415 Nevers Road, Waasis, NB E3B9E1;Lincoln Big Stop / Blue Canoe Lincoln Big Stop / Blue Canoe
+E1A5L1;46.1190089;-64.7195220;1155 Shediac Road, Moncton, NB E1A5L1 1155 Shediac Road, Moncton, NB E1A5L1;Nippon Sushi Nippon Sushi
+E4P2A6;46.2189690;-64.5525238;261 Main Street, Shediac, NB E4P2A6 261 Main Street, Shediac, NB E4P2A6;Shediac Lobster Shop Ltd. Shediac Lobster Shop Ltd.
+E1G2H9;46.1209413;-64.8475371;20 Lonsdale Drive, Moncton, NB E1G2H9 20 Lonsdale Drive, Moncton, NB E1G2H9;Spoon Sushi Express Spoon Sushi Express
+E3B5G3;45.9441540;-66.6458705;51 Dineen Drive, Fredericton, NB E3B5G3 51 Dineen Drive, Fredericton, NB E3B5G3;St. Thomas University St. Thomas University
+E1B0J6;46.0499377;-64.7956099;1120 Findlay Boulevard, Riverview, NB E1B0J6 1120 Findlay Boulevard, Riverview, NB E1B0J6;Sushi Sapporo Sushi Sapporo
+E4P2G1;46.2199998;-64.5394966;406 Main Street, Shediac, NB E4P2G1 406 Main Street, Shediac, NB E4P2G1;Sushiko Sushi & Grill Sushiko Sushi & Grill
+E1A4X5;46.0964711;-64.7590171;477 Paul Street, Dieppe, NB E1A4X5 477 Paul Street, Dieppe, NB E1A4X5;Teriyaki Experience Teriyaki Experience
+E3B5A3;45.9471111;-66.6407906;PO Box4400, Fredericton, NB E3B5A3 PO Box4400, Fredericton, NB E3B5A3;University Of New Brunswick University Of New Brunswick
+E4L2X2;45.8706103;-64.2798488;170 Aulac Road, Aulac, NB E4L2X2 170 Aulac Road, Aulac, NB E4L2X2;W.J.Allen & Sons Inc. o/a Aulac Big Stop Restaurant W.J.Allen & Sons Inc. o/a Aulac Big Stop Restaurant
+H2Y2M3;45.5013472;-73.5563151;407 Saint-Pierre Street, Montreal, QC H2Y2M3 407 Saint-Pierre Street, Montreal, QC H2Y2M3;1One Productions 1One Productions
+G0G1L0;50.1354559;-66.6309563;3232, route138 Ouest, Sept-les (Gallix Area), QC G0G1L0 3232, route138 Ouest, Sept-les (Gallix Area), QC G0G1L0;2549-6274 Qubec Inc. 2549-6274 Qubec Inc.
+G7A4H4;46.6919639;-71.4560658;2091, route Marie-Victorin, Lvis, QC G7A4H4 2091, route Marie-Victorin, Lvis, QC G7A4H4;2637-5808 Qubec inc. 2637-5808 Qubec inc.
+J0J1Z0;45.2732559;-73.4193283;101 douard-VII Boulevard, Saint-Jacques-le-Mineur, QC J0J1Z0 101 douard-VII Boulevard, Saint-Jacques-le-Mineur, QC J0J1Z0;2842-0941 Qubec Inc. (Georges Deneault) 2842-0941 Qubec Inc. (Georges Deneault)
+H3R2J8;45.5068824;-73.6623343;2348, chemin Lucerne, Suite360, Montreal, QC H3R2J8 2348, chemin Lucerne, Suite360, Montreal, QC H3R2J8;360 MedLink Inc. 360 MedLink Inc.
+H9R5Z5;45.4827091;-73.7925315;2305 Trans-Canada Highway, Pointe-Claire, QC H9R5Z5 2305 Trans-Canada Highway, Pointe-Claire, QC H9R5Z5;40 Westt Sources Inc. 40 Westt Sources Inc.
+J0L2L0;45.2637551;-73.6138756;1376, rang Sainte-Thrse, Saint-Rmi, QC J0L2L0 1376, rang Sainte-Thrse, Saint-Rmi, QC J0L2L0;4390679 Canada Inc. (Les Multi-Plants Pascal Roy) 4390679 Canada Inc. (Les Multi-Plants Pascal Roy)
+H1P2C6;45.5987388;-73.5907440;8755 Langelier Boulevard, Saint-Lonard, QC H1P2C6 8755 Langelier Boulevard, Saint-Lonard, QC H1P2C6;4507525 Canada inc 4507525 Canada inc
+H3G1Z2;45.4977411;-73.5743941;1237 De La Montagne Street, Suite200, Montreal, QC H3G1Z2 1237 De La Montagne Street, Suite200, Montreal, QC H3G1Z2;6808638 Canada inc. 6808638 Canada inc.
+G0S1W0;46.4821706;-71.2315583;415 Principale Street, Saint-Narcisse, QC G0S1W0 415 Principale Street, Saint-Narcisse, QC G0S1W0;9038-7747 Qubec Inc (Bernard Breton) 9038-7747 Qubec Inc (Bernard Breton)
+J0B3B0;45.5253911;-71.2769533;487, route216, Stoke, QC J0B3B0 487, route216, Stoke, QC J0B3B0;9042-5893 Qc inc. 9042-5893 Qc inc.
+J0S1E0;45.0292801;-73.9225587;1772, route209, Franklin, QC J0S1E0 1772, route209, Franklin, QC J0S1E0;9057-0565 Qubec Inc. (Vergers Leahy) 9057-0565 Qubec Inc. (Vergers Leahy)
+J0H1P0;45.7620215;-72.9958198;1226, rang Salvail Sud, Saint-Jude, QC J0H1P0 1226, rang Salvail Sud, Saint-Jude, QC J0H1P0;9058-3964 Qubec Inc. - Jean Lemay 9058-3964 Qubec Inc. - Jean Lemay
+G0Z1B0;46.2665664;-72.0265602;800, route263, Saint-Louis-de-Blandford, QC G0Z1B0 800, route263, Saint-Louis-de-Blandford, QC G0Z1B0;9102-9934 Qubec inc 9102-9934 Qubec inc
+G0N1N0;46.1086130;-71.5777138;929 Principale Street, Saint-Ferdinand, QC G0N1N0 929 Principale Street, Saint-Ferdinand, QC G0N1N0;9121-2399 Qubec inc. 9121-2399 Qubec inc.
+J0L1Y0;45.2376784;-73.5061329;359B, rang de l'glise, Saint-douard, QC J0L1Y0 359B, rang de l'glise, Saint-douard, QC J0L1Y0;9127-7079 Qubec inc (Manon Thibert) 9127-7079 Qubec inc (Manon Thibert)
+J0E1A0;45.4244725;-72.9061116;2035, rang Papineau, Saint-Paul-d'Abbotsford, QC J0E1A0 2035, rang Papineau, Saint-Paul-d'Abbotsford, QC J0E1A0;9128-1071 Quebec Inc 9128-1071 Quebec Inc
+G0S1V0;46.3680264;-71.6031816;3545 Bcancourt Street, Lyster, QC G0S1V0 3545 Bcancourt Street, Lyster, QC G0S1V0;9196-7273 Qubec inc. 9196-7273 Qubec inc.
+G0A3S0;46.9979509;-70.8119266;429, chemin Royal, Saint-Franois-de-l'le-d'Orlans, QC G0A3S0 429, chemin Royal, Saint-Franois-de-l'le-d'Orlans, QC G0A3S0;9199-1802 Qubec inc. 9199-1802 Qubec inc.
+H2T1Y1;45.5274719;-73.5978310;5555 Casgrain Avenue, Suite301, Montreal, QC H2T1Y1 5555 Casgrain Avenue, Suite301, Montreal, QC H2T1Y1;9268-8894 Qubec Inc. 9268-8894 Qubec Inc.
+H2X3P9;45.5104511;-73.5749711;3575 Du Parc Avenue, Suite4115, Montreal, QC H2X3P9 3575 Du Parc Avenue, Suite4115, Montreal, QC H2X3P9;9280-7692 Quebec inc. 9280-7692 Quebec inc.
+G0A2Y0;46.6984875;-71.8878570;700 Lucien-Thibodeau Street, Portneuf, QC G0A2Y0 700 Lucien-Thibodeau Street, Portneuf, QC G0A2Y0;9320-2232 Qubec inc 9320-2232 Qubec inc
+H2V4H3;45.5238338;-73.6062814;5830A Du Parc Avenue, Montreal, QC H2V4H3 5830A Du Parc Avenue, Montreal, QC H2V4H3;9329-9923 Qubec Inc. 9329-9923 Qubec Inc.
+G0R3A0;46.8911186;-70.7078364;482, chemin de la Rivire-du-Sud, Saint-Franois-de-la-Rivire-du-Sud, QC G0R3A0 482, chemin de la Rivire-du-Sud, Saint-Franois-de-la-Rivire-du-Sud, QC G0R3A0;A & R Boulet Inc. A & R Boulet Inc.
+G3Z2W2;47.4447532;-70.5155323;1006 Monseigneur-De Laval Boulevard, Baie-Saint-Paul, QC G3Z2W2 1006 Monseigneur-De Laval Boulevard, Baie-Saint-Paul, QC G3Z2W2;Chacun Son Pain Inc. Chacun Son Pain Inc.
+J7R4K3;45.5808975;-73.9199599;710, 25e Avenue, Saint-Eustache, QC J7R4K3 710, 25e Avenue, Saint-Eustache, QC J7R4K3;A. Blisle et fils senc A. Blisle et fils senc
