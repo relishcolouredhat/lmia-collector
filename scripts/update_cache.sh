@@ -50,7 +50,7 @@ get_postal_code_coordinates() {
         return
     fi
     
-    echo "  → Looking up postal code: $postal_code"
+    echo "  → Looking up postal code: $postal_code" >&2
     
     # Query Nominatim API for Canadian postal codes
     local coordinates=$(curl -s "https://nominatim.openstreetmap.org/search?postalcode=${postal_code}&country=CA&format=json&limit=1" | jq -r '.[0] | "\(.lat),\(.lon)"' 2>/dev/null || echo ",")
@@ -63,6 +63,32 @@ get_postal_code_coordinates() {
     
     # Rate limiting
     sleep "$SLEEP_TIMER"
+}
+
+# Function to parse CSV line with proper handling of quoted fields
+parse_csv_line() {
+    local line="$1"
+    local field_num="$2"
+    
+    # Clean the line of problematic characters first
+    local cleaned_line=$(echo "$line" | iconv -f utf-8 -t utf-8//IGNORE 2>/dev/null || echo "$line" | tr -d '\200-\377')
+    
+    # Simple but effective CSV parsing for our specific format
+    if [[ $field_num -eq 1 ]]; then
+        # Extract first field (employer) - everything before first comma outside quotes
+        echo "$cleaned_line" | sed 's/^\([^"]*\),.*$/\1/' | sed 's/^"//' | sed 's/"$//' | sed 's/[[:space:]]*$//'
+    elif [[ $field_num -eq 2 ]]; then
+        # Extract second field (address) - quoted field between first and last comma
+        echo "$cleaned_line" | sed 's/^[^,]*,"\([^"]*\)".*$/\1/' | sed 's/[[:space:]]*$//'
+    elif [[ $field_num -eq 3 ]]; then
+        # Extract employer for quarterly format (third field)
+        echo "$cleaned_line" | sed 's/^[^,]*,[^,]*,\([^,]*\),.*$/\1/' | sed 's/^"//' | sed 's/"$//' | sed 's/[[:space:]]*$//'
+    elif [[ $field_num -eq 4 ]]; then
+        # Extract address for quarterly format (fourth field) 
+        echo "$cleaned_line" | sed 's/^[^,]*,[^,]*,[^,]*,"\([^"]*\)".*$/\1/' | sed 's/[[:space:]]*$//'
+    else
+        echo ""
+    fi
 }
 
 # Function to cache employer location data
@@ -78,15 +104,15 @@ cache_employer_location() {
         return
     fi
     
-    # Clean fields for CSV (escape quotes, remove commas from within fields)
-    employer=$(echo "$employer" | sed 's/"/""/g' | sed 's/,/;/g')
-    address=$(echo "$address" | sed 's/"/""/g' | sed 's/,/;/g')
+    # Clean fields for CSV (escape quotes, remove commas from within fields, normalize whitespace)
+    employer=$(echo "$employer" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//' | sed 's/"/""/g' | sed 's/,/;/g')
+    address=$(echo "$address" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//' | sed 's/"/""/g' | sed 's/,/;/g')
     
     # Check if this employer+postal code combination already exists
     local cache_key="${employer}.*${postal_code}"
     if ! grep -q "$cache_key" "$LOCATION_CACHE_FILE" 2>/dev/null; then
         echo "\"$employer\",\"$address\",$postal_code,$latitude,$longitude" >> "$LOCATION_CACHE_FILE"
-        echo "    ✓ Cached: $employer ($postal_code)"
+        echo "    ✓ Cached: $employer ($postal_code)" >&2
     fi
 }
 
@@ -114,23 +140,27 @@ process_csv_files() {
                 echo "  Processing: $(basename "$file")"
                 processed_files=$((processed_files + 1))
                 
-                # Process each line (skip header)
-                tail -n +2 "$file" | while IFS=',' read -r employer address positions postal_code lat lon rest; do
-                    if [[ -n "$employer" && -n "$address" && -z "$postal_code" ]]; then
-                        # File doesn't have postal codes yet, extract and look up
-                        local pc=$(extract_postal_code "$address")
-                        if [[ -n "$pc" ]]; then
-                            local coords=$(get_postal_code_coordinates "$pc")
-                            local latitude=$(echo "$coords" | cut -d',' -f1)
-                            local longitude=$(echo "$coords" | cut -d',' -f2)
-                            
-                            if [[ -n "$latitude" && -n "$longitude" && "$latitude" != "" && "$longitude" != "" ]]; then
-                                cache_employer_location "$employer" "$address" "$pc" "$latitude" "$longitude"
+                # Process each line (skip header) - handle proper CSV parsing
+                tail -n +2 "$file" | while IFS= read -r line; do
+                    if [[ -n "$line" && "$line" != *"test "* ]]; then
+                        # Parse employer format CSV line (Employer,Address,Positions)
+                        local employer=$(parse_csv_line "$line" 1)
+                        local address=$(parse_csv_line "$line" 2)
+                        
+                        # Skip empty or invalid entries
+                        if [[ -n "$employer" && -n "$address" && "$employer" != "" ]]; then
+                            # Extract postal code from address
+                            local pc=$(extract_postal_code "$address")
+                            if [[ -n "$pc" ]]; then
+                                local coords=$(get_postal_code_coordinates "$pc")
+                                local latitude=$(echo "$coords" | cut -d',' -f1)
+                                local longitude=$(echo "$coords" | cut -d',' -f2)
+                                
+                                if [[ -n "$latitude" && -n "$longitude" && "$latitude" != "" && "$longitude" != "" ]]; then
+                                    cache_employer_location "$employer" "$address" "$pc" "$latitude" "$longitude"
+                                fi
                             fi
                         fi
-                    elif [[ -n "$employer" && -n "$address" && -n "$postal_code" && -n "$lat" && -n "$lon" ]]; then
-                        # File already has coordinates, just cache them
-                        cache_employer_location "$employer" "$address" "$postal_code" "$lat" "$lon"
                     fi
                 done
             fi
@@ -147,23 +177,27 @@ process_csv_files() {
                 echo "  Processing: $(basename "$file")"
                 processed_files=$((processed_files + 1))
                 
-                # Process each line (skip header)
-                tail -n +2 "$file" | while IFS=',' read -r period stream employer address positions postal_code lat lon rest; do
-                    if [[ -n "$employer" && -n "$address" && -z "$postal_code" ]]; then
-                        # File doesn't have postal codes yet, extract and look up
-                        local pc=$(extract_postal_code "$address")
-                        if [[ -n "$pc" ]]; then
-                            local coords=$(get_postal_code_coordinates "$pc")
-                            local latitude=$(echo "$coords" | cut -d',' -f1)
-                            local longitude=$(echo "$coords" | cut -d',' -f2)
-                            
-                            if [[ -n "$latitude" && -n "$longitude" && "$latitude" != "" && "$longitude" != "" ]]; then
-                                cache_employer_location "$employer" "$address" "$pc" "$latitude" "$longitude"
+                # Process each line (skip header) - handle proper CSV parsing for quarterly format
+                tail -n +2 "$file" | while IFS= read -r line; do
+                    if [[ -n "$line" ]]; then
+                        # Parse quarterly CSV line (Period,Stream,Employer,Address,Positions)
+                        local employer=$(parse_csv_line "$line" 3)
+                        local address=$(parse_csv_line "$line" 4)
+                        
+                        # Skip empty or invalid entries
+                        if [[ -n "$employer" && -n "$address" && "$employer" != "" ]]; then
+                            # Extract postal code from address
+                            local pc=$(extract_postal_code "$address")
+                            if [[ -n "$pc" ]]; then
+                                local coords=$(get_postal_code_coordinates "$pc")
+                                local latitude=$(echo "$coords" | cut -d',' -f1)
+                                local longitude=$(echo "$coords" | cut -d',' -f2)
+                                
+                                if [[ -n "$latitude" && -n "$longitude" && "$latitude" != "" && "$longitude" != "" ]]; then
+                                    cache_employer_location "$employer" "$address" "$pc" "$latitude" "$longitude"
+                                fi
                             fi
                         fi
-                    elif [[ -n "$employer" && -n "$address" && -n "$postal_code" && -n "$lat" && -n "$lon" ]]; then
-                        # File already has coordinates, just cache them
-                        cache_employer_location "$employer" "$address" "$postal_code" "$lat" "$lon"
                     fi
                 done
             fi
