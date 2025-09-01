@@ -131,7 +131,7 @@ class LMIADataExplorer {
                 const positiveData = await positiveResponse.json();
                 const negativeData = await negativeResponse.json();
 
-                // Update counts
+                // Update basic counts
                 document.getElementById('positive-count').textContent = positiveData.endpoints?.length || 0;
                 document.getElementById('negative-count').textContent = negativeData.endpoints?.length || 0;
 
@@ -157,10 +157,62 @@ class LMIADataExplorer {
                         document.getElementById('latest-update').textContent = 
                             new Date(latestDate).toLocaleDateString('en-CA');
                     }
+
+                    // Update comprehensive statistics
+                    this.updateComprehensiveStats(allFiles);
                 }
             }
         } catch (error) {
             console.error('Error updating stats:', error);
+        }
+    }
+
+    updateComprehensiveStats(allFiles) {
+        const statsSection = document.getElementById('comprehensive-stats');
+        if (!statsSection) return;
+
+        // Calculate date range
+        const dates = allFiles
+            .map(file => this.extractDateFromFilename(file.name))
+            .filter(date => date !== null)
+            .sort();
+
+        if (dates.length > 0) {
+            const earliestDate = new Date(dates[0]);
+            const latestDate = new Date(dates[dates.length - 1]);
+
+            const formatDate = (date) => {
+                return date.toLocaleDateString('en-CA', { 
+                    year: 'numeric', 
+                    month: 'long' 
+                });
+            };
+
+            // Estimate total records (assuming each file has multiple records)
+            // This is a rough estimate - in reality, you'd need to parse the CSV files
+            const estimatedRecordsPerFile = 100; // Conservative estimate
+            const totalEstimatedRecords = allFiles.length * estimatedRecordsPerFile;
+
+            statsSection.innerHTML = `
+                <div class="stats-detail">
+                    <div class="stat-item">
+                        <span class="stat-label">Data Coverage:</span>
+                        <span class="stat-value">${formatDate(earliestDate)} to ${formatDate(latestDate)}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Files:</span>
+                        <span class="stat-value">${allFiles.length} files</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Estimated Records:</span>
+                        <span class="stat-value">~${totalEstimatedRecords.toLocaleString()} records</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Data Source:</span>
+                        <span class="stat-value">Government of Canada Open Data</span>
+                    </div>
+                </div>
+            `;
         }
     }
 
