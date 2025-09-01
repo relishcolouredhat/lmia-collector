@@ -56,7 +56,7 @@ get_postal_code_coordinates() {
             if [[ -n "$lat" && -n "$lon" ]]; then
                 # Add to cache if not already present (normalize format)
                 if ! grep -q "^$normalized_pc;" "$CACHE_FILE" 2>/dev/null; then
-                    echo "$normalized_pc;$lat;$lon;API Lookup;API Result" >> "$CACHE_FILE"
+                    echo "$normalized_pc;$lat;$lon;Unknown;Unknown" >> "$CACHE_FILE"
                 fi
             fi
         fi
