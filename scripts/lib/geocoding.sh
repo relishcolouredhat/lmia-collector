@@ -12,6 +12,51 @@
 # Default configuration (can be overridden by calling script)
 : ${GEOCODING_SLEEP_TIMER:=1}
 : ${GEOCODING_CACHE_FILE:="./outputs/cache/location_cache.csv"}
+: ${GEOCODING_BOGONS_FILE:="./outputs/cache/bogons"}
+
+# Helper functions for bogon management
+# Bogons are postal codes that have repeatedly failed geocoding and should not be retried
+
+# Check if a postal code is in the bogons list
+# Usage: is_postal_code_bogon "A1C6C9"
+# Returns: 0 if bogon (found), 1 if not bogon
+is_postal_code_bogon() {
+    local postal_code="$1"
+    local normalized_pc=$(echo "$postal_code" | tr -d ' ')
+    
+    if [[ -f "$GEOCODING_BOGONS_FILE" ]]; then
+        grep -q "^$normalized_pc$" "$GEOCODING_BOGONS_FILE" 2>/dev/null
+        return $?
+    fi
+    return 1  # Not a bogon if file doesn't exist
+}
+
+# Add a postal code to the bogons list
+# Usage: add_postal_code_to_bogons "A1C6C9"
+add_postal_code_to_bogons() {
+    local postal_code="$1"
+    local normalized_pc=$(echo "$postal_code" | tr -d ' ')
+    
+    # Ensure bogons directory exists
+    local bogons_dir=$(dirname "$GEOCODING_BOGONS_FILE")
+    mkdir -p "$bogons_dir"
+    
+    # Add to bogons if not already present
+    if ! is_postal_code_bogon "$normalized_pc"; then
+        echo "$normalized_pc" >> "$GEOCODING_BOGONS_FILE"
+        echo "    ⚠️  Added to bogons: $postal_code (will not retry API calls)" >&2
+    fi
+}
+
+# Get bogons count for statistics
+# Usage: get_bogons_count
+get_bogons_count() {
+    if [[ -f "$GEOCODING_BOGONS_FILE" ]]; then
+        wc -l < "$GEOCODING_BOGONS_FILE" 2>/dev/null || echo "0"
+    else
+        echo "0"
+    fi
+}
 
 # Multi-source geocoding function
 # Usage: get_coordinates_for_postal_code "A1C6C9"
@@ -39,7 +84,14 @@ get_coordinates_for_postal_code() {
         fi
     fi
     
-    # Not in cache, try multiple geocoding sources
+    # Check if postal code is in bogons (known failures) - avoid repeated API calls
+    if is_postal_code_bogon "$normalized_pc"; then
+        echo "  ⚠️  Bogon (known failure): $postal_code - skipping API calls" >&2
+        echo ","
+        return
+    fi
+    
+    # Not in cache and not a bogon, try multiple geocoding sources
     API_CALLS=$((API_CALLS + 1))
     echo "  → Looking up postal code: $postal_code (API call #$API_CALLS)" >&2
     
@@ -72,6 +124,8 @@ get_coordinates_for_postal_code() {
     if [[ "$coordinates" == "null,null" || "$coordinates" == "," || -z "$coordinates" ]]; then
         FAILED_LOOKUPS=$((FAILED_LOOKUPS + 1))
         echo "    ❌ No coordinates found for $postal_code (tried both sources)" >&2
+        # Add to bogons to prevent future API calls for this postal code
+        add_postal_code_to_bogons "$normalized_pc"
         echo ","
     else
         echo "    ✅ Found coordinates: $coordinates (source: $source)" >&2
@@ -152,12 +206,14 @@ print_geocoding_summary() {
     local cache_hits=$(echo "$stats" | cut -d',' -f2)
     local api_calls=$(echo "$stats" | cut -d',' -f3)
     local failed_lookups=$(echo "$stats" | cut -d',' -f4)
+    local bogons_count=$(get_bogons_count)
     
     echo "📍 Geocoding Performance Summary:" >&2
     echo "   Cache entries: $total_entries" >&2
     echo "   Cache hits: $cache_hits" >&2
     echo "   API calls: $api_calls" >&2
     echo "   Failed lookups: $failed_lookups" >&2
+    echo "   Bogons (known failures): $bogons_count" >&2
     
     if [[ $api_calls -gt 0 ]]; then
         local success_rate=$(( (api_calls - failed_lookups) * 100 / api_calls ))
@@ -167,5 +223,9 @@ print_geocoding_summary() {
     if [[ $((cache_hits + api_calls)) -gt 0 ]]; then
         local cache_hit_ratio=$(( cache_hits * 100 / (cache_hits + api_calls) ))
         echo "   Cache hit ratio: ${cache_hit_ratio}%" >&2
+    fi
+    
+    if [[ $bogons_count -gt 0 ]]; then
+        echo "   📄 Bogons file: $GEOCODING_BOGONS_FILE" >&2
     fi
 }
