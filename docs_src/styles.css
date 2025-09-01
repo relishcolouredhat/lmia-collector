@@ -419,18 +419,7 @@ footer a:hover {
     text-decoration: underline;
 }
 
-.license {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-    opacity: 0.8;
-}
 
-.disclaimer-footer {
-    margin-top: 1rem;
-    font-size: 0.85rem;
-    opacity: 0.7;
-    font-style: italic;
-}
 
 /* Update info styling */
 .update-info {
@@ -456,34 +445,26 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Geocoding attribution styling */
-.geocoding-attribution {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #e9ecef;
+/* Footer attributions styling */
+.footer-attributions {
     text-align: center;
+    line-height: 1.6;
 }
 
-.geocoding-attribution p {
+.footer-attributions p {
     margin: 0.5rem 0;
     font-size: 0.9rem;
+    opacity: 0.9;
 }
 
-.geocoding-attribution a {
-    color: #007bff;
+.footer-attributions a {
+    color: #3498db;
     text-decoration: none;
     font-weight: 500;
 }
 
-.geocoding-attribution a:hover {
+.footer-attributions a:hover {
     text-decoration: underline;
-}
-
-.attribution-note {
-    font-size: 0.8rem;
-    opacity: 0.8;
-    font-style: italic;
-    color: #6c757d;
 }
 
 /* Format info sections */
