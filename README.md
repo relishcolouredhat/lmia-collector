@@ -1,4 +1,9 @@
 # lmia-collector
+
+<div align="center">
+  <img src="canada_flag.svg" alt="Flag of Canada" width="200" height="150">
+</div>
+
 Processes new LMIA files from GoC into CSV for analysis
 
 
