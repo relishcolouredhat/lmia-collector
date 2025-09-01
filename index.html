@@ -99,6 +99,17 @@
                     <a href="outputs/all_endpoints.json" class="endpoint-link">All Endpoints</a>
                 </div>
                 <p class="note">These endpoints are compatible with Grafana's Infinity plugin for data visualization.</p>
+                
+                <div class="geocoding-info">
+                    <h3>🌍 Geographic Data Enhancement</h3>
+                    <p>We automatically enhance the data with geographic coordinates by:</p>
+                    <ul>
+                        <li><strong>Extracting postal codes</strong> from address fields using pattern matching</li>
+                        <li><strong>Converting to coordinates</strong> using OpenStreetMap's Nominatim geocoding service</li>
+                        <li><strong>Adding lat/lon columns</strong> to enable mapping and geographic analysis</li>
+                    </ul>
+                    <p class="geocoding-note">This enhancement adds valuable location context while preserving all original government data exactly as provided.</p>
+                </div>
             </div>
         </section>
 
@@ -133,6 +144,10 @@
             <p>Data source: <a href="https://open.canada.ca/" target="_blank">Open Canada</a> | Made with ❤️ by klc</p>
             <p class="license">This repository is open source under the <a href="LICENSE" target="_blank">MIT License</a></p>
             <p class="disclaimer-footer">This tool processes open data from the Government of Canada but is not affiliated with any government entity.</p>
+            <div class="geocoding-attribution">
+                <p>🌍 Geographic coordinates provided by <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> via <a href="https://nominatim.org/" target="_blank">Nominatim</a> geocoding service</p>
+                <p class="attribution-note">Thank you to the OpenStreetMap community for enabling geographic analysis of our data</p>
+            </div>
         </div>
     </footer>
 

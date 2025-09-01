@@ -386,6 +386,36 @@ footer a:hover {
     font-style: italic;
 }
 
+/* Geocoding attribution styling */
+.geocoding-attribution {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e9ecef;
+    text-align: center;
+}
+
+.geocoding-attribution p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.geocoding-attribution a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.geocoding-attribution a:hover {
+    text-decoration: underline;
+}
+
+.attribution-note {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    font-style: italic;
+    color: #6c757d;
+}
+
 /* Format info sections */
 .format-info {
     background: #f8f9fa;
@@ -427,6 +457,42 @@ footer a:hover {
 
 .download-btn:active {
     transform: translateY(0);
+}
+
+/* Geocoding info section */
+.geocoding-info {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    border-left: 4px solid #28a745;
+}
+
+.geocoding-info h3 {
+    margin: 0 0 1rem 0;
+    color: #28a745;
+    font-size: 1.2rem;
+}
+
+.geocoding-info ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.geocoding-info li {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+}
+
+.geocoding-note {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #6c757d;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
 }
 
 /* Error message styling */
