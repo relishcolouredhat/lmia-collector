@@ -10,7 +10,12 @@
 : ${FAILED_LOOKUPS:=0}
 
 # Default configuration (can be overridden by calling script)
-: ${GEOCODING_SLEEP_TIMER:=1}
+# Turbo mode uses faster defaults
+if [[ "$GEOCODING_TURBO_MODE" == "true" ]]; then
+    : ${GEOCODING_SLEEP_TIMER:=0.1}  # Much faster for turbo mode
+else
+    : ${GEOCODING_SLEEP_TIMER:=1}    # Conservative for standard mode
+fi
 : ${GEOCODING_CACHE_FILE:="./outputs/cache/location_cache.csv"}
 : ${GEOCODING_BOGONS_FILE:="./outputs/cache/bogons"}
 

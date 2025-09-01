@@ -16,7 +16,12 @@ source "$SCRIPT_DIR/lib/geocoding.sh"
 CACHE_DIR="./outputs/cache"
 LOCATION_CACHE_FILE="$CACHE_DIR/location_cache.csv"
 CSV_DIR="./outputs/csv/unprocessed"
-SLEEP_TIMER="${SLEEP_TIMER:-1}"  # Default 1 second, configurable via environment
+# Turbo mode uses faster defaults
+if [[ "$GEOCODING_TURBO_MODE" == "true" ]]; then
+    SLEEP_TIMER="${SLEEP_TIMER:-0.1}"  # Much faster for turbo mode  
+else
+    SLEEP_TIMER="${SLEEP_TIMER:-1}"    # Conservative for standard mode
+fi
 
 # Configure geocoding library
 export GEOCODING_SLEEP_TIMER="$SLEEP_TIMER"
