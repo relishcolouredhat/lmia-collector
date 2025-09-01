@@ -320,7 +320,7 @@ class LMIADataExplorer {
     async updateLastRunInfo() {
         try {
             // Fetch the latest workflow run information
-            const response = await fetch('https://api.github.com/repos/relishcolouredhat/lmia-collector/actions/workflows/process_lmia.yml/runs?per_page=1&status=completed');
+            const response = await fetch('https://api.github.com/repos/relishcolouredhat/lmia-collector/actions/workflows/daily-pipeline.yml/runs?per_page=1&status=completed');
             
             if (response.ok) {
                 const data = await response.json();

@@ -1,14 +1,14 @@
 {
   "cache_statistics": {
-    "total_postal_codes": 12,
-    "unique_employers": 12,
-    "unique_addresses": 12,
-    "file_size": "4.0K",
-    "last_updated": "2025-09-01 16:22:08",
+    "total_postal_codes": 307,
+    "unique_employers": 303,
+    "unique_addresses": 306,
+    "file_size": "52K",
+    "last_updated": "2025-09-01 19:10:52",
     "cache_file_exists": true
   },
   "metadata": {
-    "generated_at": "2025-09-01 20:47:58 UTC",
+    "generated_at": "2025-09-01 23:14:41 UTC",
     "cache_file_path": "./outputs/cache/location_cache.csv"
   }
 }

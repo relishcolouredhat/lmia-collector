@@ -19,11 +19,11 @@ if [[ -f "$CACHE_FILE" ]]; then
     # Count total postal codes (excluding header)
     total_postal_codes=$(tail -n +2 "$CACHE_FILE" | wc -l)
     
-    # Count unique employers (column 5)
-    total_employers=$(tail -n +2 "$CACHE_FILE" | cut -d',' -f5 | sed 's/"//g' | sort -u | wc -l)
+    # Count unique employers (column 5) - using semicolon delimiter
+    total_employers=$(tail -n +2 "$CACHE_FILE" | cut -d';' -f5 | sed 's/"//g' | sort -u | wc -l)
     
-    # Count unique addresses (column 4) 
-    total_addresses=$(tail -n +2 "$CACHE_FILE" | cut -d',' -f4 | sed 's/"//g' | sort -u | wc -l)
+    # Count unique addresses (column 4) - using semicolon delimiter 
+    total_addresses=$(tail -n +2 "$CACHE_FILE" | cut -d';' -f4 | sed 's/"//g' | sort -u | wc -l)
     
     # Get file size in human readable format
     cache_file_size=$(du -h "$CACHE_FILE" | cut -f1)
