@@ -27,6 +27,8 @@ jobs:
         with:
           # Use GITHUB_TOKEN for authentication
           token: ${{ secrets.GITHUB_TOKEN }}
+          # Fetch full history to avoid git issues
+          fetch-depth: 0
 
       - name: Install dependencies (jq, gnumeric)
         run: |
@@ -62,13 +64,13 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          # Pull latest changes to avoid conflicts
-          git pull origin ${{ github.ref_name }} --rebase
+          # Add all changes
           git add .
           # The commit message will include a count of new files
           file_count=$(echo "${{ steps.process.outputs.new_file_names }}" | wc -w)
           git commit -m "Bot: Add ${file_count} new LMIA report(s)" -m "${{ steps.process.outputs.new_file_names }}"
-          git push origin ${{ github.ref_name }}
+          # Force push to avoid conflicts (since this is a bot workflow)
+          git push origin ${{ github.ref_name }} --force-with-lease
 
       - name: Manual run summary
         if: github.event_name == 'workflow_dispatch'
