@@ -41,13 +41,40 @@ get_postal_code_coordinates() {
         fi
     fi
     
-    # Not in cache, query Nominatim API (API requires postal code without spaces)
+    # Not in cache, try multiple geocoding sources (API requires postal code without spaces)
     echo "  → Looking up postal code: $postal_code" >&2
-    local coordinates=$(curl -s "https://nominatim.openstreetmap.org/search?postalcode=${normalized_pc}&country=CA&format=json&limit=1" | jq -r '.[0] | "\(.lat),\(.lon)"' 2>/dev/null || echo ",")
     
+    # Try Nominatim first (OpenStreetMap)
+    echo "    → Trying Nominatim (OpenStreetMap)..." >&2
+    local coordinates=$(curl -s "https://nominatim.openstreetmap.org/search?postalcode=${normalized_pc}&country=CA&format=json&limit=1" | jq -r '.[0] | "\(.lat),\(.lon)"' 2>/dev/null || echo ",")
+    local source="Nominatim"
+    
+    # If Nominatim failed, try geocoder.ca as fallback
     if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]]; then
+        echo "    → Nominatim failed, trying geocoder.ca..." >&2
+        sleep 0.5  # geocoder.ca rate limit: max 2 requests/second
+        
+        # geocoder.ca API format: http://geocoder.ca/?postal=POSTALCODE&geoit=xml
+        local geocoder_response=$(curl -s "http://geocoder.ca/?postal=${normalized_pc}&geoit=xml" 2>/dev/null || echo "")
+        
+        if [[ -n "$geocoder_response" && "$geocoder_response" != *"error"* ]]; then
+            # Extract lat/lon from XML response
+            local lat=$(echo "$geocoder_response" | grep -o '<latt>[^<]*</latt>' | sed 's/<[^>]*>//g' 2>/dev/null || echo "")
+            local lon=$(echo "$geocoder_response" | grep -o '<longt>[^<]*</longt>' | sed 's/<[^>]*>//g' 2>/dev/null || echo "")
+            
+            if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" ]]; then
+                coordinates="$lat,$lon"
+                source="geocoder.ca"
+            fi
+        fi
+    fi
+    
+    # Check final result and add source information
+    if [[ "$coordinates" == "null,null" || "$coordinates" == "," || -z "$coordinates" ]]; then
+        echo "    ❌ No coordinates found for $postal_code (tried both sources)" >&2
         echo ","
     else
+        echo "    ✅ Found coordinates: $coordinates (source: $source)" >&2
         echo "$coordinates"
         # Cache the result if we have valid coordinates
         if [[ -f "$CACHE_FILE" ]] && [[ "$coordinates" != "," ]]; then
