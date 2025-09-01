@@ -239,17 +239,7 @@ h2 {
     color: #333;
 }
 
-.recommended-badge {
-    background: #28a745;
-    color: white;
-    font-size: 0.7rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 12px;
-    margin-left: 0.5rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+
 
 .tab-content {
     display: none;
