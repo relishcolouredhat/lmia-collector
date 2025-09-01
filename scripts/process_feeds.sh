@@ -103,6 +103,72 @@ for i in "${!FEEDS[@]}"; do
   done <<< "$resources"
 done
 
+# Generate Grafana Infinity plugin endpoint files
+echo "Generating Grafana Infinity plugin endpoint files..."
+
+# Function to generate endpoint JSON for a directory
+generate_endpoint_json() {
+  local dir="$1"
+  local endpoint_file="$2"
+  local base_url="https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main"
+  
+  echo "  -> Generating endpoint file: $endpoint_file"
+  
+  # Create JSON structure for Grafana Infinity plugin
+  cat > "$endpoint_file" << EOF
+{
+  "endpoints": [
+EOF
+  
+  # Find all CSV files in the directory and add them to the JSON
+  local first=true
+  while IFS= read -r -d '' csv_file; do
+    if [ "$first" = true ]; then
+      first=false
+    else
+      echo "    ," >> "$endpoint_file"
+    fi
+    
+    # Get relative path from outputs directory
+    local relative_path="${csv_file#./outputs/}"
+    local url="${base_url}/${relative_path}"
+    local filename=$(basename "$csv_file")
+    
+    cat >> "$endpoint_file" << EOF
+    {
+      "name": "${filename%.csv}",
+      "url": "${url}",
+      "type": "csv",
+      "format": "table"
+    }
+EOF
+  done < <(find "$dir" -name "*.csv" -type f -print0 | sort -z)
+  
+  # Close JSON structure
+  cat >> "$endpoint_file" << EOF
+  ]
+}
+EOF
+  
+  echo "     ✅ Generated $endpoint_file with $(find "$dir" -name "*.csv" -type f | wc -l) endpoints"
+}
+
+# Generate endpoint files for positive and negative CSV directories
+generate_endpoint_json "$POSITIVE_CSV_DIR" "${OUTPUTS_DIR}/positive_endpoints.json"
+generate_endpoint_json "$NEGATIVE_CSV_DIR" "${OUTPUTS_DIR}/negative_endpoints.json"
+
+# Also generate a combined endpoints file
+echo "  -> Generating combined endpoints file..."
+cat > "${OUTPUTS_DIR}/all_endpoints.json" << EOF
+{
+  "positive_endpoints": "${OUTPUTS_DIR}/positive_endpoints.json",
+  "negative_endpoints": "${OUTPUTS_DIR}/negative_endpoints.json",
+  "base_url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/outputs"
+}
+EOF
+
+echo "     ✅ Generated combined endpoints file"
+
 # --- Output for GitHub Actions ---
 # Use GITHUB_OUTPUT to pass variables to subsequent steps in the workflow
 if [ "$NEW_FILES_FOUND" = "true" ]; then
