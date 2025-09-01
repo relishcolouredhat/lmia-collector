@@ -27,7 +27,7 @@ header {
 }
 
 .flag-container {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 
 .flag {
@@ -46,6 +46,18 @@ header h1 {
 header p {
     font-size: 1.1rem;
     opacity: 0.9;
+}
+
+.title-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.title-section h1 {
+    margin: 0;
 }
 
 /* Status badges */
