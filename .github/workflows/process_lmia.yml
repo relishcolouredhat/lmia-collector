@@ -62,7 +62,6 @@ jobs:
           # This assumes your script is in the scripts/ directory
           # Pass language parameter to the script
           LANGUAGE="${{ github.event.inputs.language || 'en' }}" bash ./scripts/process_feeds.sh
-ch
       - name: Show process outputs
         if: ${{ github.event.inputs.debug_mode == 'true' }}
         run: |
