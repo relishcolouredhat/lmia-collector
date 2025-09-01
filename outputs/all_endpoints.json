@@ -1,0 +1,5 @@
+{
+  "positive_endpoints": "./outputs/positive_endpoints.json",
+  "negative_endpoints": "./outputs/negative_endpoints.json",
+  "base_url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/outputs"
+}
