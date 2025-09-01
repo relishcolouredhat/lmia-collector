@@ -1,381 +1,109 @@
-{
-  "endpoints": [
-    {
-      "name": "2017-11-10_2017q1q2_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2017-11-10_2017q1q2_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2017-11-10_2017q1q2_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2017-11-10_2017q1q2_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2018-01-23_2017q3_negative_employer_stream_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2018-01-23_2017q3_negative_employer_stream_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2018-01-23_2017q3_positive_employer_stream_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2018-01-23_2017q3_positive_employer_stream_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2018-09-27_2018q1_negative_employer_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2018-09-27_2018q1_negative_employer_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2018-09-27_2018q1_positive_employer_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2018-09-27_2018q1_positive_employer_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2018-09-27_2018q2_negative_employer_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2018-09-27_2018q2_negative_employer_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2018-09-27_2018q2_positive_employer_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2018-09-27_2018q2_positive_employer_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2018-10-26_2017q4_negative_employer_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2018-10-26_2017q4_negative_employer_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2018-10-26_2017q4_positive_employer_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2018-10-26_2017q4_positive_employer_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2019-01-31_2018q3_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2019-01-31_2018q3_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2019-02-01_2018q3_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2019-02-01_2018q3_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2019-03-13_2018q4_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2019-03-13_2018q4_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2019-03-13_2018q4_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2019-03-13_2018q4_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2019-11-12_tfwp_2019q1_employer_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2019-11-12_tfwp_2019q1_employer_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2019-11-12_tfwp_2019q1_employer_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2019-11-12_tfwp_2019q1_employer_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2019-11-12_tfwp_2019q2_employer_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2019-11-12_tfwp_2019q2_employer_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2019-11-12_tfwp_2019q2_employer_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2019-11-12_tfwp_2019q2_employer_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2019-12-20_tfwp_2019q3_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2019-12-20_tfwp_2019q3_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2019-12-20_tfwp_2019q3_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2019-12-20_tfwp_2019q3_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2020-02-27_tfwp_2019q4_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2020-02-27_tfwp_2019q4_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2020-02-27_tfwp_2019q4_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2020-02-27_tfwp_2019q4_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2020-05-29_tfwp_2020q1_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2020-05-29_tfwp_2020q1_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2020-05-29_tfwp_2020q1_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2020-05-29_tfwp_2020q1_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2020-09-24_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q22020q2csv202",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2020-09-24_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q22020q2csv202.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2020-12-03_tfwp_2020q3_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2020-12-03_tfwp_2020q3_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2020-12-04_tfwp_2020q3_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2020-12-04_tfwp_2020q3_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2021-03-18_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q4tfwp_2020q4",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2021-03-18_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q4tfwp_2020q4.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2021-06-17_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2021-employer-listq1-2021tfwp_2021q",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2021-06-17_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2021-employer-listq1-2021tfwp_2021q.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2021-09-03_TFWP_2021Q2_Positive_EN",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2021-09-03_TFWP_2021Q2_Positive_EN.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2021-09-03_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q22020q2csv202",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2021-09-03_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q22020q2csv202.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2021-12-10_TFWP_2021Q3_Negative_EN",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2021-12-10_TFWP_2021Q3_Negative_EN.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2021-12-10_TFWP_2021Q3_Positive_EN",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2021-12-10_TFWP_2021Q3_Positive_EN.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2022-04-21_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2021-employer-list2021q4finaltfwp_2",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2022-04-21_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2021-employer-list2021q4finaltfwp_2.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2022-08-05_tfwp_2022q1_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2022-08-05_tfwp_2022q1_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2022-08-05_tfwp_2022q1_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2022-08-05_tfwp_2022q1_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2022-10-19_tfwp_2022q2_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2022-10-19_tfwp_2022q2_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2022-10-19_tfwp_2022q2_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2022-10-19_tfwp_2022q2_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2022-12-23_tfwp_2022q3_negative_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2022-12-23_tfwp_2022q3_negative_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2022-12-23_tfwp_2022q3_positive_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2022-12-23_tfwp_2022q3_positive_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2023-03-21_tfwp_2022q4_neg_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2023-03-21_tfwp_2022q4_neg_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2023-03-21_tfwp_2022q4_pos_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2023-03-21_tfwp_2022q4_pos_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2024-04-18_tfwp_2023q4_neg_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2024-04-18_tfwp_2023q4_neg_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2024-04-18_tfwp_2023q4_pos_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2024-04-18_tfwp_2023q4_pos_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2024-06-20_tfwp_2024q1_neg_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2024-06-20_tfwp_2024q1_neg_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2024-06-20_tfwp_2024q1_pos_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2024-06-20_tfwp_2024q1_pos_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2024-10-24_tfwp_2024q2_neg_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2024-10-24_tfwp_2024q2_neg_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2024-10-24_tfwp_2024q2_pos_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2024-10-24_tfwp_2024q2_pos_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2024-12-20_tfwp_2024q3_neg_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2024-12-20_tfwp_2024q3_neg_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2024-12-20_tfwp_2024q3_pos_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2024-12-20_tfwp_2024q3_pos_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2025-03-18_tfwp_2024q4_neg_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2025-03-18_tfwp_2024q4_neg_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2025-03-18_tfwp_2024q4_pos_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2025-03-18_tfwp_2024q4_pos_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2025-06-19_tfwp_2025q1_neg_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2025-06-19_tfwp_2025q1_neg_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-    ,
-    {
-      "name": "2025-06-19_tfwp_2025q1_pos_en",
-      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/quarterly_format/2025-06-19_tfwp_2025q1_pos_en.csv",
-      "type": "csv",
-      "format": "table"
-    }
-  ]
-}
+{"endpoints":[
+    {"name":"2017-11-10_2017q1q2_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2017-11-10_2017q1q2_negative_en.csv","published_date":"2017-11-10","type":"quarterly_format"}
+,
+    {"name":"2017-11-10_2017q1q2_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2017-11-10_2017q1q2_positive_en.csv","published_date":"2017-11-10","type":"quarterly_format"}
+,
+    {"name":"2018-01-23_2017q3_negative_employer_stream_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2018-01-23_2017q3_negative_employer_stream_en.csv","published_date":"2018-01-23","type":"quarterly_format"}
+,
+    {"name":"2018-01-23_2017q3_positive_employer_stream_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2018-01-23_2017q3_positive_employer_stream_en.csv","published_date":"2018-01-23","type":"quarterly_format"}
+,
+    {"name":"2018-09-27_2018q1_negative_employer_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2018-09-27_2018q1_negative_employer_en.csv","published_date":"2018-09-27","type":"quarterly_format"}
+,
+    {"name":"2018-09-27_2018q1_positive_employer_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2018-09-27_2018q1_positive_employer_en.csv","published_date":"2018-09-27","type":"quarterly_format"}
+,
+    {"name":"2018-09-27_2018q2_negative_employer_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2018-09-27_2018q2_negative_employer_en.csv","published_date":"2018-09-27","type":"quarterly_format"}
+,
+    {"name":"2018-09-27_2018q2_positive_employer_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2018-09-27_2018q2_positive_employer_en.csv","published_date":"2018-09-27","type":"quarterly_format"}
+,
+    {"name":"2018-10-26_2017q4_negative_employer_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2018-10-26_2017q4_negative_employer_en.csv","published_date":"2018-10-26","type":"quarterly_format"}
+,
+    {"name":"2018-10-26_2017q4_positive_employer_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2018-10-26_2017q4_positive_employer_en.csv","published_date":"2018-10-26","type":"quarterly_format"}
+,
+    {"name":"2019-01-31_2018q3_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2019-01-31_2018q3_positive_en.csv","published_date":"2019-01-31","type":"quarterly_format"}
+,
+    {"name":"2019-02-01_2018q3_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2019-02-01_2018q3_negative_en.csv","published_date":"2019-02-01","type":"quarterly_format"}
+,
+    {"name":"2019-03-13_2018q4_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2019-03-13_2018q4_negative_en.csv","published_date":"2019-03-13","type":"quarterly_format"}
+,
+    {"name":"2019-03-13_2018q4_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2019-03-13_2018q4_positive_en.csv","published_date":"2019-03-13","type":"quarterly_format"}
+,
+    {"name":"2019-11-12_tfwp_2019q1_employer_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2019-11-12_tfwp_2019q1_employer_negative_en.csv","published_date":"2019-11-12","type":"quarterly_format"}
+,
+    {"name":"2019-11-12_tfwp_2019q1_employer_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2019-11-12_tfwp_2019q1_employer_positive_en.csv","published_date":"2019-11-12","type":"quarterly_format"}
+,
+    {"name":"2019-11-12_tfwp_2019q2_employer_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2019-11-12_tfwp_2019q2_employer_negative_en.csv","published_date":"2019-11-12","type":"quarterly_format"}
+,
+    {"name":"2019-11-12_tfwp_2019q2_employer_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2019-11-12_tfwp_2019q2_employer_positive_en.csv","published_date":"2019-11-12","type":"quarterly_format"}
+,
+    {"name":"2019-12-20_tfwp_2019q3_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2019-12-20_tfwp_2019q3_negative_en.csv","published_date":"2019-12-20","type":"quarterly_format"}
+,
+    {"name":"2019-12-20_tfwp_2019q3_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2019-12-20_tfwp_2019q3_positive_en.csv","published_date":"2019-12-20","type":"quarterly_format"}
+,
+    {"name":"2020-02-27_tfwp_2019q4_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2020-02-27_tfwp_2019q4_negative_en.csv","published_date":"2020-02-27","type":"quarterly_format"}
+,
+    {"name":"2020-02-27_tfwp_2019q4_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2020-02-27_tfwp_2019q4_positive_en.csv","published_date":"2020-02-27","type":"quarterly_format"}
+,
+    {"name":"2020-05-29_tfwp_2020q1_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2020-05-29_tfwp_2020q1_negative_en.csv","published_date":"2020-05-29","type":"quarterly_format"}
+,
+    {"name":"2020-05-29_tfwp_2020q1_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2020-05-29_tfwp_2020q1_positive_en.csv","published_date":"2020-05-29","type":"quarterly_format"}
+,
+    {"name":"2020-09-24_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q22020q2csv202.csv","url":"outputs/csv/unprocessed/quarterly_format/2020-09-24_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q22020q2csv202.csv","published_date":"2020-09-24","type":"quarterly_format"}
+,
+    {"name":"2020-12-03_tfwp_2020q3_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2020-12-03_tfwp_2020q3_positive_en.csv","published_date":"2020-12-03","type":"quarterly_format"}
+,
+    {"name":"2020-12-04_tfwp_2020q3_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2020-12-04_tfwp_2020q3_negative_en.csv","published_date":"2020-12-04","type":"quarterly_format"}
+,
+    {"name":"2021-03-18_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q4tfwp_2020q4.csv","url":"outputs/csv/unprocessed/quarterly_format/2021-03-18_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q4tfwp_2020q4.csv","published_date":"2021-03-18","type":"quarterly_format"}
+,
+    {"name":"2021-06-17_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2021-employer-listq1-2021tfwp_2021q.csv","url":"outputs/csv/unprocessed/quarterly_format/2021-06-17_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2021-employer-listq1-2021tfwp_2021q.csv","published_date":"2021-06-17","type":"quarterly_format"}
+,
+    {"name":"2021-09-03_TFWP_2021Q2_Positive_EN.csv","url":"outputs/csv/unprocessed/quarterly_format/2021-09-03_TFWP_2021Q2_Positive_EN.csv","published_date":"2021-09-03","type":"quarterly_format"}
+,
+    {"name":"2021-09-03_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q22020q2csv202.csv","url":"outputs/csv/unprocessed/quarterly_format/2021-09-03_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2020-employer-list2020q22020q2csv202.csv","published_date":"2021-09-03","type":"quarterly_format"}
+,
+    {"name":"2021-12-10_TFWP_2021Q3_Negative_EN.csv","url":"outputs/csv/unprocessed/quarterly_format/2021-12-10_TFWP_2021Q3_Negative_EN.csv","published_date":"2021-12-10","type":"quarterly_format"}
+,
+    {"name":"2021-12-10_TFWP_2021Q3_Positive_EN.csv","url":"outputs/csv/unprocessed/quarterly_format/2021-12-10_TFWP_2021Q3_Positive_EN.csv","published_date":"2021-12-10","type":"quarterly_format"}
+,
+    {"name":"2022-04-21_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2021-employer-list2021q4finaltfwp_2.csv","url":"outputs/csv/unprocessed/quarterly_format/2022-04-21_useb-dgcetfw-tetdip-piddiviaionline-publicationemployer-list2021-employer-list2021q4finaltfwp_2.csv","published_date":"2022-04-21","type":"quarterly_format"}
+,
+    {"name":"2022-08-05_tfwp_2022q1_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2022-08-05_tfwp_2022q1_negative_en.csv","published_date":"2022-08-05","type":"quarterly_format"}
+,
+    {"name":"2022-08-05_tfwp_2022q1_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2022-08-05_tfwp_2022q1_positive_en.csv","published_date":"2022-08-05","type":"quarterly_format"}
+,
+    {"name":"2022-10-19_tfwp_2022q2_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2022-10-19_tfwp_2022q2_negative_en.csv","published_date":"2022-10-19","type":"quarterly_format"}
+,
+    {"name":"2022-10-19_tfwp_2022q2_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2022-10-19_tfwp_2022q2_positive_en.csv","published_date":"2022-10-19","type":"quarterly_format"}
+,
+    {"name":"2022-12-23_tfwp_2022q3_negative_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2022-12-23_tfwp_2022q3_negative_en.csv","published_date":"2022-12-23","type":"quarterly_format"}
+,
+    {"name":"2022-12-23_tfwp_2022q3_positive_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2022-12-23_tfwp_2022q3_positive_en.csv","published_date":"2022-12-23","type":"quarterly_format"}
+,
+    {"name":"2023-03-21_tfwp_2022q4_neg_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2023-03-21_tfwp_2022q4_neg_en.csv","published_date":"2023-03-21","type":"quarterly_format"}
+,
+    {"name":"2023-03-21_tfwp_2022q4_pos_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2023-03-21_tfwp_2022q4_pos_en.csv","published_date":"2023-03-21","type":"quarterly_format"}
+,
+    {"name":"2024-04-18_tfwp_2023q4_neg_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2024-04-18_tfwp_2023q4_neg_en.csv","published_date":"2024-04-18","type":"quarterly_format"}
+,
+    {"name":"2024-04-18_tfwp_2023q4_pos_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2024-04-18_tfwp_2023q4_pos_en.csv","published_date":"2024-04-18","type":"quarterly_format"}
+,
+    {"name":"2024-06-20_tfwp_2024q1_neg_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2024-06-20_tfwp_2024q1_neg_en.csv","published_date":"2024-06-20","type":"quarterly_format"}
+,
+    {"name":"2024-06-20_tfwp_2024q1_pos_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2024-06-20_tfwp_2024q1_pos_en.csv","published_date":"2024-06-20","type":"quarterly_format"}
+,
+    {"name":"2024-10-24_tfwp_2024q2_neg_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2024-10-24_tfwp_2024q2_neg_en.csv","published_date":"2024-10-24","type":"quarterly_format"}
+,
+    {"name":"2024-10-24_tfwp_2024q2_pos_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2024-10-24_tfwp_2024q2_pos_en.csv","published_date":"2024-10-24","type":"quarterly_format"}
+,
+    {"name":"2024-12-20_tfwp_2024q3_neg_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2024-12-20_tfwp_2024q3_neg_en.csv","published_date":"2024-12-20","type":"quarterly_format"}
+,
+    {"name":"2024-12-20_tfwp_2024q3_pos_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2024-12-20_tfwp_2024q3_pos_en.csv","published_date":"2024-12-20","type":"quarterly_format"}
+,
+    {"name":"2025-03-18_tfwp_2024q4_neg_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2025-03-18_tfwp_2024q4_neg_en.csv","published_date":"2025-03-18","type":"quarterly_format"}
+,
+    {"name":"2025-03-18_tfwp_2024q4_pos_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2025-03-18_tfwp_2024q4_pos_en.csv","published_date":"2025-03-18","type":"quarterly_format"}
+,
+    {"name":"2025-06-19_tfwp_2025q1_neg_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2025-06-19_tfwp_2025q1_neg_en.csv","published_date":"2025-06-19","type":"quarterly_format"}
+,
+    {"name":"2025-06-19_tfwp_2025q1_pos_en.csv","url":"outputs/csv/unprocessed/quarterly_format/2025-06-19_tfwp_2025q1_pos_en.csv","published_date":"2025-06-19","type":"quarterly_format"}
+]}
