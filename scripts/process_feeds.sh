@@ -5,16 +5,25 @@ set -e # Exit immediately if a command exits with a non-zero status.
 # URLs for the Open Canada data feeds
 POSITIVE_FEED_URL="https://open.canada.ca/data/api/action/package_show?id=90fed587-1364-4f33-a9ee-208181dc0b97"
 NEGATIVE_FEED_URL="https://open.canada.ca/data/api/action/package_show?id=f82f66f2-a22b-4511-bccf-e1d74db39ae5"
-DATA_DIR="." # Base directory where CSVs will be stored
+DATA_DIR="." # Base directory where outputs will be stored
 FEEDS=("$POSITIVE_FEED_URL" "$NEGATIVE_FEED_URL")
 
 # Language filter (default to English if not specified)
 LANGUAGE="${LANGUAGE:-en}"
 
-# Create subdirectories for positive and negative reports
-POSITIVE_DIR="${DATA_DIR}/positive"
-NEGATIVE_DIR="${DATA_DIR}/negative"
-mkdir -p "$POSITIVE_DIR" "$NEGATIVE_DIR"
+# Create organized output directory structure
+OUTPUTS_DIR="${DATA_DIR}/outputs"
+CSV_DIR="${OUTPUTS_DIR}/csv"
+IFLP_DIR="${OUTPUTS_DIR}/iflp"
+
+# Create subdirectories for positive and negative reports within each format
+POSITIVE_CSV_DIR="${CSV_DIR}/positive"
+NEGATIVE_CSV_DIR="${CSV_DIR}/negative"
+POSITIVE_IFLP_DIR="${IFLP_DIR}/positive"
+NEGATIVE_IFLP_DIR="${IFLP_DIR}/negative"
+
+# Create all necessary directories
+mkdir -p "$POSITIVE_CSV_DIR" "$NEGATIVE_CSV_DIR" "$POSITIVE_IFLP_DIR" "$NEGATIVE_IFLP_DIR"
 
 # --- Logic ---
 NEW_FILES_FOUND="false"
@@ -30,10 +39,10 @@ for i in "${!FEEDS[@]}"; do
   # Determine feed type for directory organization
   if [[ "$feed_url" == *"90fed587-1364-4f33-a9ee-208181dc0b97"* ]]; then
     feed_type="positive"
-    output_dir="$POSITIVE_DIR"
+    output_dir="$POSITIVE_CSV_DIR" # Changed to CSV_DIR
   else
     feed_type="negative"
-    output_dir="$NEGATIVE_DIR"
+    output_dir="$NEGATIVE_CSV_DIR" # Changed to CSV_DIR
   fi
   
   echo "Checking $feed_type feed: ${feed_url}"
@@ -78,10 +87,11 @@ for i in "${!FEEDS[@]}"; do
     # Check file extension and process accordingly
     if [[ "$original_filename" == *.xlsx ]]; then
       # It's an XLSX file: convert using in2csv (lighter than ssconvert)
-      in2csv "$temp_download" | tail -n +2 > "$target_filename"
+      # Remove the first line (header) and any trailing notes
+      in2csv "$temp_download" | tail -n +2 | sed '/^Remarques:/,$d' | sed '/^Notes:/,$d' > "$target_filename"
     elif [[ "$original_filename" == *.csv ]]; then
-      # It's already a CSV: just remove the first line
-      tail -n +2 "$temp_download" > "$target_filename"
+      # It's already a CSV: remove the first line and any trailing notes
+      tail -n +2 "$temp_download" | sed '/^Remarques:/,$d' | sed '/^Notes:/,$d' > "$target_filename"
     else
       echo "     WARNING: Unknown file type for $original_filename. Skipping."
       continue
