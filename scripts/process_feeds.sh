@@ -229,7 +229,7 @@ EOF
             echo "    ," >> "$endpoint_file"
         fi
 
-        local relative_path="${csv_file#./outputs/}"
+        local relative_path="${csv_file#./}"
         local url="${base_url}/${relative_path}"
         local filename=$(basename "$csv_file")
 
