@@ -63,7 +63,8 @@ jobs:
         run: |
           # Install required tools
           sudo apt-get update
-          sudo apt-get install -y jq curl
+          sudo apt-get install -y jq curl csvkit
+          # csvkit provides in2csv for Excel to CSV conversion
 
       - name: Debug information
         if: ${{ inputs.debug_mode == 'true' }}
