@@ -1,13 +1,17 @@
 name: Fetch and Process LMIA Reports
 
-# This 'on' block defines the triggers for the workflow.
-# It must be at the root level of the file (no indentation).
 on:
-  # Trigger 1: Run on a schedule (daily at 05:00 UTC)
+  # Run automatically every day at 05:00 UTC
   schedule:
     - cron: '0 5 * * *'
-  # Trigger 2: Allow manual runs from the GitHub Actions "Run workflow" button
+  # Allow manual runs from the GitHub Actions tab
   workflow_dispatch:
+    inputs:
+      debug_mode:
+        description: 'Enable debug mode for manual runs'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   fetch-data:
@@ -24,12 +28,29 @@ jobs:
           wget -q https://dl.influxdata.com/telegraf/releases/telegraf_1.31.1-1_amd64.deb
           sudo dpkg -i telegraf_1.31.1-1_amd64.deb
 
+      - name: Show debug info
+        if: ${{ github.event.inputs.debug_mode == 'true' }}
+        run: |
+          echo "Debug mode enabled"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Actor: ${{ github.actor }}"
+
       - name: Fetch and process new reports
         id: process
         run: |
-          # Ensure the script is executable before running
-          chmod +x ./scripts/process_feeds.sh
+          # Create the directory for the script if it doesn't exist
+          mkdir -p scripts
+          # This assumes your script is in the scripts/ directory
           bash ./scripts/process_feeds.sh
+
+      - name: Show process outputs
+        if: ${{ github.event.inputs.debug_mode == 'true' }}
+        run: |
+          echo "Process outputs:"
+          echo "new_files_found: ${{ steps.process.outputs.new_files_found }}"
+          echo "new_file_names: ${{ steps.process.outputs.new_file_names }}"
 
       - name: Commit new files
         if: steps.process.outputs.new_files_found == 'true'
@@ -46,5 +67,18 @@ jobs:
         if: steps.process.outputs.new_files_found == 'true'
         run: |
           echo "New files were found. Running Telegraf..."
-          # NOTE: Ensure this path is correct for your repository.
           telegraf --once --config="path/to/your/config.conf"
+        # Note: Ensure the path to your telegraf config is correct.
+        # It should be checked into your repository.
+
+      - name: Manual run summary
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "=== Manual Run Summary ==="
+          echo "Run completed at: $(date)"
+          echo "New files found: ${{ steps.process.outputs.new_files_found }}"
+          if [ "${{ steps.process.outputs.new_files_found }}" = "true" ]; then
+            echo "Files added: ${{ steps.process.outputs.new_file_names }}"
+          else
+            echo "No new files were found to process"
+          fi
