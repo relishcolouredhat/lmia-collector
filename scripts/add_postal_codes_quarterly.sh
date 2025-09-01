@@ -69,12 +69,23 @@ get_postal_code_coordinates() {
 # Create temporary file
 TEMP_FILE="${FILE}.tmp"
 
-# Create header with postal code and coordinates columns
-head -1 "$FILE" | sed 's/$/,Postal Code,Latitude,Longitude/' > "$TEMP_FILE"
+# Detect file format and get proper header
+second_line=$(sed -n '2p' "$FILE")
+if [[ "$second_line" == *"Province"* || "$second_line" == *"Territory"* ]]; then
+    # Excel-converted format: use line 2 as header
+    echo "    → Excel format detected - using line 2 as header" >&2
+    sed -n '2p' "$FILE" | sed 's/$/,Postal Code,Latitude,Longitude/' > "$TEMP_FILE"
+    skip_lines=3
+else
+    # Direct CSV format: use line 1 as header
+    echo "    → CSV format detected - using line 1 as header" >&2
+    head -1 "$FILE" | sed 's/$/,Postal Code,Latitude,Longitude/' > "$TEMP_FILE"
+    skip_lines=2
+fi
 
 # Process each line to extract postal code and coordinates from address
 # Quarterly format typically has address in the 4th column
-tail -n +2 "$FILE" | while IFS= read -r line; do
+tail -n +$skip_lines "$FILE" | while IFS= read -r line; do
     if [[ -n "$line" ]]; then
         # Extract address using proper CSV parsing - address is in quotes as 4th field
         # Use awk to properly parse CSV with quoted fields
