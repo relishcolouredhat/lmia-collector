@@ -1,0 +1,142 @@
+name: Update Location Cache
+
+on:
+  workflow_dispatch:
+    inputs:
+      sleep_timer:
+        description: 'Sleep timer between API calls (seconds)'
+        required: false
+        default: '1'
+        type: string
+      force_update:
+        description: 'Force update even if cache exists'
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    # Run weekly on Sundays at 2 AM UTC to maintain cache
+    - cron: '0 2 * * 0'
+
+jobs:
+  update-cache:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+    
+    - name: Set up environment
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl jq
+        
+    - name: Configure git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
+    - name: Check if cache update needed
+      id: check_cache
+      run: |
+        if [[ "${{ inputs.force_update }}" == "true" ]]; then
+          echo "cache_update_needed=true" >> $GITHUB_OUTPUT
+          echo "Force update requested"
+        elif [[ ! -f "outputs/cache/location_cache.csv" ]]; then
+          echo "cache_update_needed=true" >> $GITHUB_OUTPUT
+          echo "No cache file found, update needed"
+        else
+          # Check if cache is older than 7 days
+          cache_age=$(find outputs/cache/location_cache.csv -mtime +7 | wc -l)
+          if [[ $cache_age -gt 0 ]]; then
+            echo "cache_update_needed=true" >> $GITHUB_OUTPUT
+            echo "Cache is older than 7 days, update needed"
+          else
+            echo "cache_update_needed=false" >> $GITHUB_OUTPUT
+            echo "Cache is recent, no update needed"
+          fi
+        fi
+        
+    - name: Display cache status
+      run: |
+        echo "=== Current Cache Status ==="
+        if [[ -f "outputs/cache/location_cache.csv" ]]; then
+          echo "Cache file exists"
+          echo "Cache entries: $(tail -n +2 outputs/cache/location_cache.csv | wc -l)"
+          echo "Last modified: $(stat -c %y outputs/cache/location_cache.csv)"
+          echo "File size: $(du -h outputs/cache/location_cache.csv)"
+        else
+          echo "No cache file found"
+        fi
+        echo ""
+        echo "Sleep timer: ${{ inputs.sleep_timer || '1' }} seconds"
+        echo "Force update: ${{ inputs.force_update }}"
+        
+    - name: Update location cache
+      if: steps.check_cache.outputs.cache_update_needed == 'true'
+      env:
+        SLEEP_TIMER: ${{ inputs.sleep_timer || '1' }}
+      run: |
+        echo "Starting cache update with sleep timer: $SLEEP_TIMER seconds"
+        
+        # Run the cache update script
+        ./scripts/update_cache.sh
+        
+    - name: Display cache update results
+      if: steps.check_cache.outputs.cache_update_needed == 'true'
+      run: |
+        echo "=== Cache Update Results ==="
+        if [[ -f "outputs/cache/location_cache.csv" ]]; then
+          echo "Final cache entries: $(tail -n +2 outputs/cache/location_cache.csv | wc -l)"
+          echo "Cache file size: $(du -h outputs/cache/location_cache.csv)"
+          echo ""
+          echo "Sample cache entries:"
+          head -5 outputs/cache/location_cache.csv
+        fi
+        
+    - name: Commit and push cache updates
+      if: steps.check_cache.outputs.cache_update_needed == 'true'
+      run: |
+        # Check if there are changes to commit
+        if git diff --quiet outputs/cache/location_cache.csv; then
+          echo "No changes to cache file"
+        else
+          echo "Committing cache updates..."
+          git add outputs/cache/location_cache.csv
+          
+          # Create commit message with cache statistics
+          cache_entries=$(tail -n +2 outputs/cache/location_cache.csv | wc -l)
+          git commit -m "chore: update location cache
+          
+          - Updated postal code cache
+          - Cache entries: $cache_entries
+          - Sleep timer: ${{ inputs.sleep_timer || '1' }}s
+          - Updated: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+          
+          [skip ci]"
+          
+          git push
+          echo "✅ Cache updates committed and pushed"
+        fi
+        
+    - name: Cache update summary
+      run: |
+        echo "=== Cache Update Workflow Summary ==="
+        echo "Sleep timer used: ${{ inputs.sleep_timer || '1' }} seconds"
+        echo "Force update: ${{ inputs.force_update }}"
+        echo "Update needed: ${{ steps.check_cache.outputs.cache_update_needed }}"
+        
+        if [[ -f "outputs/cache/location_cache.csv" ]]; then
+          final_entries=$(tail -n +2 outputs/cache/location_cache.csv | wc -l)
+          echo "Final cache entries: $final_entries"
+          
+          if [[ $final_entries -gt 0 ]]; then
+            echo "✅ Cache update workflow completed successfully"
+          else
+            echo "⚠️  Cache file exists but has no entries"
+          fi
+        else
+          echo "❌ No cache file found after update"
+        fi
