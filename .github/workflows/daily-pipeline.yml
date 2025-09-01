@@ -1,0 +1,228 @@
+name: Daily LMIA Pipeline
+
+on:
+  # Run automatically every day at 05:00 UTC
+  schedule:
+    - cron: '0 5 * * *'
+  # Allow manual runs from the GitHub Actions tab
+  workflow_dispatch:
+    inputs:
+      language:
+        description: 'Language to process (en/fr)'
+        required: false
+        default: 'en'
+        type: choice
+        options:
+          - en
+          - fr
+      sleep_timer:
+        description: 'Sleep timer between geocoding API calls (seconds)'
+        required: false
+        default: '1'
+        type: string
+      force_cache_update:
+        description: 'Force cache update regardless of missing postal codes'
+        required: false
+        default: false
+        type: boolean
+      debug_mode:
+        description: 'Enable debug mode for all steps'
+        required: false
+        default: false
+        type: boolean
+
+# Add explicit permissions for the workflow
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  # Step 1: Collect raw data
+  collect-data:
+    name: 🔄 Collect Raw Data
+    uses: ./.github/workflows/collect-data.yml
+    with:
+      language: ${{ inputs.language || 'en' }}
+      debug_mode: ${{ inputs.debug_mode == 'true' }}
+
+  # Step 2: Post-process data (add geocoding)
+  postprocess-data:
+    name: 📍 Add Geocoding
+    needs: collect-data
+    uses: ./.github/workflows/postprocess-data.yml
+    with:
+      sleep_timer: ${{ inputs.sleep_timer || '1' }}
+      debug_mode: ${{ inputs.debug_mode == 'true' }}
+
+  # Step 3: Update cache if needed
+  update-cache:
+    name: 🗂️ Update Address Cache
+    needs: [collect-data, postprocess-data]
+    if: |
+      (needs.postprocess-data.outputs.cache_updated != 'true' && needs.collect-data.outputs.new_files_found == 'true') ||
+      inputs.force_cache_update == 'true'
+    uses: ./.github/workflows/update-cache.yml
+    with:
+      sleep_timer: ${{ inputs.sleep_timer || '1' }}
+      force_update: true
+
+  # Step 4: Generate final statistics and deploy
+  finalize:
+    name: 📊 Finalize & Deploy
+    needs: [collect-data, postprocess-data, update-cache]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Pull latest changes
+        run: |
+          git pull origin ${{ github.ref_name }}
+
+      - name: Generate final statistics
+        run: |
+          echo "=== Final Pipeline Statistics ==="
+          
+          # Collection statistics
+          echo "📥 Collection Results:"
+          if [[ "${{ needs.collect-data.outputs.new_files_found }}" == "true" ]]; then
+            echo "  ✅ New files collected: ${{ needs.collect-data.outputs.files_processed }}"
+            unprocessed_count=$(find outputs/csv/unprocessed/ -name "*.csv" 2>/dev/null | wc -l)
+            echo "  📁 Total unprocessed files: ${unprocessed_count}"
+          else
+            echo "  ℹ️ No new files found"
+          fi
+          
+          # Post-processing statistics
+          echo ""
+          echo "🔄 Post-Processing Results:"
+          if [[ "${{ needs.postprocess-data.outputs.files_processed }}" != "" ]]; then
+            echo "  ✅ Files processed: ${{ needs.postprocess-data.outputs.files_processed }}"
+            processed_count=$(find outputs/csv/processed/ -name "*.csv" 2>/dev/null | wc -l)
+            echo "  📁 Total processed files: ${processed_count}"
+          else
+            echo "  ℹ️ No files post-processed"
+          fi
+          
+          # Cache statistics
+          echo ""
+          echo "🗂️ Cache Results:"
+          if [[ "${{ needs.postprocess-data.outputs.cache_updated }}" == "true" ]]; then
+            echo "  ✅ Cache updated during post-processing"
+          elif [[ "${{ needs.update-cache.result }}" == "success" ]]; then
+            echo "  ✅ Cache updated in separate step"
+          else
+            echo "  📍 Cache used existing data"
+          fi
+          
+          if [[ -f "outputs/cache/location_cache.csv" ]]; then
+            cache_entries=$(tail -n +2 outputs/cache/location_cache.csv | wc -l)
+            cache_size=$(du -h outputs/cache/location_cache.csv | cut -f1)
+            echo "  📊 Current cache: ${cache_entries} postal codes (${cache_size})"
+          fi
+          
+          # Generate comprehensive statistics
+          if [[ -f "./scripts/generate_cache_stats.sh" ]]; then
+            chmod +x ./scripts/generate_cache_stats.sh
+            ./scripts/generate_cache_stats.sh
+          fi
+
+      - name: Create pipeline summary
+        run: |
+          # Create a summary file for the web interface
+          cat > outputs/pipeline_summary.json << EOF
+          {
+            "last_run": {
+              "timestamp": "$(date -u +"%Y-%m-%d %H:%M:%S UTC")",
+              "workflow_id": "${{ github.run_id }}",
+              "commit": "${{ github.sha }}",
+              "branch": "${{ github.ref_name }}"
+            },
+            "results": {
+              "collection": {
+                "new_files_found": ${{ needs.collect-data.outputs.new_files_found || false }},
+                "files_processed": ${{ needs.collect-data.outputs.files_processed || 0 }}
+              },
+              "postprocessing": {
+                "files_processed": ${{ needs.postprocess-data.outputs.files_processed || 0 }},
+                "cache_updated": ${{ needs.postprocess-data.outputs.cache_updated || false }}
+              },
+              "cache_update": {
+                "triggered": ${{ (needs.update-cache.result == 'success') || false }},
+                "forced": ${{ inputs.force_cache_update || false }}
+              }
+            },
+            "settings": {
+              "language": "${{ inputs.language || 'en' }}",
+              "sleep_timer": "${{ inputs.sleep_timer || '1' }}",
+              "debug_mode": ${{ inputs.debug_mode || false }}
+            }
+          }
+          EOF
+
+      - name: Commit final results
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          
+          # Add all output files
+          git add outputs/ || true
+          
+          # Check if there are any changes to commit
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            # Create comprehensive commit message
+            collection_status="${{ needs.collect-data.outputs.new_files_found }}"
+            processing_count="${{ needs.postprocess-data.outputs.files_processed }}"
+            cache_status="${{ needs.postprocess-data.outputs.cache_updated }}"
+            
+            if [[ "$collection_status" == "true" ]]; then
+              collection_msg="✅ Collected ${{ needs.collect-data.outputs.files_processed }} new files"
+            else
+              collection_msg="ℹ️ No new files found"
+            fi
+            
+            if [[ "$processing_count" != "" && "$processing_count" != "0" ]]; then
+              processing_msg="✅ Post-processed ${processing_count} files with geocoding"
+            else
+              processing_msg="ℹ️ No files required post-processing"
+            fi
+            
+            if [[ "$cache_status" == "true" ]]; then
+              cache_msg="🗂️ Address cache updated with new postal codes"
+            else
+              cache_msg="📍 Used existing cached postal codes"
+            fi
+            
+            git commit -m "chore: daily LMIA pipeline run complete
+
+            Daily Pipeline Results (${{ inputs.language || 'en' }}):
+            - ${collection_msg}
+            - ${processing_msg}
+            - ${cache_msg}
+            
+            Pipeline ID: ${{ github.run_id }}
+            Language: ${{ inputs.language || 'en' }}
+            Sleep timer: ${{ inputs.sleep_timer || '1' }}s
+            Debug mode: ${{ inputs.debug_mode || false }}
+            
+            [daily-pipeline]"
+            
+            git push
+          fi
+
+      - name: Display final summary
+        if: ${{ inputs.debug_mode == 'true' }}
+        run: |
+          echo "🎉 Daily LMIA Pipeline Complete!"
+          echo ""
+          echo "📊 Final Statistics:"
+          if [[ -f "outputs/pipeline_summary.json" ]]; then
+            cat outputs/pipeline_summary.json | jq '.'
+          fi
+          echo ""
+          echo "🔗 Pipeline URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"

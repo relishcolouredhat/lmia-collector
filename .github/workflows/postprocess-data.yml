@@ -1,0 +1,232 @@
+name: Post-Process LMIA Data
+
+on:
+  # Allow manual runs from the GitHub Actions tab
+  workflow_dispatch:
+    inputs:
+      sleep_timer:
+        description: 'Sleep timer between geocoding API calls (seconds)'
+        required: false
+        default: '1'
+        type: string
+      force_processing:
+        description: 'Force processing even if processed files exist'
+        required: false
+        default: false
+        type: boolean
+      debug_mode:
+        description: 'Enable debug mode'
+        required: false
+        default: false
+        type: boolean
+  # Allow triggering from other workflows
+  workflow_call:
+    inputs:
+      sleep_timer:
+        description: 'Sleep timer between geocoding API calls (seconds)'
+        required: false
+        default: '1'
+        type: string
+      force_processing:
+        description: 'Force processing even if processed files exist'
+        required: false
+        default: false
+        type: boolean
+      debug_mode:
+        description: 'Enable debug mode'
+        required: false
+        default: false
+        type: boolean
+    outputs:
+      cache_updated:
+        description: "Whether the cache was updated during processing"
+        value: ${{ jobs.postprocess.outputs.cache_updated }}
+      files_processed:
+        description: "Number of files post-processed"
+        value: ${{ jobs.postprocess.outputs.files_processed }}
+
+# Add explicit permissions for the workflow
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  postprocess:
+    runs-on: ubuntu-latest
+    outputs:
+      cache_updated: ${{ steps.process.outputs.cache_updated }}
+      files_processed: ${{ steps.process.outputs.files_processed }}
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          # Install required tools
+          sudo apt-get update
+          sudo apt-get install -y jq curl
+
+      - name: Debug information
+        if: ${{ inputs.debug_mode == 'true' }}
+        run: |
+          echo "Debug mode enabled"
+          echo "Sleep timer: ${{ inputs.sleep_timer || '1' }} seconds"
+          echo "Force processing: ${{ inputs.force_processing }}"
+          echo "Repository: ${{ github.repository }}"
+
+      - name: Check for unprocessed files
+        id: check_files
+        run: |
+          echo "=== Checking for unprocessed files ==="
+          unprocessed_count=$(find outputs/csv/unprocessed/ -name "*.csv" 2>/dev/null | wc -l)
+          processed_count=$(find outputs/csv/processed/ -name "*.csv" 2>/dev/null | wc -l)
+          
+          echo "Unprocessed files: ${unprocessed_count}"
+          echo "Processed files: ${processed_count}"
+          echo "Force processing: ${{ inputs.force_processing }}"
+          
+          if [[ "${unprocessed_count}" -gt 0 ]] || [[ "${{ inputs.force_processing }}" == "true" ]]; then
+            echo "needs_processing=true" >> $GITHUB_OUTPUT
+            echo "unprocessed_count=${unprocessed_count}" >> $GITHUB_OUTPUT
+          else
+            echo "needs_processing=false" >> $GITHUB_OUTPUT
+            echo "unprocessed_count=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Post-process LMIA data
+        id: process
+        if: steps.check_files.outputs.needs_processing == 'true'
+        run: |
+          echo "=== Starting Post-Processing ==="
+          
+          # Create processed directories
+          mkdir -p outputs/csv/processed/{employer_format,quarterly_format}
+          
+          # Initialize counters
+          files_processed=0
+          cache_updated=false
+          initial_cache_size=0
+          
+          # Get initial cache size
+          if [[ -f "outputs/cache/location_cache.csv" ]]; then
+            initial_cache_size=$(tail -n +2 outputs/cache/location_cache.csv | wc -l)
+          fi
+          echo "Initial cache size: ${initial_cache_size} postal codes"
+          
+          # Process each unprocessed file
+          for unprocessed_file in outputs/csv/unprocessed/employer_format/*.csv outputs/csv/unprocessed/quarterly_format/*.csv; do
+            if [[ -f "$unprocessed_file" ]]; then
+              echo "Processing: $(basename "$unprocessed_file")"
+              
+              # Determine target directory
+              if [[ "$unprocessed_file" == *"/employer_format/"* ]]; then
+                target_dir="outputs/csv/processed/employer_format"
+                format_type="employer"
+              else
+                target_dir="outputs/csv/processed/quarterly_format"
+                format_type="quarterly"
+              fi
+              
+              target_file="${target_dir}/$(basename "$unprocessed_file")"
+              
+              # Skip if already processed (unless forced)
+              if [[ -f "$target_file" ]] && [[ "${{ inputs.force_processing }}" != "true" ]]; then
+                echo "  -> Already processed, skipping"
+                continue
+              fi
+              
+              # Copy file to processed directory
+              cp "$unprocessed_file" "$target_file"
+              
+              # Add postal code columns based on format
+              if [[ "$format_type" == "employer" ]]; then
+                echo "  -> Adding postal codes (employer format)..."
+                bash ./scripts/add_postal_codes_employer.sh "$target_file" "${{ inputs.sleep_timer || '1' }}"
+              else
+                echo "  -> Adding postal codes (quarterly format)..."
+                bash ./scripts/add_postal_codes_quarterly.sh "$target_file" "${{ inputs.sleep_timer || '1' }}"
+              fi
+              
+              files_processed=$((files_processed + 1))
+              echo "  -> ✅ Processed: $(basename "$target_file")"
+            fi
+          done
+          
+          # Check if cache was updated
+          if [[ -f "outputs/cache/location_cache.csv" ]]; then
+            final_cache_size=$(tail -n +2 outputs/cache/location_cache.csv | wc -l)
+            if [[ "$final_cache_size" -gt "$initial_cache_size" ]]; then
+              cache_updated=true
+              echo "Cache updated: ${initial_cache_size} -> ${final_cache_size} postal codes"
+            fi
+          fi
+          
+          # Generate cache statistics
+          if [[ -f "./scripts/generate_cache_stats.sh" ]]; then
+            chmod +x ./scripts/generate_cache_stats.sh
+            ./scripts/generate_cache_stats.sh
+          fi
+          
+          # Set outputs
+          echo "files_processed=${files_processed}" >> $GITHUB_OUTPUT
+          echo "cache_updated=${cache_updated}" >> $GITHUB_OUTPUT
+          
+          echo "=== Post-Processing Complete ==="
+          echo "Files processed: ${files_processed}"
+          echo "Cache updated: ${cache_updated}"
+
+      - name: Show processing results
+        if: ${{ inputs.debug_mode == 'true' }}
+        run: |
+          echo "Post-Processing Results:"
+          echo "Files processed: ${{ steps.process.outputs.files_processed }}"
+          echo "Cache updated: ${{ steps.process.outputs.cache_updated }}"
+          echo ""
+          echo "Processed files:"
+          find outputs/csv/processed/ -name "*.csv" | head -10
+          echo ""
+          if [[ -f "outputs/cache/location_cache.csv" ]]; then
+            echo "Cache status:"
+            echo "  Postal codes: $(tail -n +2 outputs/cache/location_cache.csv | wc -l)"
+            echo "  File size: $(du -h outputs/cache/location_cache.csv | cut -f1)"
+          fi
+
+      - name: Commit processed data
+        if: steps.process.outputs.files_processed > 0
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          
+          # Add processed files and cache updates
+          git add outputs/csv/processed/ outputs/cache/ outputs/cache_statistics.json
+          
+          # Create commit message
+          files_count="${{ steps.process.outputs.files_processed }}"
+          cache_status="${{ steps.process.outputs.cache_updated }}"
+          
+          if [[ "$cache_status" == "true" ]]; then
+            cache_msg="✅ Cache updated with new postal codes"
+          else
+            cache_msg="📍 Used existing cached postal codes"
+          fi
+          
+          git commit -m "feat: post-process ${files_count} LMIA files with geocoding
+
+          Post-processing results:
+          - Files processed: ${files_count}
+          - Format: CSV with postal codes and coordinates
+          - Location: outputs/csv/processed/
+          - ${cache_msg}
+          - Sleep timer: ${{ inputs.sleep_timer || '1' }}s between API calls
+          
+          Files now include: Employer,Address,Positions,Postal Code,Latitude,Longitude
+          
+          [post-processing]" || echo "No changes to commit"
+          
+          git push

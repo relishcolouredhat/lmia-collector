@@ -1,5 +1,11 @@
 # LMIA Data Collector
 
+[![Daily Pipeline](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/daily-pipeline.yml/badge.svg)](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/daily-pipeline.yml)
+[![Data Collection](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/collect-data.yml/badge.svg)](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/collect-data.yml)
+[![Post-Processing](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/postprocess-data.yml/badge.svg)](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/postprocess-data.yml)
+[![Cache Update](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/update-cache.yml/badge.svg)](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/update-cache.yml)
+[![Deploy Pages](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/relishcolouredhat/lmia-collector/actions/workflows/deploy-pages.yml)
+
 ## 🎯 **What This Repository Does**
 
 This repository automatically collects, processes, and presents Labour Market Impact Assessment (LMIA) data from the Government of Canada's Open Data Portal. Here's how it works:
@@ -69,18 +75,39 @@ All data originates from the [Government of Canada Open Data Portal](https://ope
 
 ## 📈 **Data Processing Pipeline**
 
-1. **Daily Check**: GitHub Actions workflow runs automatically
-2. **Feed Monitoring**: Checks both positive and negative LMIA feeds
-3. **Language Filtering**: Processes only specified language (en/fr)
-4. **Format Detection**: Automatically identifies data format type
-5. **Data Download**: Downloads new files from government sources
-6. **Format Conversion**: Converts Excel to CSV if needed
-7. **Data Cleaning**: Removes administrative notes and footers
-8. **Postal Code Extraction**: Extracts postal codes using regex patterns
-9. **Geocoding**: Retrieves coordinates from OpenStreetMap service
-10. **Organization**: Places files in appropriate format directories
-11. **Endpoint Generation**: Creates JSON endpoints for API access
-12. **Web Update**: Updates web interface with new data
+### **🔄 Daily Automated Pipeline**
+The system uses a **multi-stage GitHub Actions pipeline** that runs daily at 05:00 UTC:
+
+1. **🔍 Data Collection** (`collect-data.yml`)
+   - Monitors Government of Canada LMIA feeds for new reports
+   - Downloads and converts Excel files to raw CSV format
+   - Saves unprocessed files to `outputs/csv/unprocessed/`
+   - Language filtering (English/French)
+
+2. **📍 Post-Processing** (`postprocess-data.yml`)
+   - Adds postal code extraction and geocoding to raw CSV files
+   - Queries OpenStreetMap Nominatim API for coordinates
+   - Uses intelligent caching to minimize API calls
+   - Saves processed files to `outputs/csv/processed/`
+
+3. **🗂️ Cache Management** (`update-cache.yml`)
+   - **Conditional Trigger**: Only runs when postal codes are missing
+   - Updates address cache with new postal code mappings
+   - Generates cache statistics for web interface
+   - Maintains one entry per unique postal code
+
+4. **📊 Finalization** (`daily-pipeline.yml`)
+   - Orchestrates the entire pipeline
+   - Generates comprehensive statistics
+   - Creates deployment-ready outputs
+   - Commits results with detailed metadata
+
+### **🛠️ Manual Control**
+Each workflow can be **manually triggered** with configurable parameters:
+- **Language Selection**: English (`en`) or French (`fr`)
+- **Rate Limiting**: Configurable sleep timer between API calls
+- **Debug Mode**: Enhanced logging for troubleshooting
+- **Force Options**: Override normal conditional logic
 
 ## 🌍 **Geocoding Implementation**
 

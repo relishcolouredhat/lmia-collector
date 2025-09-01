@@ -1,0 +1,136 @@
+name: Collect LMIA Data
+
+on:
+  # Allow manual runs from the GitHub Actions tab
+  workflow_dispatch:
+    inputs:
+      language:
+        description: 'Language to process (en/fr)'
+        required: false
+        default: 'en'
+        type: choice
+        options:
+          - en
+          - fr
+      debug_mode:
+        description: 'Enable debug mode for manual runs'
+        required: false
+        default: false
+        type: boolean
+  # Allow triggering from other workflows
+  workflow_call:
+    inputs:
+      language:
+        description: 'Language to process (en/fr)'
+        required: false
+        default: 'en'
+        type: string
+      debug_mode:
+        description: 'Enable debug mode'
+        required: false
+        default: false
+        type: boolean
+    outputs:
+      new_files_found:
+        description: "Whether new files were found and processed"
+        value: ${{ jobs.collect.outputs.new_files_found }}
+      files_processed:
+        description: "Number of files processed"  
+        value: ${{ jobs.collect.outputs.files_processed }}
+
+# Add explicit permissions for the workflow
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    outputs:
+      new_files_found: ${{ steps.process.outputs.new_files_found }}
+      files_processed: ${{ steps.process.outputs.files_processed }}
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          # Install required tools
+          sudo apt-get update
+          sudo apt-get install -y jq curl
+
+      - name: Debug information
+        if: ${{ inputs.debug_mode == 'true' }}
+        run: |
+          echo "Debug mode enabled"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Language: ${{ inputs.language || 'en' }}"
+
+      - name: Collect raw LMIA data
+        id: process
+        run: |
+          # Create the directory for the script if it doesn't exist
+          mkdir -p scripts
+          # Collect raw CSV files without postal code processing
+          LANGUAGE="${{ inputs.language || 'en' }}" bash ./scripts/process_feeds.sh
+          
+          # Check if any new files were created
+          if find outputs/csv/unprocessed/ -name "*.csv" -newer /tmp/workflow_start 2>/dev/null | grep -q .; then
+            echo "new_files_found=true" >> $GITHUB_OUTPUT
+            files_count=$(find outputs/csv/unprocessed/ -name "*.csv" | wc -l)
+            echo "files_processed=${files_count}" >> $GITHUB_OUTPUT
+          else
+            echo "new_files_found=false" >> $GITHUB_OUTPUT
+            echo "files_processed=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Show collection results
+        if: ${{ inputs.debug_mode == 'true' }}
+        run: |
+          echo "Collection Results:"
+          echo "New files found: ${{ steps.process.outputs.new_files_found }}"
+          echo "Files processed: ${{ steps.process.outputs.files_processed }}"
+          echo ""
+          echo "Unprocessed files:"
+          find outputs/csv/unprocessed/ -name "*.csv" | head -10
+          echo ""
+          echo "Sample content:"
+          if find outputs/csv/unprocessed/ -name "*.csv" | head -1 | xargs head -3 2>/dev/null; then
+            echo "Files contain data"
+          else
+            echo "No files found or files empty"
+          fi
+
+      - name: Commit raw data
+        if: steps.process.outputs.new_files_found == 'true'
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          
+          # Add only unprocessed files
+          git add outputs/csv/unprocessed/
+          
+          # Create commit message with file count
+          files_count="${{ steps.process.outputs.files_processed }}"
+          git commit -m "data: collect ${files_count} new LMIA files
+
+          Raw data collection from Government of Canada feeds:
+          - Language: ${{ inputs.language || 'en' }}  
+          - Files collected: ${files_count}
+          - Format: Unprocessed CSV (Employer,Address,Positions)
+          - Location: outputs/csv/unprocessed/
+          
+          Next step: Post-processing to add geocoding data
+          
+          [data-collection]" || echo "No changes to commit"
+          
+          git push
