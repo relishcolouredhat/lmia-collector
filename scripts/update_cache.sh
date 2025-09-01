@@ -5,11 +5,19 @@
 
 set -e
 
+# Load central geocoding library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/lib/geocoding.sh"
+
 # Configuration
 CACHE_DIR="./outputs/cache"
 LOCATION_CACHE_FILE="$CACHE_DIR/location_cache.csv"
 CSV_DIR="./outputs/csv/unprocessed"
 SLEEP_TIMER="${SLEEP_TIMER:-1}"  # Default 1 second, configurable via environment
+
+# Configure geocoding library
+export GEOCODING_SLEEP_TIMER="$SLEEP_TIMER"
+export GEOCODING_CACHE_FILE="$LOCATION_CACHE_FILE"
 
 echo "=== LMIA Location Cache Update ==="
 echo "Started at: $(date)"
@@ -19,16 +27,11 @@ echo "  Cache file: $LOCATION_CACHE_FILE"
 echo "  CSV directory: $CSV_DIR"
 echo ""
 
-# Ensure cache directory exists
-mkdir -p "$CACHE_DIR"
+# Initialize geocoding cache
+initialize_geocoding_cache
 
-# Initialize cache if it doesn't exist
-if [[ ! -f "$LOCATION_CACHE_FILE" ]]; then
-    echo "📄 Creating new cache file..."
-    echo "Postal Code;Latitude;Longitude;Sample Address;Sample Employer" > "$LOCATION_CACHE_FILE"
-    echo "✓ Created new cache file: $LOCATION_CACHE_FILE"
-else
-    initial_cache_size=$(tail -n +2 "$LOCATION_CACHE_FILE" | wc -l)
+initial_cache_size=$(tail -n +2 "$LOCATION_CACHE_FILE" | wc -l)
+if [[ $initial_cache_size -gt 0 ]]; then
     echo "📄 Using existing cache file"
     echo "   Current cache size: $initial_cache_size postal codes"
     echo "   Last updated: $(stat -c %y "$LOCATION_CACHE_FILE" 2>/dev/null | cut -d'.' -f1 || echo "unknown")"
@@ -46,66 +49,9 @@ CACHE_HITS=0
 API_CALLS=0
 FAILED_LOOKUPS=0
 
-# Function to get coordinates for a postal code using OpenStreetMap Nominatim
+# Wrapper function for backward compatibility - delegates to central geocoding library
 get_postal_code_coordinates() {
-    local postal_code="$1"
-    
-    if [[ -z "$postal_code" ]]; then
-        echo ","
-        return
-    fi
-    
-    # Check cache first - postal code is now the first column
-    local cached_coords=$(grep "^$postal_code;" "$LOCATION_CACHE_FILE" 2>/dev/null | head -1 | cut -d';' -f2,3 | tr ';' ',')
-    
-    if [[ -n "$cached_coords" && "$cached_coords" != "," ]]; then
-        CACHE_HITS=$((CACHE_HITS + 1))
-        echo "  ✓ Cache hit: $postal_code" >&2
-        echo "$cached_coords"
-        return
-    fi
-    
-    # Not in cache, try multiple geocoding sources
-    API_CALLS=$((API_CALLS + 1))
-    echo "  → Looking up postal code: $postal_code (API call #$API_CALLS)" >&2
-    
-    # Try Nominatim first (OpenStreetMap) - 1 second rate limit
-    echo "    → Trying Nominatim (OpenStreetMap)..." >&2
-    local coordinates=$(curl -s "https://nominatim.openstreetmap.org/search?postalcode=${postal_code}&country=CA&format=json&limit=1" | jq -r '.[0] | "\(.lat),\(.lon)"' 2>/dev/null || echo ",")
-    local source="Nominatim"
-    
-    # If Nominatim failed, try geocoder.ca as fallback
-    if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]]; then
-        echo "    → Nominatim failed, trying geocoder.ca..." >&2
-        sleep 0.5  # geocoder.ca rate limit: max 2 requests/second, so 0.5s between requests
-        
-        # geocoder.ca API format: http://geocoder.ca/?postal=POSTALCODE&geoit=xml
-        local geocoder_response=$(curl -s "http://geocoder.ca/?postal=${postal_code}&geoit=xml" 2>/dev/null || echo "")
-        
-        if [[ -n "$geocoder_response" && "$geocoder_response" != *"error"* ]]; then
-            # Extract lat/lon from XML response
-            local lat=$(echo "$geocoder_response" | grep -o '<latt>[^<]*</latt>' | sed 's/<[^>]*>//g' 2>/dev/null || echo "")
-            local lon=$(echo "$geocoder_response" | grep -o '<longt>[^<]*</longt>' | sed 's/<[^>]*>//g' 2>/dev/null || echo "")
-            
-            if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" ]]; then
-                coordinates="$lat,$lon"
-                source="geocoder.ca"
-            fi
-        fi
-    fi
-    
-    # Check final result
-    if [[ "$coordinates" == "null,null" || "$coordinates" == "," || -z "$coordinates" ]]; then
-        FAILED_LOOKUPS=$((FAILED_LOOKUPS + 1))
-        echo "    ❌ No coordinates found for $postal_code (tried both sources)" >&2
-        echo ","
-    else
-        echo "    ✅ Found coordinates: $coordinates (source: $source)" >&2
-        echo "$coordinates"
-    fi
-    
-    # Rate limiting
-    sleep "$SLEEP_TIMER"
+    get_coordinates_for_postal_code "$1"
 }
 
 # Function to parse CSV line with proper handling of quoted fields
@@ -134,7 +80,7 @@ parse_csv_line() {
     fi
 }
 
-# Function to cache postal code location data (one entry per postal code)
+# Wrapper function for backward compatibility - delegates to central geocoding library
 cache_postal_code_location() {
     local address="$1"
     local postal_code="$2"
@@ -142,20 +88,7 @@ cache_postal_code_location() {
     local longitude="$4"
     local employer="$5"
     
-    # Skip if essential data is missing
-    if [[ -z "$postal_code" || -z "$latitude" || -z "$longitude" ]]; then
-        return
-    fi
-    
-    # Clean fields for CSV (normalize whitespace, escape problematic characters)
-    address=$(echo "$address" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//' | sed 's/"/""/g')
-    employer=$(echo "$employer" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//' | sed 's/"/""/g')
-    
-    # Check if this postal code already exists in cache
-    if ! grep -q "^$postal_code;" "$LOCATION_CACHE_FILE" 2>/dev/null; then
-        echo "$postal_code;$latitude;$longitude;$address;$employer" >> "$LOCATION_CACHE_FILE"
-        echo "    ✓ Cached postal code: $postal_code ($latitude,$longitude) [$employer]" >&2
-    fi
+    add_to_cache "$postal_code" "$latitude,$longitude" "$address" "$employer"
 }
 
 # Main processing function

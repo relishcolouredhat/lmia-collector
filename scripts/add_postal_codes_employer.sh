@@ -3,9 +3,17 @@
 # Add postal codes and coordinates to employer format CSV files
 set -e
 
+# Load central geocoding library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/lib/geocoding.sh"
+
 FILE="$1"
 SLEEP_TIMER="${2:-1}"
 CACHE_FILE="./outputs/cache/location_cache.csv"
+
+# Configure geocoding library
+export GEOCODING_SLEEP_TIMER="$SLEEP_TIMER"
+export GEOCODING_CACHE_FILE="$CACHE_FILE"
 
 if [[ ! -f "$FILE" ]]; then
     echo "Error: File not found: $FILE"
@@ -22,75 +30,17 @@ extract_postal_code() {
 }
 
 # Function to get coordinates from cache or API
+# Wrapper function that delegates to central geocoding library and handles caching
 get_postal_code_coordinates() {
     local postal_code="$1"
+    local coordinates=$(get_coordinates_for_postal_code "$postal_code")
     
-    if [[ -z "$postal_code" ]]; then
-        echo ","
-        return
+    # If coordinates found and not cached, add to cache with "Unknown" placeholder data
+    if [[ "$coordinates" != "," && -n "$coordinates" ]]; then
+        add_to_cache "$postal_code" "$coordinates" "Unknown" "Unknown"
     fi
     
-    # Check cache first - normalize postal code format (remove spaces for lookup)
-    local normalized_pc=$(echo "$postal_code" | tr -d ' ')
-    if [[ -f "$CACHE_FILE" ]]; then
-        local cached_coords=$(grep "^$normalized_pc;" "$CACHE_FILE" 2>/dev/null | head -1 | cut -d';' -f2,3 | tr ';' ',')
-        if [[ -n "$cached_coords" && "$cached_coords" != "," ]]; then
-            echo "  ✓ Cache hit: $postal_code" >&2
-            echo "$cached_coords"
-            return
-        fi
-    fi
-    
-    # Not in cache, try multiple geocoding sources (API requires postal code without spaces)
-    echo "  → Looking up postal code: $postal_code" >&2
-    
-    # Try Nominatim first (OpenStreetMap)
-    echo "    → Trying Nominatim (OpenStreetMap)..." >&2
-    local coordinates=$(curl -s "https://nominatim.openstreetmap.org/search?postalcode=${normalized_pc}&country=CA&format=json&limit=1" | jq -r '.[0] | "\(.lat),\(.lon)"' 2>/dev/null || echo ",")
-    local source="Nominatim"
-    
-    # If Nominatim failed, try geocoder.ca as fallback
-    if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]]; then
-        echo "    → Nominatim failed, trying geocoder.ca..." >&2
-        sleep 0.5  # geocoder.ca rate limit: max 2 requests/second
-        
-        # geocoder.ca API format: http://geocoder.ca/?postal=POSTALCODE&geoit=xml
-        local geocoder_response=$(curl -s "http://geocoder.ca/?postal=${normalized_pc}&geoit=xml" 2>/dev/null || echo "")
-        
-        if [[ -n "$geocoder_response" && "$geocoder_response" != *"error"* ]]; then
-            # Extract lat/lon from XML response
-            local lat=$(echo "$geocoder_response" | grep -o '<latt>[^<]*</latt>' | sed 's/<[^>]*>//g' 2>/dev/null || echo "")
-            local lon=$(echo "$geocoder_response" | grep -o '<longt>[^<]*</longt>' | sed 's/<[^>]*>//g' 2>/dev/null || echo "")
-            
-            if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" ]]; then
-                coordinates="$lat,$lon"
-                source="geocoder.ca"
-            fi
-        fi
-    fi
-    
-    # Check final result and add source information
-    if [[ "$coordinates" == "null,null" || "$coordinates" == "," || -z "$coordinates" ]]; then
-        echo "    ❌ No coordinates found for $postal_code (tried both sources)" >&2
-        echo ","
-    else
-        echo "    ✅ Found coordinates: $coordinates (source: $source)" >&2
-        echo "$coordinates"
-        # Cache the result if we have valid coordinates
-        if [[ -f "$CACHE_FILE" ]] && [[ "$coordinates" != "," ]]; then
-            local lat=$(echo "$coordinates" | cut -d',' -f1)
-            local lon=$(echo "$coordinates" | cut -d',' -f2)
-            if [[ -n "$lat" && -n "$lon" ]]; then
-                # Add to cache if not already present (normalize format)
-                if ! grep -q "^$normalized_pc;" "$CACHE_FILE" 2>/dev/null; then
-                    echo "$normalized_pc;$lat;$lon;Unknown;Unknown" >> "$CACHE_FILE"
-                fi
-            fi
-        fi
-    fi
-    
-    # Rate limiting - ONLY for API calls (not cache hits)
-    sleep "$SLEEP_TIMER"
+    echo "$coordinates"
 }
 
 # Create temporary file
