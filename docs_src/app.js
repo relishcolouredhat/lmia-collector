@@ -8,6 +8,7 @@ class LMIADataExplorer {
         this.setupTabSwitching();
         this.loadData();
         this.updateStats();
+        this.updateLastRunInfo();
     }
 
     setupTabSwitching() {
@@ -218,6 +219,49 @@ class LMIADataExplorer {
                     </div>
                 </div>
             `;
+        }
+    }
+
+    async updateLastRunInfo() {
+        try {
+            // Fetch the latest workflow run information
+            const response = await fetch('https://api.github.com/repos/relishcolouredhat/lmia-collector/actions/workflows/process_lmia.yml/runs?per_page=1&status=completed');
+            
+            if (response.ok) {
+                const data = await response.json();
+                
+                if (data.workflow_runs && data.workflow_runs.length > 0) {
+                    const latestRun = data.workflow_runs[0];
+                    const updateTime = new Date(latestRun.updated_at);
+                    const formattedTime = updateTime.toLocaleString('en-CA', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    // Update the timestamp display
+                    const timeElement = document.getElementById('last-update-time');
+                    if (timeElement) {
+                        timeElement.textContent = formattedTime;
+                    }
+                    
+                    // Update the GitHub Actions link to point to the specific run
+                    const linkElement = document.getElementById('gh-action-link');
+                    if (linkElement) {
+                        linkElement.href = latestRun.html_url;
+                        linkElement.textContent = `View Latest Run (${latestRun.conclusion || 'unknown'})`;
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching last run info:', error);
+            // Fallback to static link if API fails
+            const timeElement = document.getElementById('last-update-time');
+            if (timeElement) {
+                timeElement.textContent = 'Unknown';
+            }
         }
     }
 

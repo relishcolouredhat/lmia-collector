@@ -15,6 +15,11 @@
             </div>
             <h1>LMIA Data Explorer</h1>
             <p>Explore Labour Market Impact Assessment data from the Government of Canada</p>
+            <div class="status-badges">
+                <a href="https://github.com/relishcolouredhat/lmia-collector/actions/workflows/process_lmia.yml" target="_blank" class="gh-action-badge">
+                    <img src="https://github.com/relishcolouredhat/lmia-collector/workflows/Process%20LMIA%20Data/badge.svg" alt="GitHub Actions Status">
+                </a>
+            </div>
         </div>
     </header>
 
@@ -141,6 +146,9 @@
 
     <footer>
         <div class="container">
+            <div class="update-info">
+                <p>🔄 <strong>Last Updated:</strong> <span id="last-update-time">Loading...</span> | <a href="https://github.com/relishcolouredhat/lmia-collector/actions/workflows/process_lmia.yml" target="_blank" id="gh-action-link">View Latest Run</a></p>
+            </div>
             <p>Data source: <a href="https://open.canada.ca/" target="_blank">Open Canada</a> | Made with ❤️ by klc</p>
             <p class="license">This repository is open source under the <a href="LICENSE" target="_blank">MIT License</a></p>
             <p class="disclaimer-footer">This tool processes open data from the Government of Canada but is not affiliated with any government entity.</p>

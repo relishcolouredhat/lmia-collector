@@ -48,6 +48,28 @@ header p {
     opacity: 0.9;
 }
 
+/* Status badges */
+.status-badges {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.gh-action-badge {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.gh-action-badge:hover {
+    transform: scale(1.05);
+}
+
+.gh-action-badge img {
+    height: 20px;
+    border-radius: 4px;
+}
+
 /* Disclaimer banner */
 .disclaimer-banner {
     background: #fff3cd;
@@ -384,6 +406,30 @@ footer a:hover {
     font-size: 0.85rem;
     opacity: 0.7;
     font-style: italic;
+}
+
+/* Update info styling */
+.update-info {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+    text-align: center;
+}
+
+.update-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.update-info a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.update-info a:hover {
+    text-decoration: underline;
 }
 
 /* Geocoding attribution styling */
