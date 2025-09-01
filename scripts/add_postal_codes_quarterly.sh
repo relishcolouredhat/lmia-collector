@@ -41,9 +41,9 @@ get_postal_code_coordinates() {
         fi
     fi
     
-    # Not in cache, query Nominatim API
+    # Not in cache, query Nominatim API (API requires postal code without spaces)
     echo "  → Looking up postal code: $postal_code" >&2
-    local coordinates=$(curl -s "https://nominatim.openstreetmap.org/search?postalcode=${postal_code}&country=CA&format=json&limit=1" | jq -r '.[0] | "\(.lat),\(.lon)"' 2>/dev/null || echo ",")
+    local coordinates=$(curl -s "https://nominatim.openstreetmap.org/search?postalcode=${normalized_pc}&country=CA&format=json&limit=1" | jq -r '.[0] | "\(.lat),\(.lon)"' 2>/dev/null || echo ",")
     
     if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]]; then
         echo ","
