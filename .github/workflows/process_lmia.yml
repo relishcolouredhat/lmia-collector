@@ -77,6 +77,16 @@ jobs:
         run: |
           # Run cache update with configurable sleep timer
           SLEEP_TIMER="${{ github.event.inputs.sleep_timer || '1' }}" bash ./scripts/update_cache.sh
+          
+      - name: Generate cache statistics
+        run: |
+          # Always generate cache statistics (even if cache wasn't updated)
+          if [ -f "./scripts/generate_cache_stats.sh" ]; then
+            chmod +x ./scripts/generate_cache_stats.sh
+            ./scripts/generate_cache_stats.sh
+          else
+            echo "Cache statistics generator not found"
+          fi
       - name: Show process outputs
         if: ${{ github.event.inputs.debug_mode == 'true' }}
         run: |

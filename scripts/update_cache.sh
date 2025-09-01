@@ -220,3 +220,12 @@ process_csv_files
 
 echo ""
 echo "✅ Cache update complete!"
+
+# Generate cache statistics for web interface
+echo ""
+echo "=== Generating Cache Statistics ==="
+if [[ -f "./scripts/generate_cache_stats.sh" ]]; then
+    ./scripts/generate_cache_stats.sh
+else
+    echo "⚠️ Cache statistics generator not found"
+fi

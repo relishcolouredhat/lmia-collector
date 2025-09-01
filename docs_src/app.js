@@ -8,6 +8,7 @@ class LMIADataExplorer {
         this.setupTabSwitching();
         this.loadData();
         this.updateStats();
+        this.updateCacheStats();
         this.updateLastRunInfo();
     }
 
@@ -231,6 +232,88 @@ class LMIADataExplorer {
                     </div>
                 </div>
             `;
+        }
+    }
+
+    async updateCacheStats() {
+        try {
+            const response = await fetch('outputs/cache_statistics.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            const cacheStats = data.cache_statistics;
+            
+            // Update main cache stat card
+            const cachePostalCodesElement = document.getElementById('cache-postal-codes');
+            if (cachePostalCodesElement) {
+                cachePostalCodesElement.textContent = cacheStats.total_postal_codes || 0;
+            }
+            
+            // Update detailed cache statistics section
+            const cacheStatsSection = document.getElementById('cache-stats');
+            if (cacheStatsSection && cacheStats.cache_file_exists) {
+                const lastUpdated = new Date(cacheStats.last_updated);
+                const formattedDate = lastUpdated.toLocaleDateString('en-CA', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                cacheStatsSection.innerHTML = `
+                    <div class="stats-detail">
+                        <div class="stat-item">
+                            <span class="stat-label">Unique Postal Codes:</span>
+                            <span class="stat-value">${cacheStats.total_postal_codes.toLocaleString()}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Unique Employers:</span>
+                            <span class="stat-value">${cacheStats.unique_employers.toLocaleString()}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Unique Addresses:</span>
+                            <span class="stat-value">${cacheStats.unique_addresses.toLocaleString()}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Cache File Size:</span>
+                            <span class="stat-value">${cacheStats.file_size}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Last Updated:</span>
+                            <span class="stat-value">${formattedDate}</span>
+                        </div>
+                    </div>
+                `;
+            } else if (cacheStatsSection) {
+                cacheStatsSection.innerHTML = `
+                    <div class="no-data">
+                        <p>Address cache not available or empty</p>
+                        <p>Cache statistics will appear after postal code processing is completed.</p>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            console.error('Error loading cache statistics:', error);
+            
+            // Show error in cache stats section
+            const cacheStatsSection = document.getElementById('cache-stats');
+            if (cacheStatsSection) {
+                cacheStatsSection.innerHTML = `
+                    <div class="error">
+                        <p>Failed to load cache statistics.</p>
+                        <p>Error: ${error.message}</p>
+                    </div>
+                `;
+            }
+            
+            // Set cache card to 0 on error
+            const cachePostalCodesElement = document.getElementById('cache-postal-codes');
+            if (cachePostalCodesElement) {
+                cachePostalCodesElement.textContent = '0';
+            }
         }
     }
 

@@ -104,7 +104,7 @@ jobs:
           echo "No changes to cache file"
         else
           echo "Committing cache updates..."
-          git add outputs/cache/location_cache.csv
+          git add outputs/cache/location_cache.csv outputs/cache_statistics.json
           
           # Create commit message with cache statistics
           cache_entries=$(tail -n +2 outputs/cache/location_cache.csv | wc -l)
