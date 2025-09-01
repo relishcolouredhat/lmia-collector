@@ -81,12 +81,34 @@ process_file_by_format() {
         return 1
     fi
     
-    # Determine file type from URL (since original_filename might not have extension)
-    if [[ "$temp_file" == *.xlsx ]] || [[ "$original_filename" == *".xlsx" ]]; then
+    # Determine file type from URL (since temp_file won't have extension and original_filename might not have extension)
+    if [[ "$file_url" == *.xlsx ]] || [[ "$original_filename" == *".xlsx" ]]; then
         if command -v in2csv >/dev/null 2>&1; then
-            in2csv "$temp_file" | sed '/^Remarques:/,$d' | sed '/^Notes:/,$d' > "$new_target_file"
+            echo "  -> Converting Excel file with in2csv..." >&2
+            # Convert Excel to CSV with error handling (specify format explicitly)
+            if in2csv --format xlsx "$temp_file" | sed '/^Remarques:/,$d' | sed '/^Notes:/,$d' > "$new_target_file" 2>&1; then
+                # Check if conversion was successful (file has content)
+                if [[ -s "$new_target_file" ]]; then
+                    echo "  -> ✅ Excel conversion successful: $(wc -l < "$new_target_file") lines" >&2
+                else
+                    echo "  -> ❌ Excel conversion failed: empty output file" >&2
+                    echo "  -> 🔧 Attempting direct conversion without sed filters..." >&2
+                    # Try without sed filters as fallback
+                    if in2csv --format xlsx "$temp_file" > "$new_target_file" 2>&1 && [[ -s "$new_target_file" ]]; then
+                        echo "  -> ✅ Direct conversion successful: $(wc -l < "$new_target_file") lines" >&2
+                    else
+                        echo "  -> ❌ All Excel conversion attempts failed" >&2
+                        rm -f "$new_target_file"
+                        return 1
+                    fi
+                fi
+            else
+                echo "  -> ❌ in2csv command failed" >&2
+                return 1
+            fi
         else
             # Fallback: copy as-is if in2csv not available
+            echo "  -> ⚠️  in2csv not available, copying Excel file as-is" >&2
             cp "$temp_file" "$new_target_file"
         fi
     else
