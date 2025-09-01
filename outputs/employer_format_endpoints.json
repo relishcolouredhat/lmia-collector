@@ -1,22 +1,45 @@
 {
   "endpoints": [
     {
-      "name": "2016-10-21_positive_employers_en.csv",
-      "url": "outputs/csv/unprocessed/employer_format/2016-10-21_positive_employers_en.csv",
-      "published_date": "2016-10-21",
-      "type": "employer_format"
-    },
+      "name": "2016-10-21_2015_negative_employers_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/employer_format/2016-10-21_2015_negative_employers_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
     {
-      "name": "2016-10-21_2015_positive_employers_en.csv", 
-      "url": "outputs/csv/unprocessed/employer_format/2016-10-21_2015_positive_employers_en.csv",
-      "published_date": "2016-10-21",
-      "type": "employer_format"
-    },
+      "name": "2016-10-21_2015_positive_employers_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/employer_format/2016-10-21_2015_positive_employers_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
     {
-      "name": "2017-08-04_2016_positive_employer_en.csv",
-      "url": "outputs/csv/unprocessed/employer_format/2017-08-04_2016_positive_employer_en.csv", 
-      "published_date": "2017-08-04",
-      "type": "employer_format"
+      "name": "2016-10-21_negative_employers_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/employer_format/2016-10-21_negative_employers_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2016-10-21_positive_employers_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/employer_format/2016-10-21_positive_employers_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2017-08-04_2016_negative_employer_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/employer_format/2017-08-04_2016_negative_employer_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2017-08-04_2016_positive_employer_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/unprocessed/employer_format/2017-08-04_2016_positive_employer_en.csv",
+      "type": "csv",
+      "format": "table"
     }
   ]
 }

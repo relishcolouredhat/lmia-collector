@@ -74,8 +74,29 @@ head -1 "$FILE" | sed 's/$/,Postal Code,Latitude,Longitude/' > "$TEMP_FILE"
 # Quarterly format typically has address in the 4th column
 tail -n +2 "$FILE" | while IFS= read -r line; do
     if [[ -n "$line" ]]; then
-        # Extract address from the line (assuming it's the fourth field in quarterly CSV)
-        address=$(echo "$line" | cut -d',' -f4 | sed 's/"//g')
+        # Extract address using proper CSV parsing - address is in quotes as 4th field
+        # Use awk to properly parse CSV with quoted fields
+        address=$(echo "$line" | awk -F',' '{
+            field_num = 4
+            # If field starts with quote, find the matching end quote
+            if ($field_num ~ /^"/) {
+                result = $field_num
+                for (i = field_num + 1; i <= NF; i++) {
+                    if ($i ~ /"$/) {
+                        result = result "," $i
+                        break
+                    } else {
+                        result = result "," $i
+                    }
+                }
+                # Remove surrounding quotes
+                gsub(/^"|"$/, "", result)
+                print result
+            } else {
+                print $field_num
+            }
+        }')
+        
         postal_code=$(extract_postal_code "$address")
         coordinates=$(get_postal_code_coordinates "$postal_code")
         lat=$(echo "$coordinates" | cut -d',' -f1)

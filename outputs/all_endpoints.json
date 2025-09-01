@@ -1,0 +1,5 @@
+{
+  "employer_format_endpoints": "./outputs/employer_format_endpoints.json",
+  "quarterly_format_endpoints": "./outputs/quarterly_format_endpoints.json",
+  "base_url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/outputs"
+}

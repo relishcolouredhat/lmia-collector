@@ -73,8 +73,28 @@ head -1 "$FILE" | sed 's/$/,Postal Code,Latitude,Longitude/' > "$TEMP_FILE"
 # Process each line to extract postal code and coordinates from address
 tail -n +2 "$FILE" | while IFS= read -r line; do
     if [[ -n "$line" ]]; then
-        # Extract address from the line (assuming it's the second field in CSV)
-        address=$(echo "$line" | cut -d',' -f2 | sed 's/"//g')
+        # Extract address using proper CSV parsing - address is in quotes as 2nd field
+        # Use awk to properly parse CSV with quoted fields
+        address=$(echo "$line" | awk -F',' '{
+            # If field starts with quote, find the matching end quote
+            if ($2 ~ /^"/) {
+                result = $2
+                for (i = 3; i <= NF; i++) {
+                    if ($i ~ /"$/) {
+                        result = result "," $i
+                        break
+                    } else {
+                        result = result "," $i
+                    }
+                }
+                # Remove surrounding quotes
+                gsub(/^"|"$/, "", result)
+                print result
+            } else {
+                print $2
+            }
+        }')
+        
         postal_code=$(extract_postal_code "$address")
         coordinates=$(get_postal_code_coordinates "$postal_code")
         lat=$(echo "$coordinates" | cut -d',' -f1)
