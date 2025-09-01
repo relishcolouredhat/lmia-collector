@@ -20,7 +20,7 @@ mkdir -p "$CACHE_DIR"
 
 # Initialize cache if it doesn't exist
 if [[ ! -f "$LOCATION_CACHE_FILE" ]]; then
-    echo "Employer,Address,Postal Code,Latitude,Longitude" > "$LOCATION_CACHE_FILE"
+    echo "Postal Code,Latitude,Longitude,Sample Address,Sample Employer" > "$LOCATION_CACHE_FILE"
     echo "✓ Created new cache file"
 else
     echo "✓ Using existing cache file"
@@ -42,8 +42,8 @@ get_postal_code_coordinates() {
         return
     fi
     
-    # Check cache first
-    local cached_coords=$(grep ",$postal_code," "$LOCATION_CACHE_FILE" 2>/dev/null | head -1 | cut -d',' -f4,5)
+    # Check cache first - postal code is now the first column
+    local cached_coords=$(grep "^$postal_code," "$LOCATION_CACHE_FILE" 2>/dev/null | head -1 | cut -d',' -f2,3)
     
     if [[ -n "$cached_coords" && "$cached_coords" != "," ]]; then
         echo "$cached_coords"
@@ -91,28 +91,27 @@ parse_csv_line() {
     fi
 }
 
-# Function to cache employer location data
-cache_employer_location() {
-    local employer="$1"
-    local address="$2"
-    local postal_code="$3"
-    local latitude="$4"
-    local longitude="$5"
+# Function to cache postal code location data (one entry per postal code)
+cache_postal_code_location() {
+    local address="$1"
+    local postal_code="$2"
+    local latitude="$3"
+    local longitude="$4"
+    local employer="$5"
     
     # Skip if essential data is missing
-    if [[ -z "$employer" || -z "$postal_code" ]]; then
+    if [[ -z "$postal_code" || -z "$latitude" || -z "$longitude" ]]; then
         return
     fi
     
-    # Clean fields for CSV (escape quotes, remove commas from within fields, normalize whitespace)
-    employer=$(echo "$employer" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//' | sed 's/"/""/g' | sed 's/,/;/g')
-    address=$(echo "$address" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//' | sed 's/"/""/g' | sed 's/,/;/g')
+    # Clean fields for CSV (normalize whitespace, escape problematic characters)
+    address=$(echo "$address" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//' | sed 's/"/""/g')
+    employer=$(echo "$employer" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//' | sed 's/"/""/g')
     
-    # Check if this employer+postal code combination already exists
-    local cache_key="${employer}.*${postal_code}"
-    if ! grep -q "$cache_key" "$LOCATION_CACHE_FILE" 2>/dev/null; then
-        echo "\"$employer\",\"$address\",$postal_code,$latitude,$longitude" >> "$LOCATION_CACHE_FILE"
-        echo "    ✓ Cached: $employer ($postal_code)" >&2
+    # Check if this postal code already exists in cache
+    if ! grep -q "^$postal_code," "$LOCATION_CACHE_FILE" 2>/dev/null; then
+        echo "$postal_code,$latitude,$longitude,\"$address\",\"$employer\"" >> "$LOCATION_CACHE_FILE"
+        echo "    ✓ Cached postal code: $postal_code ($latitude,$longitude) [$employer]" >&2
     fi
 }
 
@@ -157,7 +156,7 @@ process_csv_files() {
                                 local longitude=$(echo "$coords" | cut -d',' -f2)
                                 
                                 if [[ -n "$latitude" && -n "$longitude" && "$latitude" != "" && "$longitude" != "" ]]; then
-                                    cache_employer_location "$employer" "$address" "$pc" "$latitude" "$longitude"
+                                    cache_postal_code_location "$address" "$pc" "$latitude" "$longitude" "$employer"
                                 fi
                             fi
                         fi
@@ -194,7 +193,7 @@ process_csv_files() {
                                 local longitude=$(echo "$coords" | cut -d',' -f2)
                                 
                                 if [[ -n "$latitude" && -n "$longitude" && "$latitude" != "" && "$longitude" != "" ]]; then
-                                    cache_employer_location "$employer" "$address" "$pc" "$latitude" "$longitude"
+                                    cache_postal_code_location "$address" "$pc" "$latitude" "$longitude" "$employer"
                                 fi
                             fi
                         fi

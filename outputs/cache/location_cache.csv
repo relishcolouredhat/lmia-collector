@@ -1,31 +1,13 @@
-Employer,Address,Postal Code,Latitude,Longitude
-"Aker Solutions AIM Aker Solutions AIM","215 Water Street; Box20; Suite511; St. John's; NL A1C6C9 215 Water Street; Box20; Suite511; St. John's; NL A1C6C9",A1C6C9,47.5630653,-52.7076773
-"Amaguk Inn Amaguk Inn","PO Box129; Hopedale; NL A0P1G0 PO Box129; Hopedale; NL A0P1G0",A0P1G0,55.4514098,-60.2300023
-"Astaldi Canada Inc. Astaldi Canada Inc.","358 Hamilton River Road; PO Box177; STNC; Happy Valley-Goose Bay; NL A0P1C0 358 Hamilton River Road; PO Box177; STNC; Happy Valley-Goose Bay; NL A0P1C0",A0P1C0,53.3061725,-60.3605867
-"Atlantic Grocery Distributors Atlantic Grocery Distributors","1 Hope Avenue; Bay Roberts; NL A0A1G0 1 Hope Avenue; Bay Roberts; NL A0A1G0",A0A1G0,47.5871535,-53.2787055
-"CBS Foods Ltd CBS Foods Ltd","152 Conception Bay Highway; Conception Bay South; NL A1W3A6 152 Conception Bay Highway; Conception Bay South; NL A1W3A6",A1W3A6,47.5173136,-52.9625330
-"Central Health Authority Central Health Authority","50 Union Street; Grand Falls-Windsor; NL A2A2E1 50 Union Street; Grand Falls-Windsor; NL A2A2E1",A2A2E1,48.9340010,-55.6445567
-"Coastal Shipping Ltd Coastal Shipping Ltd","PO Box910; Lewisporte; NL A0G3A0 PO Box910; Lewisporte; NL A0G3A0",A0G3A0,49.2396062,-55.0930642
-"Conche Seafoods Ltd. Conche Seafoods Ltd.","PO Box29; Cape Broyle; NL A0A1P0 PO Box29; Cape Broyle; NL A0A1P0",A0A1P0,47.0960066,-52.9472844
-"Exxonmobil Canada Exxonmobil Canada","215 Water Street; St. John's; NL A1C6C9 215 Water Street; St. John's; NL A1C6C9",A1C6C9,47.5630653,-52.7076773
-"House-Man Limited House-Man Limited","15 First Avenue; Wabush; NL A0R1B0 15 First Avenue; Wabush; NL A0R1B0",A0R1B0,52.8984026,-66.8642894
-"India Gate Restaurant India Gate Restaurant","286 Duckworth Street; St. John's; NL A1C1H3 286 Duckworth Street; St. John's; NL A1C1H3",A1C1H3,47.5657256,-52.7068058
-"Jungle Jim's Gander Jungle Jim's Gander","PO Box202; Gander; NL A1V1W6 PO Box202; Gander; NL A1V1W6",A1V1W6,48.9525445,-54.6226523
-"Labrador Inn Labrador Inn","Box58; STNC; Happy Valley-Goose Bay; NL A0P1C0 Box58; STNC; Happy Valley-Goose Bay; NL A0P1C0",A0P1C0,53.3061725,-60.3605867
-"Labrador-Grenfell Health Labrador-Grenfell Health","200 West Street; Suite178; St. Anthony; NL A0K4S0 200 West Street; Suite178; St. Anthony; NL A0K4S0",A0K4S0,51.3689311,-55.5959421
-"Labrador-Grenfell Regional Health Authority Labrador-Grenfell Regional Health Authority","PO Box7000; STNC; Happy Valley-Goose Bay; NL A0P1C0 PO Box7000; STNC; Happy Valley-Goose Bay; NL A0P1C0",A0P1C0,53.3061725,-60.3605867
-"Lester's Farm Market Lester's Farm Market","Box 392; Mount Pearl; NL A1N2C4 Box 392; Mount Pearl; NL A1N2C4",A1N2C4,47.5062835,-52.7918122
-"Maxwell's & Bentley's Maxwell's & Bentley's","PO Box493; STNB; Happy Valley-Goose Bay; NL A0P1E0 PO Box493; STNB; Happy Valley-Goose Bay; NL A0P1E0",A0P1E0,53.3053793,-60.3073404
-"Memorial University Of Newfoundland and Labrador Memorial University Of Newfoundland and Labrador","Elizabeth Avenue; PO Box4200; St. John's; NL A1C5S7 Elizabeth Avenue; PO Box4200; St. John's; NL A1C5S7",A1C5S7,47.5731022,-52.7348949
-"Merlo's Inferno Merlo's Inferno","193 Kenmount Road; Unit2; St. John's; NL A1B3P9 193 Kenmount Road; Unit2; St. John's; NL A1B3P9",A1B3P9,47.5516193,-52.7738249
-"NARL Refining Ltd Partnership NARL Refining Ltd Partnership","PO Box40; Come By Chance; NL A0B1N0 PO Box40; Come By Chance; NL A0B1N0",A0B1N0,47.9296636,-53.9480816
-"NSB Energy Inc. NSB Energy Inc.","PO Box49; St. John's; NL A1C6C9 PO Box49; St. John's; NL A1C6C9",A1C6C9,47.5630653,-52.7076773
-"Ocean View Farm Ocean View Farm","92 Farm Road; Bay Bulls; NL A0A1C0 92 Farm Road; Bay Bulls; NL A0A1C0",A0A1C0,47.3202414,-52.8183469
-"Oceanex Inc. Oceanex Inc.","Baine Johson Centre; Suite701; St. John's; NL A1C1K4 Baine Johson Centre; Suite701; St. John's; NL A1C1K4",A1C1K4,47.5718845,-52.6997632
-"Quinlan Brothers Limited Quinlan Brothers Limited","215 Water Street; Atlantic Place; PO Box71; Suite302; St. John's; NL A1C6C9 215 Water Street; Atlantic Place; PO Box71; Suite302; St. John's; NL A1C6C9",A1C6C9,47.5630653,-52.7076773
-"Sunrise Dairy Limited Sunrise Dairy Limited","PO Box205; Musgravetown; NL A0C1A0 PO Box205; Musgravetown; NL A0C1A0",A0C1A0,48.3909943,-53.9054009
-"Tai Hong Restaurant Tai Hong Restaurant","2 Tilley's Road; Clarenville; NL A5A1Z2 2 Tilley's Road; Clarenville; NL A5A1Z2",A5A1Z2,48.1510092,-53.9664524
-"Toiber Toys Toiber Toys","48 Kenmount Road; St. John's; NL A1B1W3 48 Kenmount Road; St. John's; NL A1B1W3",A1B1W3,47.5613650,-52.7558211
-"Uncle Li Restaurant Inc Uncle Li Restaurant Inc","3 Coish Place; Clarenville; NL A5A0C3 3 Coish Place; Clarenville; NL A5A0C3",A5A0C3,48.1702042,-53.9897202
-"West End Foods Limited oa Jungle Jims West End Foods Limited oa Jungle Jims","PO Box23106; Churchill Square; St. John's; NL A1B4J9 PO Box23106; Churchill Square; St. John's; NL A1B4J9",A1B4J9,47.5743745,-52.7222000
-"Western Regional Integrated Health Authority Western Regional Integrated Health Authority","1 Brookfield Avenue; Corner Brook; NL A2H6J7 1 Brookfield Avenue; Corner Brook; NL A2H6J7",A2H6J7,48.9489434,-57.9305661
+Postal Code,Latitude,Longitude,Sample Address,Sample Employer
+A1C6C9,47.5630653,-52.7076773,"215 Water Street, Box20, Suite511, St. John's, NL A1C6C9 215 Water Street, Box20, Suite511, St. John's, NL A1C6C9","Aker Solutions AIM Aker Solutions AIM"
+A0P1G0,55.4514098,-60.2300023,"PO Box129, Hopedale, NL A0P1G0 PO Box129, Hopedale, NL A0P1G0","Amaguk Inn Amaguk Inn"
+A0P1C0,53.3061725,-60.3605867,"358 Hamilton River Road, PO Box177, STNC, Happy Valley-Goose Bay, NL A0P1C0 358 Hamilton River Road, PO Box177, STNC, Happy Valley-Goose Bay, NL A0P1C0","Astaldi Canada Inc. Astaldi Canada Inc."
+A0A1G0,47.5871535,-53.2787055,"1 Hope Avenue, Bay Roberts, NL A0A1G0 1 Hope Avenue, Bay Roberts, NL A0A1G0","Atlantic Grocery Distributors Atlantic Grocery Distributors"
+A1W3A6,47.5173136,-52.9625330,"152 Conception Bay Highway, Conception Bay South, NL A1W3A6 152 Conception Bay Highway, Conception Bay South, NL A1W3A6","CBS Foods Ltd CBS Foods Ltd"
+A2A2E1,48.9340010,-55.6445567,"50 Union Street, Grand Falls-Windsor, NL A2A2E1 50 Union Street, Grand Falls-Windsor, NL A2A2E1","Central Health Authority Central Health Authority"
+A0G3A0,49.2396062,-55.0930642,"PO Box910, Lewisporte, NL A0G3A0 PO Box910, Lewisporte, NL A0G3A0","Coastal Shipping Ltd Coastal Shipping Ltd"
+A0A1P0,47.0960066,-52.9472844,"PO Box29, Cape Broyle, NL A0A1P0 PO Box29, Cape Broyle, NL A0A1P0","Conche Seafoods Ltd. Conche Seafoods Ltd."
+A0R1B0,52.8984026,-66.8642894,"15 First Avenue, Wabush, NL A0R1B0 15 First Avenue, Wabush, NL A0R1B0","House-Man Limited House-Man Limited"
+A1C1H3,47.5657256,-52.7068058,"286 Duckworth Street, St. John's, NL A1C1H3 286 Duckworth Street, St. John's, NL A1C1H3","India Gate Restaurant India Gate Restaurant"
+A1V1W6,48.9525445,-54.6226523,"PO Box202, Gander, NL A1V1W6 PO Box202, Gander, NL A1V1W6","Jungle Jim's Gander Jungle Jim's Gander"
+A0K4S0,51.3689311,-55.5959421,"200 West Street, Suite178, St. Anthony, NL A0K4S0 200 West Street, Suite178, St. Anthony, NL A0K4S0","Labrador-Grenfell Health Labrador-Grenfell Health"
