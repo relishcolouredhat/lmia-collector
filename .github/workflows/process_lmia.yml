@@ -1,0 +1,50 @@
+name: Fetch and Process LMIA Reports
+
+# This 'on' block defines the triggers for the workflow.
+# It must be at the root level of the file (no indentation).
+on:
+  # Trigger 1: Run on a schedule (daily at 05:00 UTC)
+  schedule:
+    - cron: '0 5 * * *'
+  # Trigger 2: Allow manual runs from the GitHub Actions "Run workflow" button
+  workflow_dispatch:
+
+jobs:
+  fetch-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies (jq, gnumeric, telegraf)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq gnumeric
+          # Install Telegraf
+          wget -q https://dl.influxdata.com/telegraf/releases/telegraf_1.31.1-1_amd64.deb
+          sudo dpkg -i telegraf_1.31.1-1_amd64.deb
+
+      - name: Fetch and process new reports
+        id: process
+        run: |
+          # Ensure the script is executable before running
+          chmod +x ./scripts/process_feeds.sh
+          bash ./scripts/process_feeds.sh
+
+      - name: Commit new files
+        if: steps.process.outputs.new_files_found == 'true'
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'github-actions-bot@github.com'
+          git add .
+          # The commit message will include a count of new files
+          file_count=$(echo "${{ steps.process.outputs.new_file_names }}" | wc -w)
+          git commit -m "Bot: Add ${file_count} new LMIA report(s)" -m "${{ steps.process.outputs.new_file_names }}"
+          git push
+
+      - name: Run Telegraf to ingest data
+        if: steps.process.outputs.new_files_found == 'true'
+        run: |
+          echo "New files were found. Running Telegraf..."
+          # NOTE: Ensure this path is correct for your repository.
+          telegraf --once --config="path/to/your/config.conf"
