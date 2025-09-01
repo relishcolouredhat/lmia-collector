@@ -1,0 +1,206 @@
+{
+  "endpoints": [
+    {
+      "name": "2016-10-21_2015_negative_employers_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2016-10-21_2015_negative_employers_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2016-10-21_negative_employers_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2016-10-21_negative_employers_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2017-08-04_2016_negative_employer_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2017-08-04_2016_negative_employer_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2017-11-10_2017q1q2_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2017-11-10_2017q1q2_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2018-01-23_2017q3_negative_employer_stream_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2018-01-23_2017q3_negative_employer_stream_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2018-09-27_2018q1_negative_employer_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2018-09-27_2018q1_negative_employer_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2018-09-27_2018q2_negative_employer_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2018-09-27_2018q2_negative_employer_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2018-10-26_2017q4_negative_employer_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2018-10-26_2017q4_negative_employer_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2019-02-01_2018q3_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2019-02-01_2018q3_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2019-03-13_2018q4_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2019-03-13_2018q4_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2019-11-12_tfwp_2019q1_employer_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2019-11-12_tfwp_2019q1_employer_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2019-11-12_tfwp_2019q2_employer_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2019-11-12_tfwp_2019q2_employer_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2019-12-20_tfwp_2019q3_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2019-12-20_tfwp_2019q3_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2020-02-27_tfwp_2019q4_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2020-02-27_tfwp_2019q4_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2020-05-29_tfwp_2020q1_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2020-05-29_tfwp_2020q1_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2020-12-04_tfwp_2020q3_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2020-12-04_tfwp_2020q3_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2022-08-05_tfwp_2022q1_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2022-08-05_tfwp_2022q1_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2022-10-19_tfwp_2022q2_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2022-10-19_tfwp_2022q2_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2022-12-23_tfwp_2022q3_negative_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2022-12-23_tfwp_2022q3_negative_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2023-03-21_tfwp_2022q4_neg_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2023-03-21_tfwp_2022q4_neg_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2023-06-22_tfwp_2023q1_neg_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2023-06-22_tfwp_2023q1_neg_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2023-09-15_tfwp_2023q2_neg_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2023-09-15_tfwp_2023q2_neg_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2023-12-12_tfwp_2023q3_neg_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2023-12-12_tfwp_2023q3_neg_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2024-04-18_tfwp_2023q4_neg_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2024-04-18_tfwp_2023q4_neg_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2024-06-20_tfwp_2024q1_neg_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2024-06-20_tfwp_2024q1_neg_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2024-10-24_tfwp_2024q2_neg_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2024-10-24_tfwp_2024q2_neg_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2024-12-20_tfwp_2024q3_neg_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2024-12-20_tfwp_2024q3_neg_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2025-03-18_tfwp_2024q4_neg_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2025-03-18_tfwp_2024q4_neg_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+    ,
+    {
+      "name": "2025-06-19_tfwp_2025q1_neg_en",
+      "url": "https://raw.githubusercontent.com/relishcolouredhat/lmia-collector/main/csv/negative/2025-06-19_tfwp_2025q1_neg_en.csv",
+      "type": "csv",
+      "format": "table"
+    }
+  ]
+}
