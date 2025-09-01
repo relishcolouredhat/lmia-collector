@@ -48,6 +48,36 @@ header p {
     opacity: 0.9;
 }
 
+/* Disclaimer banner */
+.disclaimer-banner {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-left: 4px solid #f39c12;
+    padding: 1rem 0;
+    margin-bottom: 0;
+}
+
+.disclaimer-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.disclaimer-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.disclaimer-text {
+    font-size: 0.95rem;
+    color: #856404;
+    line-height: 1.5;
+}
+
+.disclaimer-text strong {
+    color: #5a4a00;
+}
+
 /* Main content */
 main {
     padding: 3rem 0;
@@ -278,6 +308,53 @@ h2 {
     margin-top: 1rem;
 }
 
+/* About section */
+.about-section {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.about-content p {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    color: #2c3e50;
+    line-height: 1.6;
+}
+
+.about-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #27ae60;
+    transition: transform 0.2s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-2px);
+}
+
+.feature-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.feature-item span:last-child {
+    font-weight: 500;
+    color: #2c3e50;
+}
+
 /* Footer */
 footer {
     background: #2c3e50;
@@ -302,6 +379,13 @@ footer a:hover {
     opacity: 0.8;
 }
 
+.disclaimer-footer {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    font-style: italic;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .container {
@@ -310,6 +394,12 @@ footer a:hover {
     
     header h1 {
         font-size: 2rem;
+    }
+    
+    .disclaimer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
     }
     
     .stats-grid {
@@ -337,5 +427,9 @@ footer a:hover {
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
+    }
+    
+    .about-features {
+        grid-template-columns: 1fr;
     }
 }
