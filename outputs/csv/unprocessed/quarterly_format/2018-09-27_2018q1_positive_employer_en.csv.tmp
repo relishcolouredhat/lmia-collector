@@ -1,0 +1,46 @@
+Province/Territory,Stream,Employer,Address,Occupation,Approved Positions,Postal Code,Latitude,Longitude
+Newfoundland and Labrador,    High Wage,Central Regional Health Authority,"GRAND FALLS-WINDSOR, NL A2A 1Y4",3111-Specialist physicians,1,A2A 1Y4,,
+,,Eastern Regional Integrated Health Authority o/a Dr. G.B. Cross Memorial Hospital,"BURIN, NL A0E 1E0",3111-Specialist physicians,1,A0E 1E0,,
+,,Empowered Homes Inc.,"St. John's, NL A1B 3X5",6314-Customer and information services supervisors,1,A1B 3X5,47.5740732,-52.7341733
+,,Western Regional Integrated Health Authority,"Corner Brook, NL A2H 6J7",3111-Specialist physicians,1,A2H 6J7,48.9489434,-57.9305661
+,   Low Wage,LouisGee's Pizza & Donair,"Corner Brook, NL A2H 2Z3",6322-Cooks,2,A2H 2Z3,48.9509449,-57.9402620
+,,Norlab Limited,"Happy Valley-Goose Bay, NL A0P 1E0",6311-Food service supervisors,1,A0P 1E0,53.3053793,-60.3073404
+,  Primary Agriculture,J & C Sod Farm Ltd,"Bay Bull, NL A0A 1C0",8431-General farm workers,3,A0A 1C0,47.3202414,-52.8183469
+,,Lester's Farm Market,"Mount Pearl, NL A1N 2C4",8431-General farm workers,12,A1N 2C4,47.5062835,-52.7918122
+Prince Edward Island,   Low Wage,A & R Adventures Inc.,"Kensington, PE C0B 1M0",6332-Bakers,1,C0B 1M0,46.4722372,-63.5863612
+,,Atlantic Beef Products Inc.,"Albany, PE C0B 1A0","9462-Industrial butchers and meat cutters, poultry preparers and related workers",10,C0B 1A0,46.2891968,-63.6297680
+,,Beach Point Processing Company,"Beach Point, PE C0A 1V0",9463-Fish and seafood plant workers,99,C0A 1V0,46.0106793,-62.5481593
+,,Belle River Enterprises Ltd.,"Belle River, PE C0A 1B0",9463-Fish and seafood plant workers,10,C0A 1B0,45.9557207,-62.7487869
+,,Captain Cooke's Seafood Inc.,"Borden-Carleton, PE C0B 1X0",9463-Fish and seafood plant workers,16,C0B 1X0,46.2527376,-63.6909178
+,,Claddagh Holdings Inc.,"Charlottetown, PE C1A 1G5",6322-Cooks,2,C1A 1G5,,
+,,"North Lake Fisheries (2013), Inc.","Montague, PE C0A 1R0",9463-Fish and seafood plant workers,46,,,
+,,Royal Star Foods Ltd.,"Tignish, PE C0B 2B0",9463-Fish and seafood plant workers,15,C0B 2B0,46.9513482,-64.0336435
+,,Seafood 2000 Ltd.,"Georgetown, PE C0A 1L0",9463-Fish and seafood plant workers,102,C0A 1L0,,
+,,South Shore Seafoods Ltd.,"Bloomfield, PE C0B 1E0",9463-Fish and seafood plant workers,24,C0B 1E0,46.7616845,-64.1806720
+,,"Xiyuan PEI International Co., Ltd.","Stratford, PE C1B 0B2",0125-Other business services managers,1,,,
+,  Primary Agriculture,Birch Farms Limited,"SUMMERSIDE, PE C1N 4J9",8431-General farm workers,6,C1N 4J9,46.3742012,-63.7288548
+,,Birkentree Holsteins Inc.,"HUNTER RIVER, PE C0A 1N0","8252-Agricultural service contractors, farm supervisors and specialized livestock workers",2,C0A 1N0,46.4423155,-63.3647072
+,,Carruthers Farms Ltd.,"Kensington, PE C0B 1M0",8431-General farm workers,3,C0B 1M0,46.4722372,-63.5863612
+,,Cassialane Holsteins Ltd.,"Freetown, PE C0B 1L0",8431-General farm workers,2,C0B 1L0,,
+,,Claude McCardle/The Berry Patch,"Tracadie Cross, PE C0A 1T0",8431-General farm workers,6,C0A 1T0,46.3413689,-62.8904682
+,,MGS Holdings & Distribution Co. Ltd,"ALBERTON, PE C0B 1B0",8431-General farm workers,48,C0B 1B0,46.8134842,-64.0657369
+,,Mol Farms Inc,"Kinkora, PE C0B 1N0",8431-General farm workers,3,C0B 1N0,46.3336795,-63.4404369
+,,Productions Vegkiss PEI,"Vernon River, PE C0A 2E0",8431-General farm workers,36,C0A 2E0,46.1774603,-62.8591839
+,,Victoria Potato Farm Inc,"Crapaud, PE C0A 1J0",8431-General farm workers,5,C0A 1J0,46.2275523,-63.4969009
+Nova Scotia,    High Wage,Clarke Road Transport Inc.,"Halifax, NS B3S 0B7",7511-Transport truck drivers,7,B3S 0B7,44.6384244,-63.6727159
+,,Connors Transfer Limited,"Stellarton, NS B0K 1S0",7511-Transport truck drivers,10,B0K 1S0,45.5586963,-62.6603408
+,,Eassons Transport Ltd.,"Kentville, NS B4N 3V7",7511-Transport truck drivers,10,B4N 3V7,45.0993132,-64.5379420
+,,Indo Food Service Ltd,"HALIFAX, NS B3H 4H5",0631-Restaurant and food service managers,1,B3H 4H5,44.6363259,-63.5780585
+,,Irving Shipbuilding Inc.,"Halifax, NS B3K 5M7",0711-Construction managers,2,B3K 5M7,44.6688314,-63.5974859
+,,,,0911-Manufacturing managers,4,,,
+,,,,2141-Industrial and manufacturing engineers,1,,,
+,,Maple Tree Montesori Limited,"Halifax, NS B3L 2W5",4214-Early childhood educators and assistants,1,B3L 2W5,44.6539976,-63.6095989
+,,Open Door Masonry Ltd.,"Waverly, NS B2R 1G4",7281-Bricklayers,2,B2R 1G4,44.7784159,-63.5967196
+,,Precision Concrete Services Ltd,"Bedford, NS B4B 1H1",7282-Concrete finishers,3,B4B 1H1,44.7206754,-63.7142597
+,,Provincial Woodworkers Limited,"Dartmouth, NS B3B 1X9",7272-Cabinetmakers,1,B3B 1X9,44.7065056,-63.5963321
+,,Queen Nails,"Sydney, NS B1P 6S9","6562-Estheticians, electrologists and related occupations",2,B1P 6S9,46.1459773,-60.1386450
+,,Suerteksa Canada Inc.,"Halifax, NS B3J 3N2",7235-Structural metal and platework fabricators and fitters,6,B3J 3N2,44.6517042,-63.5742521
+,,,,7237-Welders and related machine operators,13,,,
+,,Track Group Analytics Ltd.,"Bedford, NS B4A 3Y4","0013-Senior managers - financial, communications and other business services",1,B4A 3Y4,44.7330172,-63.6543933
+,,Ubisoft Divertissements Inc.,"HALIFAX, NS B3J 3R5",5241-Graphic designers and illustrators,1,B3J 3R5,44.6444787,-63.5702607
+,   Low Wage,3099794 NS Ltd (Enfield Big Stop),"Enfield, NS B2T 1C8",6322-Cooks,3,B2T 1C8,44.9229155,-63.5410760

@@ -5,8 +5,11 @@
 
 set -e
 
-# Load central geocoding library
+# Load environment variables (API keys, etc.)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/load_env.sh"
+
+# Load central geocoding library
 source "$SCRIPT_DIR/lib/geocoding.sh"
 
 # Configuration
