@@ -14,6 +14,11 @@
 : ${GEOCODING_CACHE_FILE:="./outputs/cache/location_cache.csv"}
 : ${GEOCODING_BOGONS_FILE:="./outputs/cache/bogons"}
 
+# Optional API keys (can be set via environment variables)
+: ${GOOGLE_GEOCODING_API_KEY:=""}
+: ${MAPBOX_ACCESS_TOKEN:=""}
+: ${OPENCAGE_API_KEY:=""}
+
 # Helper functions for bogon management
 # Bogons are postal codes that have repeatedly failed geocoding and should not be retried
 
@@ -120,10 +125,106 @@ get_coordinates_for_postal_code() {
         fi
     fi
     
+    # If geocoder.ca failed, try additional fallback sources
+    if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]]; then
+        echo "    → geocoder.ca failed, trying GeoNames..." >&2
+        sleep 0.5  # GeoNames rate limit: be conservative
+        
+        # GeoNames postal code lookup (free service, requires country=CA)
+        local geonames_response=$(curl -s "http://api.geonames.org/postalCodeSearchJSON?postalcode=${normalized_pc}&country=CA&maxRows=1&username=demo" 2>/dev/null || echo "")
+        
+        if [[ -n "$geonames_response" && "$geonames_response" != *"error"* ]]; then
+            # Extract lat/lon from JSON response
+            local lat=$(echo "$geonames_response" | jq -r '.postalCodes[0].lat // empty' 2>/dev/null || echo "")
+            local lon=$(echo "$geonames_response" | jq -r '.postalCodes[0].lng // empty' 2>/dev/null || echo "")
+            
+            if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" && "$lat" != "null" && "$lon" != "null" ]]; then
+                coordinates="$lat,$lon"
+                source="GeoNames"
+            fi
+        fi
+    fi
+    
+    # If GeoNames failed, try Google Geocoding API (if API key available)
+    if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]] && [[ -n "$GOOGLE_GEOCODING_API_KEY" ]]; then
+        echo "    → GeoNames failed, trying Google Geocoding API..." >&2
+        sleep 0.5  # Google rate limiting
+        
+        # Google Geocoding API with country component filtering
+        local google_response=$(curl -s "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${normalized_pc}|country:CA&key=${GOOGLE_GEOCODING_API_KEY}" 2>/dev/null || echo "")
+        
+        if [[ -n "$google_response" && "$google_response" != *"error"* ]]; then
+            local lat=$(echo "$google_response" | jq -r '.results[0].geometry.location.lat // empty' 2>/dev/null || echo "")
+            local lon=$(echo "$google_response" | jq -r '.results[0].geometry.location.lng // empty' 2>/dev/null || echo "")
+            
+            if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" && "$lat" != "null" && "$lon" != "null" ]]; then
+                coordinates="$lat,$lon"
+                source="Google"
+            fi
+        fi
+    fi
+    
+    # If Google failed or unavailable, try MapBox Geocoding API (if API key available)
+    if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]] && [[ -n "$MAPBOX_ACCESS_TOKEN" ]]; then
+        echo "    → Trying MapBox Geocoding API..." >&2
+        sleep 0.5  # MapBox rate limiting
+        
+        # MapBox Geocoding API
+        local mapbox_response=$(curl -s "https://api.mapbox.com/geocoding/v5/mapbox.places/${normalized_pc}.json?country=CA&access_token=${MAPBOX_ACCESS_TOKEN}" 2>/dev/null || echo "")
+        
+        if [[ -n "$mapbox_response" && "$mapbox_response" != *"error"* ]]; then
+            local lat=$(echo "$mapbox_response" | jq -r '.features[0].center[1] // empty' 2>/dev/null || echo "")
+            local lon=$(echo "$mapbox_response" | jq -r '.features[0].center[0] // empty' 2>/dev/null || echo "")
+            
+            if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" && "$lat" != "null" && "$lon" != "null" ]]; then
+                coordinates="$lat,$lon"
+                source="MapBox"
+            fi
+        fi
+    fi
+    
+    # If all premium services failed, try OpenCage Data (if API key available)
+    if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]] && [[ -n "$OPENCAGE_API_KEY" ]]; then
+        echo "    → Trying OpenCage Data API..." >&2
+        sleep 0.5  # OpenCage rate limiting
+        
+        # OpenCage Data API
+        local opencage_response=$(curl -s "https://api.opencagedata.com/geocode/v1/json?q=${normalized_pc}&countrycode=ca&key=${OPENCAGE_API_KEY}" 2>/dev/null || echo "")
+        
+        if [[ -n "$opencage_response" && "$opencage_response" != *"error"* ]]; then
+            local lat=$(echo "$opencage_response" | jq -r '.results[0].geometry.lat // empty' 2>/dev/null || echo "")
+            local lon=$(echo "$opencage_response" | jq -r '.results[0].geometry.lng // empty' 2>/dev/null || echo "")
+            
+            if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" && "$lat" != "null" && "$lon" != "null" ]]; then
+                coordinates="$lat,$lon"
+                source="OpenCage"
+            fi
+        fi
+    fi
+    
+    # Final fallback: try a simple geographic lookup service
+    if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]]; then
+        echo "    → Trying final fallback: postal-code lookup..." >&2
+        sleep 0.5
+        
+        # Try a different approach: simple REST API for Canadian postal codes
+        local fallback_response=$(curl -s "https://geocoder.ca/?locate=${normalized_pc}&geoit=json" 2>/dev/null || echo "")
+        
+        if [[ -n "$fallback_response" && "$fallback_response" != *"error"* ]]; then
+            local lat=$(echo "$fallback_response" | jq -r '.latt // empty' 2>/dev/null || echo "")
+            local lon=$(echo "$fallback_response" | jq -r '.longt // empty' 2>/dev/null || echo "")
+            
+            if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" && "$lat" != "null" && "$lon" != "null" ]]; then
+                coordinates="$lat,$lon"
+                source="geocoder.ca-json"
+            fi
+        fi
+    fi
+    
     # Check final result
     if [[ "$coordinates" == "null,null" || "$coordinates" == "," || -z "$coordinates" ]]; then
         FAILED_LOOKUPS=$((FAILED_LOOKUPS + 1))
-        echo "    ❌ No coordinates found for $postal_code (tried both sources)" >&2
+        echo "    ❌ No coordinates found for $postal_code (tried all available sources)" >&2
         # Add to bogons to prevent future API calls for this postal code
         add_postal_code_to_bogons "$normalized_pc"
         echo ","
