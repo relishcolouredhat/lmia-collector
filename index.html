@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMIA Data Explorer</title>
+    <link rel="stylesheet" href="docs_src/styles.css">
+    <link rel="icon" type="image/svg+xml" href="docs_src/canada_flag.svg">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="flag-container">
+                <img src="docs_src/canada_flag.svg" alt="Flag of Canada" class="flag">
+            </div>
+            <h1>LMIA Data Explorer</h1>
+            <p>Explore Labour Market Impact Assessment data from the Government of Canada</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="stats-overview">
+            <h2>Data Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Positive LMIA Reports</h3>
+                    <div class="stat-number" id="positive-count">-</div>
+                    <p>Approved applications</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Negative LMIA Reports</h3>
+                    <div class="stat-number" id="negative-count">-</div>
+                    <p>Rejected applications</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Latest Update</h3>
+                    <div class="stat-number" id="latest-update">-</div>
+                    <p>Most recent data</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="data-browser">
+            <h2>Browse Data</h2>
+            <div class="browser-tabs">
+                <button class="tab-btn active" data-tab="positive">Positive Reports</button>
+                <button class="tab-btn" data-tab="negative">Negative Reports</button>
+            </div>
+            
+            <div class="tab-content active" id="positive-content">
+                <div class="file-list" id="positive-files">
+                    <div class="loading">Loading positive reports...</div>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="negative-content">
+                <div class="file-list" id="negative-files">
+                    <div class="loading">Loading negative reports...</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="data-access">
+            <h2>Data Access</h2>
+            <div class="access-info">
+                <p>All data is available in CSV format and can be accessed directly via our API endpoints:</p>
+                <div class="endpoint-links">
+                    <a href="outputs/positive_endpoints.json" class="endpoint-link">Positive Reports API</a>
+                    <a href="outputs/negative_endpoints.json" class="endpoint-link">Negative Reports API</a>
+                    <a href="outputs/all_endpoints.json" class="endpoint-link">All Endpoints</a>
+                </div>
+                <p class="note">These endpoints are compatible with Grafana's Infinity plugin for data visualization.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 LMIA Data Explorer | Data source: <a href="https://open.canada.ca/" target="_blank">Open Canada</a></p>
+        </div>
+    </footer>
+
+    <script src="docs_src/app.js"></script>
+</body>
+</html>
