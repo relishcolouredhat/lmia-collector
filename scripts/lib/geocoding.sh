@@ -19,6 +19,9 @@
 : ${MAPBOX_ACCESS_TOKEN:=""}
 : ${OPENCAGE_API_KEY:=""}
 
+# Turbo mode configuration - prioritize Google API for max performance
+: ${GEOCODING_TURBO_MODE:="false"}
+
 # Helper functions for bogon management
 # Bogons are postal codes that have repeatedly failed geocoding and should not be retried
 
@@ -100,7 +103,30 @@ get_coordinates_for_postal_code() {
     API_CALLS=$((API_CALLS + 1))
     echo "  → Looking up postal code: $postal_code (API call #$API_CALLS)" >&2
     
-    # Try Nominatim first (OpenStreetMap) - 1 second rate limit
+    # TURBO MODE: Try Google first if API key available and turbo mode enabled
+    if [[ "$GEOCODING_TURBO_MODE" == "true" && -n "$GOOGLE_GEOCODING_API_KEY" ]]; then
+        echo "    🚀 TURBO MODE: Trying Google Geocoding API first..." >&2
+        sleep 0.05  # Google can handle ~50 requests/second, so 0.05s = 20/sec (conservative)
+        
+        # Google Geocoding API with country component filtering
+        local google_response=$(curl -s "https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${normalized_pc}|country:CA&key=${GOOGLE_GEOCODING_API_KEY}" 2>/dev/null || echo "")
+        
+        if [[ -n "$google_response" && "$google_response" != *"error"* ]]; then
+            local lat=$(echo "$google_response" | jq -r '.results[0].geometry.location.lat // empty' 2>/dev/null || echo "")
+            local lon=$(echo "$google_response" | jq -r '.results[0].geometry.location.lng // empty' 2>/dev/null || echo "")
+            
+            if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" && "$lat" != "null" && "$lon" != "null" ]]; then
+                coordinates="$lat,$lon"
+                source="Google-Turbo"
+                echo "    ✅ Found coordinates: $coordinates (source: $source)" >&2
+                echo "$coordinates"
+                return  # Early return - we got our result fast!
+            fi
+        fi
+        echo "    → Google failed, falling back to free services..." >&2
+    fi
+    
+    # Standard mode: Try Nominatim first (OpenStreetMap) - 1 second rate limit
     echo "    → Trying Nominatim (OpenStreetMap)..." >&2
     local coordinates=$(curl -s "https://nominatim.openstreetmap.org/search?postalcode=${normalized_pc}&country=CA&format=json&limit=1" | jq -r '.[0] | "\(.lat),\(.lon)"' 2>/dev/null || echo ",")
     local source="Nominatim"
@@ -263,6 +289,10 @@ add_to_cache() {
     # Clean fields for cache storage (normalize whitespace, no extra escaping needed for semicolon format)
     address=$(echo "$address" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//')
     employer=$(echo "$employer" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//')
+    
+    # Defensive: Remove obvious duplications (same text repeated twice)
+    address=$(echo "$address" | sed 's/\(.*\) \1$/\1/')
+    employer=$(echo "$employer" | sed 's/\(.*\) \1$/\1/')
     
     # Use "Unknown" as default for missing data
     [[ -z "$address" ]] && address="Unknown"
