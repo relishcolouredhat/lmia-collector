@@ -13,12 +13,20 @@ on:
         default: false
         type: boolean
 
+# Add explicit permissions for the workflow
+permissions:
+  contents: write
+  pull-requests: read
+
 jobs:
   fetch-data:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # Use GITHUB_TOKEN for authentication
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install dependencies (jq, gnumeric, telegraf)
         run: |
@@ -55,13 +63,13 @@ jobs:
       - name: Commit new files
         if: steps.process.outputs.new_files_found == 'true'
         run: |
-          git config --global user.name 'GitHub Actions Bot'
-          git config --global user.email 'github-actions-bot@github.com'
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add .
           # The commit message will include a count of new files
           file_count=$(echo "${{ steps.process.outputs.new_file_names }}" | wc -w)
           git commit -m "Bot: Add ${file_count} new LMIA report(s)" -m "${{ steps.process.outputs.new_file_names }}"
-          git push
+          git push origin ${{ github.ref_name }}
 
       - name: Run Telegraf to ingest data
         if: steps.process.outputs.new_files_found == 'true'
