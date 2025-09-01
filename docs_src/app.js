@@ -36,10 +36,10 @@ class LMIADataExplorer {
 
     async loadData() {
         try {
-            // Load employer format data
-            await this.loadFileList('employer');
-            // Load quarterly format data
+            // Load quarterly format data first (most recent and relevant)
             await this.loadFileList('quarterly');
+            // Load employer format data second (historical)
+            await this.loadFileList('employer');
         } catch (error) {
             console.error('Error loading data:', error);
             this.showError('Failed to load data. Please try again later.');
@@ -84,7 +84,19 @@ class LMIADataExplorer {
             return;
         }
 
-        const fileListHTML = files.map(file => {
+        // Sort files by date (most recent first)
+        const sortedFiles = files.sort((a, b) => {
+            const dateA = this.extractDateFromFilename(a.name);
+            const dateB = this.extractDateFromFilename(b.name);
+            
+            if (!dateA && !dateB) return 0;
+            if (!dateA) return 1;
+            if (!dateB) return -1;
+            
+            return new Date(dateB) - new Date(dateA); // Most recent first
+        });
+
+        const fileListHTML = sortedFiles.map(file => {
             const date = this.extractDateFromFilename(file.name);
             const formattedDate = date ? new Date(date).toLocaleDateString('en-CA') : 'Unknown';
             

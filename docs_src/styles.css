@@ -156,6 +156,16 @@ h2 {
     font-size: 0.9rem;
 }
 
+.stat-card.primary {
+    border: 2px solid #007bff;
+    background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+    box-shadow: 0 4px 8px rgba(0,123,255,0.15);
+}
+
+.stat-card.primary h3 {
+    color: #007bff;
+}
+
 /* Comprehensive statistics */
 .comprehensive-stats {
     background: white;
@@ -227,6 +237,18 @@ h2 {
 .tab-btn:hover:not(.active) {
     background: #f0f0f0;
     color: #333;
+}
+
+.recommended-badge {
+    background: #28a745;
+    color: white;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    margin-left: 0.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .tab-content {

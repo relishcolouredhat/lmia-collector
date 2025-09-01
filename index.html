@@ -41,15 +41,15 @@
         <section class="stats-overview">
             <h2>Data Overview</h2>
             <div class="stats-grid">
+                <div class="stat-card primary">
+                    <h3>Quarterly Format</h3>
+                    <div class="stat-number" id="quarterly-count">-</div>
+                    <p>Recent data (2017-2025)</p>
+                </div>
                 <div class="stat-card">
                     <h3>Employer Format</h3>
                     <div class="stat-number" id="employer-count">-</div>
                     <p>Historical data (2015-2016)</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Quarterly Format</h3>
-                    <div class="stat-number" id="quarterly-count">-</div>
-                    <p>Recent data (2017-2025)</p>
                 </div>
                 <div class="stat-card">
                     <h3>Latest Update</h3>
@@ -69,11 +69,14 @@
         <section class="data-browser">
             <h2>Browse Data</h2>
             <div class="browser-tabs">
-                <button class="tab-btn active" data-tab="employer">Employer Format</button>
-                <button class="tab-btn" data-tab="quarterly">Quarterly Format</button>
+                <button class="tab-btn" data-tab="employer">Employer Format</button>
+                <button class="tab-btn active" data-tab="quarterly">
+                    Quarterly Format
+                    <span class="recommended-badge">Recommended</span>
+                </button>
             </div>
             
-            <div class="tab-content active" id="employer-content">
+            <div class="tab-content" id="employer-content">
                 <div class="format-info">
                     <h3>Employer Format Data</h3>
                     <p>Simple structure with employer, address, and positions approved. Historical data from 2015-2016.</p>
@@ -83,7 +86,7 @@
                 </div>
             </div>
             
-            <div class="tab-content" id="quarterly-content">
+            <div class="tab-content active" id="quarterly-content">
                 <div class="format-info">
                     <h3>Quarterly Format Data</h3>
                     <p>Comprehensive structure with province, stream, occupation, and detailed breakdowns. Recent data from 2017-2025.</p>
