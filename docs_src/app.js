@@ -35,10 +35,10 @@ class LMIADataExplorer {
 
     async loadData() {
         try {
-            // Load positive reports
-            await this.loadFileList('positive');
-            // Load negative reports
-            await this.loadFileList('negative');
+            // Load employer format data
+            await this.loadFileList('employer');
+            // Load quarterly format data
+            await this.loadFileList('quarterly');
         } catch (error) {
             console.error('Error loading data:', error);
             this.showError('Failed to load data. Please try again later.');
@@ -47,7 +47,16 @@ class LMIADataExplorer {
 
     async loadFileList(type) {
         const fileListElement = document.getElementById(`${type}-files`);
-        const endpointUrl = `outputs/${type}_endpoints.json`;
+        let endpointUrl;
+        
+        if (type === 'employer') {
+            endpointUrl = 'outputs/employer_format_endpoints.json';
+        } else if (type === 'quarterly') {
+            endpointUrl = 'outputs/quarterly_format_endpoints.json';
+        } else {
+            console.error(`Unknown type: ${type}`);
+            return;
+        }
 
         try {
             const response = await fetch(endpointUrl);
@@ -61,7 +70,7 @@ class LMIADataExplorer {
             console.error(`Error loading ${type} files:`, error);
             fileListElement.innerHTML = `
                 <div class="error">
-                    <p>Failed to load ${type} reports.</p>
+                    <p>Failed to load ${type} format data.</p>
                     <p>Error: ${error.message}</p>
                 </div>
             `;
@@ -85,7 +94,7 @@ class LMIADataExplorer {
                         <p>Published: ${formattedDate}</p>
                     </div>
                     <div class="file-actions">
-                        <a href="${file.url}" target="_blank" download>Download CSV</a>
+                        <a href="${file.url}" target="_blank" class="download-btn">Download CSV</a>
                     </div>
                 </div>
             `;
@@ -122,23 +131,23 @@ class LMIADataExplorer {
     async updateStats() {
         try {
             // Load both endpoint files to get counts
-            const [positiveResponse, negativeResponse] = await Promise.all([
-                fetch('outputs/positive_endpoints.json'),
-                fetch('outputs/negative_endpoints.json')
+            const [employerResponse, quarterlyResponse] = await Promise.all([
+                fetch('outputs/employer_format_endpoints.json'),
+                fetch('outputs/quarterly_format_endpoints.json')
             ]);
 
-            if (positiveResponse.ok && negativeResponse.ok) {
-                const positiveData = await positiveResponse.json();
-                const negativeData = await negativeResponse.json();
+            if (employerResponse.ok && quarterlyResponse.ok) {
+                const employerData = await employerResponse.json();
+                const quarterlyData = await quarterlyResponse.json();
 
                 // Update basic counts
-                document.getElementById('positive-count').textContent = positiveData.endpoints?.length || 0;
-                document.getElementById('negative-count').textContent = negativeData.endpoints?.length || 0;
+                document.getElementById('employer-count').textContent = employerData.endpoints?.length || 0;
+                document.getElementById('quarterly-count').textContent = quarterlyData.endpoints?.length || 0;
 
                 // Find latest update
                 const allFiles = [
-                    ...(positiveData.endpoints || []),
-                    ...(negativeData.endpoints || [])
+                    ...(employerData.endpoints || []),
+                    ...(quarterlyData.endpoints || [])
                 ];
 
                 if (allFiles.length > 0) {
@@ -201,15 +210,11 @@ class LMIADataExplorer {
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">Total Files:</span>
-                        <span class="stat-value">${allFiles.length} files</span>
+                        <span class="stat-value">${allFiles.length}</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-label">Estimated Records:</span>
-                        <span class="stat-value">~${totalEstimatedRecords.toLocaleString()} records</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Data Source:</span>
-                        <span class="stat-value">Government of Canada Open Data</span>
+                        <span class="stat-value">${totalEstimatedRecords.toLocaleString()}</span>
                     </div>
                 </div>
             `;
@@ -217,37 +222,20 @@ class LMIADataExplorer {
     }
 
     showError(message) {
-        // Create and show error message
+        // Show error message to user
         const errorDiv = document.createElement('div');
-        errorDiv.className = 'error';
-        errorDiv.innerHTML = `<p>${message}</p>`;
+        errorDiv.className = 'error-message';
+        errorDiv.textContent = message;
+        document.body.appendChild(errorDiv);
         
-        // Add error styling
-        errorDiv.style.cssText = `
-            background: #fee;
-            color: #c33;
-            padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid #fcc;
-            text-align: center;
-            margin: 1rem 0;
-        `;
-        
-        document.querySelector('main').insertBefore(errorDiv, document.querySelector('main').firstChild);
+        // Remove after 5 seconds
+        setTimeout(() => {
+            errorDiv.remove();
+        }, 5000);
     }
 }
 
-// Initialize the application when DOM is loaded
+// Initialize the application when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     new LMIADataExplorer();
-});
-
-// Add some additional utility functions
-window.addEventListener('load', () => {
-    // Add loading animation
-    const loadingElements = document.querySelectorAll('.loading');
-    loadingElements.forEach(el => {
-        el.style.opacity = '0.7';
-        el.style.transition = 'opacity 0.3s ease';
-    });
 });

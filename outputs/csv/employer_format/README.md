@@ -13,6 +13,8 @@ Each CSV file contains the following columns:
 | **Address** | Full address including postal code | "215 Water Street, Box 20, Suite 511, St. John's, NL A1C 6C9" |
 | **Positions approved** | Number of positions approved | "3" |
 | **Postal Code** | Extracted postal code | "A1C 6C9" |
+| **Latitude** | Geographic latitude coordinate | "47.5615" |
+| **Longitude** | Geographic longitude coordinate | "-52.7126" |
 
 ### **Data Characteristics**
 - **Format**: Simple, flat structure
@@ -40,10 +42,12 @@ All data originates from the [Government of Canada Open Data Portal](https://ope
 
 ## Processing Notes
 
-### **Postal Code Extraction**
+### **Postal Code and Coordinates Extraction**
 - Postal codes are automatically extracted from the Address column
 - Uses regex pattern matching for Canadian postal codes (A1A 1A1 format)
-- Empty postal code field if no valid code is found
+- Geographic coordinates (latitude/longitude) are automatically retrieved for each postal code
+- Uses OpenStreetMap Nominatim geocoding service (free, rate-limited)
+- Empty fields if no valid postal code or coordinates are found
 
 ### **Data Cleaning**
 - Administrative notes and footers are removed
@@ -65,6 +69,9 @@ grep "NL" filename.csv | cut -d',' -f1,3
 ```bash
 # Count positions by postal code
 cut -d',' -f4 filename.csv | sort | uniq -c | sort -nr
+
+# Find positions in specific geographic area
+awk -F',' 'NR>1 && $5 != "" && $6 != "" {print $1, $4, $5, $6}' filename.csv
 ```
 
 ## Data Quality Notes

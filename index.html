@@ -37,14 +37,14 @@
             <h2>Data Overview</h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h3>Positive LMIA Reports</h3>
-                    <div class="stat-number" id="positive-count">-</div>
-                    <p>Approved applications</p>
+                    <h3>Employer Format</h3>
+                    <div class="stat-number" id="employer-count">-</div>
+                    <p>Historical data (2015-2016)</p>
                 </div>
                 <div class="stat-card">
-                    <h3>Negative LMIA Reports</h3>
-                    <div class="stat-number" id="negative-count">-</div>
-                    <p>Rejected applications</p>
+                    <h3>Quarterly Format</h3>
+                    <div class="stat-number" id="quarterly-count">-</div>
+                    <p>Recent data (2017-2025)</p>
                 </div>
                 <div class="stat-card">
                     <h3>Latest Update</h3>
@@ -64,19 +64,27 @@
         <section class="data-browser">
             <h2>Browse Data</h2>
             <div class="browser-tabs">
-                <button class="tab-btn active" data-tab="positive">Positive Reports</button>
-                <button class="tab-btn" data-tab="negative">Negative Reports</button>
+                <button class="tab-btn active" data-tab="employer">Employer Format</button>
+                <button class="tab-btn" data-tab="quarterly">Quarterly Format</button>
             </div>
             
-            <div class="tab-content active" id="positive-content">
-                <div class="file-list" id="positive-files">
-                    <div class="loading">Loading positive reports...</div>
+            <div class="tab-content active" id="employer-content">
+                <div class="format-info">
+                    <h3>Employer Format Data</h3>
+                    <p>Simple structure with employer, address, and positions approved. Historical data from 2015-2016.</p>
+                </div>
+                <div class="file-list" id="employer-files">
+                    <div class="loading">Loading employer format data...</div>
                 </div>
             </div>
             
-            <div class="tab-content" id="negative-content">
-                <div class="file-list" id="negative-files">
-                    <div class="loading">Loading negative reports...</div>
+            <div class="tab-content" id="quarterly-content">
+                <div class="format-info">
+                    <h3>Quarterly Format Data</h3>
+                    <p>Comprehensive structure with province, stream, occupation, and detailed breakdowns. Recent data from 2017-2025.</p>
+                </div>
+                <div class="file-list" id="quarterly-files">
+                    <div class="loading">Loading quarterly format data...</div>
                 </div>
             </div>
         </section>
@@ -86,8 +94,8 @@
             <div class="access-info">
                 <p>All data is available in CSV format and can be accessed directly via our API endpoints:</p>
                 <div class="endpoint-links">
-                    <a href="outputs/positive_endpoints.json" class="endpoint-link">Positive Reports API</a>
-                    <a href="outputs/negative_endpoints.json" class="endpoint-link">Negative Reports API</a>
+                    <a href="outputs/employer_format_endpoints.json" class="endpoint-link">Employer Format API</a>
+                    <a href="outputs/quarterly_format_endpoints.json" class="endpoint-link">Quarterly Format API</a>
                     <a href="outputs/all_endpoints.json" class="endpoint-link">All Endpoints</a>
                 </div>
                 <p class="note">These endpoints are compatible with Grafana's Infinity plugin for data visualization.</p>

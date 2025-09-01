@@ -43,6 +43,29 @@ extract_postal_code() {
     echo "$address" | grep -o '[A-Z][0-9][A-Z] [0-9][A-Z][0-9]\|[A-Z][0-9][A-Z][0-9][A-Z][0-9]' | head -1 || echo ""
 }
 
+# Function to get lat/lon coordinates from postal code
+get_postal_code_coordinates() {
+    local postal_code="$1"
+    
+    if [[ -z "$postal_code" ]]; then
+        echo ","
+        return
+    fi
+    
+    # Use free geocoding service (Nominatim via OpenStreetMap)
+    # Rate limit: 1 request per second
+    local coordinates=$(curl -s "https://nominatim.openstreetmap.org/search?postalcode=${postal_code}&country=CA&format=json&limit=1" | jq -r '.[0] | "\(.lat),\(.lon)"' 2>/dev/null || echo ",")
+    
+    if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]]; then
+        echo ","
+    else
+        echo "$coordinates"
+    fi
+    
+    # Rate limiting - sleep 1 second between requests
+    sleep 1
+}
+
 # Function to determine file format and process accordingly
 process_file_by_format() {
     local temp_file="$1"
@@ -89,42 +112,48 @@ process_file_by_format() {
     return 0
 }
 
-# Function to add postal code column for employer format files
+# Function to add postal code and coordinates columns for employer format files
 add_postal_code_column_employer() {
     local file="$1"
     local temp_file="${file}.tmp"
     
-    # Create header with postal code column
-    head -1 "$file" | sed 's/Positions approved/Positions approved,Postal Code/' > "$temp_file"
+    # Create header with postal code and coordinates columns
+    head -1 "$file" | sed 's/Positions approved/Positions approved,Postal Code,Latitude,Longitude/' > "$temp_file"
     
-    # Process each line to extract postal code from address
+    # Process each line to extract postal code and coordinates from address
     tail -n +2 "$file" | while IFS= read -r line; do
         if [[ -n "$line" ]]; then
             # Extract address (3rd field) and get postal code
             local address=$(echo "$line" | cut -d',' -f3)
             local postal_code=$(extract_postal_code "$address")
-            echo "${line},${postal_code}" >> "$temp_file"
+            local coordinates=$(get_postal_code_coordinates "$postal_code")
+            local lat=$(echo "$coordinates" | cut -d',' -f1)
+            local lon=$(echo "$coordinates" | cut -d',' -f2)
+            echo "${line},${postal_code},${lat},${lon}" >> "$temp_file"
         fi
     done
     
     mv "$temp_file" "$file"
 }
 
-# Function to add postal code column for quarterly format files
+# Function to add postal code and coordinates columns for quarterly format files
 add_postal_code_column_quarterly() {
     local file="$1"
     local temp_file="${file}.tmp"
     
-    # Create header with postal code column
-    head -1 "$file" | sed 's/Positions Approved/Positions Approved,Postal Code/' > "$temp_file"
+    # Create header with postal code and coordinates columns
+    head -1 "$file" | sed 's/Positions Approved/Positions Approved,Postal Code,Latitude,Longitude/' > "$temp_file"
     
-    # Process each line to extract postal code from address
+    # Process each line to extract postal code and coordinates from address
     tail -n +2 "$file" | while IFS= read -r line; do
         if [[ -n "$line" ]]; then
             # Extract address (4th field) and get postal code
             local address=$(echo "$line" | cut -d',' -f4)
             local postal_code=$(extract_postal_code "$address")
-            echo "${line},${postal_code}" >> "$temp_file"
+            local coordinates=$(get_postal_code_coordinates "$postal_code")
+            local lat=$(echo "$coordinates" | cut -d',' -f1)
+            local lon=$(echo "$coordinates" | cut -d',' -f2)
+            echo "${line},${postal_code},${lat},${lon}" >> "$temp_file"
         fi
     done
     

@@ -16,6 +16,8 @@ Each CSV file contains the following columns:
 | **Occupations under NOC 2011** | National Occupational Classification code and title | "0211-Engineering managers" |
 | **Positions Approved** | Number of positions approved | "1" |
 | **Postal Code** | Extracted postal code | "A1B 4M7" |
+| **Latitude** | Geographic latitude coordinate | "47.5615" |
+| **Longitude** | Geographic longitude coordinate | "-52.7126" |
 
 ### **Data Characteristics**
 - **Format**: Comprehensive, structured data
@@ -46,10 +48,12 @@ All data originates from the [Government of Canada Open Data Portal](https://ope
 
 ## Processing Notes
 
-### **Postal Code Extraction**
+### **Postal Code and Coordinates Extraction**
 - Postal codes are automatically extracted from the Address column
 - Uses regex pattern matching for Canadian postal codes (A1A 1A1 format)
-- Empty postal code field if no valid code is found
+- Geographic coordinates (latitude/longitude) are automatically retrieved for each postal code
+- Uses OpenStreetMap Nominatim geocoding service (free, rate-limited)
+- Empty fields if no valid postal code or coordinates are found
 
 ### **Data Cleaning**
 - Administrative notes and footers are removed
@@ -75,6 +79,9 @@ cut -d',' -f7 filename.csv | sort | uniq -c | sort -nr
 
 # Find positions in specific postal code area
 awk -F',' 'NR>1 && $7 ~ /^A1B/ {print $3, $5, $6}' filename.csv
+
+# Find positions in specific geographic area
+awk -F',' 'NR>1 && $8 != "" && $9 != "" {print $3, $7, $8, $9}' filename.csv
 ```
 
 ### **Occupational Analysis**
