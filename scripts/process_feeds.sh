@@ -5,18 +5,38 @@ set -e # Exit immediately if a command exits with a non-zero status.
 # URLs for the Open Canada data feeds
 POSITIVE_FEED_URL="https://open.canada.ca/data/api/action/package_show?id=90fed587-1364-4f33-a9ee-208181dc0b97"
 NEGATIVE_FEED_URL="https://open.canada.ca/data/api/action/package_show?id=f82f66f2-a22b-4511-bccf-e1d74db39ae5"
-DATA_DIR="." # Directory where CSVs will be stored
+DATA_DIR="." # Base directory where CSVs will be stored
 FEEDS=("$POSITIVE_FEED_URL" "$NEGATIVE_FEED_URL")
+
+# Language filter (default to English if not specified)
+LANGUAGE="${LANGUAGE:-en}"
+
+# Create subdirectories for positive and negative reports
+POSITIVE_DIR="${DATA_DIR}/positive"
+NEGATIVE_DIR="${DATA_DIR}/negative"
+mkdir -p "$POSITIVE_DIR" "$NEGATIVE_DIR"
 
 # --- Logic ---
 NEW_FILES_FOUND="false"
 NEW_FILE_NAMES=""
 
-echo "Starting check for new LMIA reports..."
+echo "Starting check for new LMIA reports (Language: $LANGUAGE)..."
 
 # Loop through both the positive and negative feeds
-for feed_url in "${FEEDS[@]}"; do
-  echo "Checking feed: ${feed_url}"
+for i in "${!FEEDS[@]}"; do
+  feed_url="${FEEDS[$i]}"
+  feed_type=""
+  
+  # Determine feed type for directory organization
+  if [[ "$feed_url" == *"90fed587-1364-4f33-a9ee-208181dc0b97"* ]]; then
+    feed_type="positive"
+    output_dir="$POSITIVE_DIR"
+  else
+    feed_type="negative"
+    output_dir="$NEGATIVE_DIR"
+  fi
+  
+  echo "Checking $feed_type feed: ${feed_url}"
 
   # Fetch the feed and parse it with jq to get the URL and creation date of each resource
   # The output is a list of lines, with URL and created date separated by a tab
@@ -26,21 +46,28 @@ for feed_url in "${FEEDS[@]}"; do
   while IFS=$'\t' read -r url created_ts; do
     # Extract original filename from URL (e.g., tfwp_2024q2_pos_en.xlsx)
     original_filename=$(basename "$url")
+    
+    # Filter by language - only process files matching the specified language
+    if [[ "$original_filename" != *"_${LANGUAGE}."* ]]; then
+      echo "  -> Skipping $original_filename (language mismatch, expected: ${LANGUAGE})"
+      continue
+    fi
 
     # Format the creation date to YYYY-MM-DD
     publish_date=$(echo "$created_ts" | cut -d'T' -f1)
 
-    # Construct the target filename for our repo
-    target_filename="${DATA_DIR}/${publish_date}_${original_filename%.*}.csv"
+    # Construct the target filename for our repo (in appropriate subdirectory)
+    target_filename="${output_dir}/${publish_date}_${original_filename%.*}.csv"
 
     # Check if this file already exists in our repository
     if [ -f "$target_filename" ]; then
+      echo "  -> Skipping $original_filename (already exists)"
       continue # Skip if file already exists
     fi
 
     # --- Found a new file ---
     NEW_FILES_FOUND="true"
-    echo "  -> Found new file: $original_filename (Published: $publish_date)"
+    echo "  -> Found new $feed_type file: $original_filename (Published: $publish_date)"
 
     # Download the file to a temporary location
     temp_download="/tmp/${original_filename}"

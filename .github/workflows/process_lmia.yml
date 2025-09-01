@@ -12,6 +12,14 @@ on:
         required: false
         default: false
         type: boolean
+      language:
+        description: 'Language to process (en/fr)'
+        required: false
+        default: 'en'
+        type: choice
+        options:
+          - en
+          - fr
 
 # Add explicit permissions for the workflow
 permissions:
@@ -52,7 +60,8 @@ jobs:
           # Create the directory for the script if it doesn't exist
           mkdir -p scripts
           # This assumes your script is in the scripts/ directory
-          bash ./scripts/process_feeds.sh
+          # Pass language parameter to the script
+          LANGUAGE="${{ github.event.inputs.language || 'en' }}" bash ./scripts/process_feeds.sh
 
       - name: Show process outputs
         if: ${{ github.event.inputs.debug_mode == 'true' }}
