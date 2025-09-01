@@ -20,6 +20,16 @@ on:
         options:
           - en
           - fr
+      update_cache:
+        description: 'Run cache update after collection'
+        required: false
+        default: false
+        type: boolean
+      sleep_timer:
+        description: 'Sleep timer between geocoding API calls (seconds)'
+        required: false
+        default: '1'
+        type: string
 
 # Add explicit permissions for the workflow
 permissions:
@@ -54,14 +64,19 @@ jobs:
           echo "Commit: ${{ github.sha }}"
           echo "Actor: ${{ github.actor }}"
 
-      - name: Fetch and process new reports
-        id: process
+      - name: Fetch raw LMIA reports (no geocoding)
+        id: collect
         run: |
           # Create the directory for the script if it doesn't exist
           mkdir -p scripts
-          # This assumes your script is in the scripts/ directory
-          # Pass language parameter to the script
+          # Collect raw CSV files without postal code processing
           LANGUAGE="${{ github.event.inputs.language || 'en' }}" bash ./scripts/process_feeds.sh
+          
+      - name: Update location cache (optional)
+        if: ${{ github.event.inputs.update_cache == 'true' }}
+        run: |
+          # Run cache update with configurable sleep timer
+          SLEEP_TIMER="${{ github.event.inputs.sleep_timer || '1' }}" bash ./scripts/update_cache.sh
       - name: Show process outputs
         if: ${{ github.event.inputs.debug_mode == 'true' }}
         run: |

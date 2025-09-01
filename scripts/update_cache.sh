@@ -8,7 +8,7 @@ set -e
 # Configuration
 CACHE_DIR="./outputs/cache"
 LOCATION_CACHE_FILE="$CACHE_DIR/location_cache.csv"
-CSV_DIR="./outputs/csv"
+CSV_DIR="./outputs/csv/unprocessed"
 SLEEP_TIMER="${SLEEP_TIMER:-1}"  # Default 1 second, configurable via environment
 
 echo "=== LMIA Location Cache Update ==="

@@ -25,8 +25,8 @@ POSITIVE_IFLP_DIR="${IFLP_DIR}/positive"
 NEGATIVE_IFLP_DIR="${IFLP_DIR}/negative"
 
 # New directories for different formats
-EMPLOYER_FORMAT_DIR="${CSV_DIR}/employer_format"
-QUARTERLY_FORMAT_DIR="${CSV_DIR}/quarterly_format"
+EMPLOYER_FORMAT_DIR="${CSV_DIR}/unprocessed/employer_format"
+QUARTERLY_FORMAT_DIR="${CSV_DIR}/unprocessed/quarterly_format"
 
 mkdir -p "$POSITIVE_CSV_DIR" "$NEGATIVE_CSV_DIR" "$POSITIVE_IFLP_DIR" "$NEGATIVE_IFLP_DIR"
 mkdir -p "$EMPLOYER_FORMAT_DIR" "$QUARTERLY_FORMAT_DIR"
@@ -36,80 +36,13 @@ echo "Starting check for new LMIA reports (Language: ${LANGUAGE})..."
 new_files_found=false
 new_file_names=""
 
-# Function to extract postal code from address
-extract_postal_code() {
-    local address="$1"
-    # Extract Canadian postal code pattern: A1A 1A1 or A1A1A1
-    echo "$address" | grep -o '[A-Z][0-9][A-Z] [0-9][A-Z][0-9]\|[A-Z][0-9][A-Z][0-9][A-Z][0-9]' | head -1 || echo ""
-}
+# Note: Postal code geocoding has been moved to separate update_cache.sh script
 
-# Location cache file
-LOCATION_CACHE_FILE="./outputs/cache/location_cache.csv"
+# Note: Location cache functionality moved to update_cache.sh
 
-# Initialize location cache if it doesn't exist
-initialize_location_cache() {
-    # Ensure cache directory exists
-    mkdir -p "$(dirname "$LOCATION_CACHE_FILE")"
-    
-    if [[ ! -f "$LOCATION_CACHE_FILE" ]]; then
-        echo "Employer,Address,Postal Code,Latitude,Longitude" > "$LOCATION_CACHE_FILE"
-        echo "  -> Created location cache file: $LOCATION_CACHE_FILE"
-    fi
-}
+# Note: Cache functions moved to update_cache.sh
 
-# Function to cache employer location data
-cache_employer_location() {
-    local employer="$1"
-    local address="$2"
-    local postal_code="$3"
-    local latitude="$4"
-    local longitude="$5"
-    
-    # Skip if essential data is missing
-    if [[ -z "$employer" || -z "$postal_code" ]]; then
-        return
-    fi
-    
-    # Clean fields for CSV (escape quotes, remove commas from within fields)
-    employer=$(echo "$employer" | sed 's/"/""/g' | sed 's/,/;/g')
-    address=$(echo "$address" | sed 's/"/""/g' | sed 's/,/;/g')
-    
-    # Check if this employer+postal code combination already exists
-    local cache_key="${employer}.*${postal_code}"
-    if ! grep -q "$cache_key" "$LOCATION_CACHE_FILE" 2>/dev/null; then
-        echo "\"$employer\",\"$address\",$postal_code,$latitude,$longitude" >> "$LOCATION_CACHE_FILE"
-    fi
-}
-
-# Function to get lat/lon coordinates from postal code (with caching)
-get_postal_code_coordinates() {
-    local postal_code="$1"
-    
-    if [[ -z "$postal_code" ]]; then
-        echo ","
-        return
-    fi
-    
-    # Check cache first
-    local cached_coords=$(grep ",$postal_code," "$LOCATION_CACHE_FILE" 2>/dev/null | head -1 | cut -d',' -f4,5)
-    
-    if [[ -n "$cached_coords" && "$cached_coords" != "," ]]; then
-        echo "$cached_coords"
-        return
-    fi
-    
-    # Not in cache, query Nominatim API
-    local coordinates=$(curl -s "https://nominatim.openstreetmap.org/search?postalcode=${postal_code}&country=CA&format=json&limit=1" | jq -r '.[0] | "\(.lat),\(.lon)"' 2>/dev/null || echo ",")
-    
-    if [[ "$coordinates" == "null,null" || "$coordinates" == "," ]]; then
-        echo ","
-    else
-        echo "$coordinates"
-    fi
-    
-    # Rate limiting - sleep 1 second between requests
-    sleep 1
-}
+# Note: Geocoding functions moved to update_cache.sh
 
 # Function to determine file format and process accordingly
 process_file_by_format() {
@@ -168,83 +101,18 @@ process_file_by_format() {
         fi
     fi
     
-    # Add postal code column based on format (with caching enabled)
-    if [[ "$format_type" == "employer" ]]; then
-        echo "  -> Adding postal codes and coordinates (employer format)..."
-        add_postal_code_column_employer "$new_target_file"
-    else
-        echo "  -> Adding postal codes and coordinates (quarterly format)..."
-        add_postal_code_column_quarterly "$new_target_file"
-    fi
+    # Note: Postal code processing moved to separate update_cache.sh workflow
+    echo "  -> Raw CSV saved (postal code processing will be done separately)"
     
     echo "     ✅ Saved as $new_target_file (${format_type} format)"
     return 0
 }
 
-# Function to add postal code and coordinates columns for employer format files
-add_postal_code_column_employer() {
-    local file="$1"
-    local temp_file="${file}.tmp"
-    
-    # Create header with postal code and coordinates columns
-    head -1 "$file" | sed 's/Positions/Positions,Postal Code,Latitude,Longitude/' > "$temp_file"
-    
-    # Process each line to extract postal code and coordinates from address
-    tail -n +2 "$file" | while IFS= read -r line; do
-        if [[ -n "$line" ]]; then
-            # Extract employer (1st field), address (3rd field) and get postal code
-            local employer=$(echo "$line" | cut -d',' -f1)
-            local address=$(echo "$line" | cut -d',' -f3)
-            local postal_code=$(extract_postal_code "$address")
-            local coordinates=$(get_postal_code_coordinates "$postal_code")
-            local lat=$(echo "$coordinates" | cut -d',' -f1)
-            local lon=$(echo "$coordinates" | cut -d',' -f2)
-            
-            # Cache the location data if we have valid coordinates
-            if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" ]]; then
-                cache_employer_location "$employer" "$address" "$postal_code" "$lat" "$lon"
-            fi
-            
-            echo "${line},${postal_code},${lat},${lon}" >> "$temp_file"
-        fi
-    done
-    
-    mv "$temp_file" "$file"
-}
+# Note: Postal code processing functions moved to update_cache.sh
 
-# Function to add postal code and coordinates columns for quarterly format files
-add_postal_code_column_quarterly() {
-    local file="$1"
-    local temp_file="${file}.tmp"
-    
-    # Create header with postal code and coordinates columns
-    head -1 "$file" | sed 's/Positions Approved/Positions Approved,Postal Code,Latitude,Longitude/' > "$temp_file"
-    
-    # Process each line to extract postal code and coordinates from address
-    tail -n +2 "$file" | while IFS= read -r line; do
-        if [[ -n "$line" ]]; then
-            # Extract employer (3rd field), address (4th field) and get postal code
-            local employer=$(echo "$line" | cut -d',' -f3)
-            local address=$(echo "$line" | cut -d',' -f4)
-            local postal_code=$(extract_postal_code "$address")
-            local coordinates=$(get_postal_code_coordinates "$postal_code")
-            local lat=$(echo "$coordinates" | cut -d',' -f1)
-            local lon=$(echo "$coordinates" | cut -d',' -f2)
-            
-            # Cache the location data if we have valid coordinates
-            if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" ]]; then
-                cache_employer_location "$employer" "$address" "$postal_code" "$lat" "$lon"
-            fi
-            
-            echo "${line},${postal_code},${lat},${lon}" >> "$temp_file"
-        fi
-    done
-    
-    mv "$temp_file" "$file"
-}
+# Note: Quarterly format postal code processing moved to update_cache.sh
 
-# Initialize location cache
-initialize_location_cache
+# Note: Location cache initialization moved to update_cache.sh
 
 # Process each feed
 for feed_url in "${FEEDS[@]}"; do
