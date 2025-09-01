@@ -88,7 +88,7 @@ get_coordinates_for_postal_code() {
             CACHE_HITS=$((CACHE_HITS + 1))
             echo "  ✓ Cache hit: $postal_code" >&2
             echo "$cached_coords"
-            return
+            return  # Early return - NO SLEEP for cache hits!
         fi
     fi
     
@@ -259,7 +259,8 @@ get_coordinates_for_postal_code() {
         echo "$coordinates"
     fi
     
-    # Rate limiting for primary source (Nominatim)
+    # Rate limiting for API calls only (not cache hits)
+    # Note: Cache hits return early above, so this only affects API calls
     sleep "$GEOCODING_SLEEP_TIMER"
 }
 

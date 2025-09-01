@@ -62,8 +62,21 @@ parse_csv_line() {
     local line="$1"
     local field_num="$2"
     
-    # Clean the line of problematic characters first
-    local cleaned_line=$(echo "$line" | iconv -f utf-8 -t utf-8//IGNORE 2>/dev/null || echo "$line" | tr -d '\200-\377')
+    # Clean the line of problematic characters first - handle multiple encodings
+    local cleaned_line
+    if cleaned_line=$(echo "$line" | iconv -f iso-8859-1 -t utf-8//IGNORE 2>/dev/null); then
+        # Successfully converted from ISO-8859-1
+        :
+    elif cleaned_line=$(echo "$line" | iconv -f utf-8 -t utf-8//IGNORE 2>/dev/null); then
+        # Successfully cleaned UTF-8
+        :
+    else
+        # Fallback: remove problematic characters
+        cleaned_line=$(echo "$line" | tr -d '\200-\377' | tr -d '\000-\037')
+    fi
+    
+    # Additional cleaning: remove any remaining problematic patterns
+    cleaned_line=$(echo "$cleaned_line" | sed 's/[[:cntrl:]]//g')
     
     # Simple but effective CSV parsing for our specific format
     if [[ $field_num -eq 1 ]]; then
