@@ -50,9 +50,8 @@ for feed_url in "${FEEDS[@]}"; do
 
     # Check file extension and process accordingly
     if [[ "$original_filename" == *.xlsx ]]; then
-      # It's an XLSX file: convert, then remove the first line
-      ssconvert "$temp_download" "/tmp/temp.csv"
-      tail -n +2 "/tmp/temp.csv" > "$target_filename"
+      # It's an XLSX file: convert using in2csv (lighter than ssconvert)
+      in2csv "$temp_download" | tail -n +2 > "$target_filename"
     elif [[ "$original_filename" == *.csv ]]; then
       # It's already a CSV: just remove the first line
       tail -n +2 "$temp_download" > "$target_filename"

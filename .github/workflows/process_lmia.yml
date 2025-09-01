@@ -30,10 +30,12 @@ jobs:
           # Fetch full history to avoid git issues
           fetch-depth: 0
 
-      - name: Install dependencies (jq, gnumeric)
+      - name: Install dependencies (jq, csvkit)
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq gnumeric
+          sudo apt-get install -y jq csvkit
+          # csvkit provides in2csv which is much lighter than gnumeric
+          # and can handle XLSX to CSV conversion efficiently
 
       - name: Show debug info
         if: ${{ github.event.inputs.debug_mode == 'true' }}
