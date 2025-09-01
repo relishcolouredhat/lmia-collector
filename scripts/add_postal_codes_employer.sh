@@ -30,10 +30,12 @@ get_postal_code_coordinates() {
         return
     fi
     
-    # Check cache first
+    # Check cache first - normalize postal code format (remove spaces for lookup)
+    local normalized_pc=$(echo "$postal_code" | tr -d ' ')
     if [[ -f "$CACHE_FILE" ]]; then
-        local cached_coords=$(grep "^$postal_code," "$CACHE_FILE" 2>/dev/null | head -1 | cut -d',' -f2,3)
+        local cached_coords=$(grep "^$normalized_pc," "$CACHE_FILE" 2>/dev/null | head -1 | cut -d',' -f2,3)
         if [[ -n "$cached_coords" && "$cached_coords" != "," ]]; then
+            echo "  ✓ Cache hit: $postal_code" >&2
             echo "$cached_coords"
             return
         fi
@@ -52,15 +54,15 @@ get_postal_code_coordinates() {
             local lat=$(echo "$coordinates" | cut -d',' -f1)
             local lon=$(echo "$coordinates" | cut -d',' -f2)
             if [[ -n "$lat" && -n "$lon" ]]; then
-                # Add to cache if not already present
-                if ! grep -q "^$postal_code," "$CACHE_FILE" 2>/dev/null; then
-                    echo "$postal_code,$lat,$lon,\"Sample Address\",\"Sample Employer\"" >> "$CACHE_FILE"
+                # Add to cache if not already present (normalize format)
+                if ! grep -q "^$normalized_pc," "$CACHE_FILE" 2>/dev/null; then
+                    echo "$normalized_pc,$lat,$lon,\"API Lookup\",\"API Result\"" >> "$CACHE_FILE"
                 fi
             fi
         fi
     fi
     
-    # Rate limiting
+    # Rate limiting - ONLY for API calls (not cache hits)
     sleep "$SLEEP_TIMER"
 }
 
@@ -104,7 +106,13 @@ tail -n +2 "$FILE" | while IFS= read -r line; do
     fi
 done
 
-# Replace original file with processed version
-mv "$TEMP_FILE" "$FILE"
+# Create processed file in the processed directory (preserve original)
+PROCESSED_DIR="./outputs/csv/processed/employer_format"
+mkdir -p "$PROCESSED_DIR"
+PROCESSED_FILE="$PROCESSED_DIR/$(basename "$FILE")"
 
-echo "✅ Added postal codes to $(basename "$FILE")"
+mv "$TEMP_FILE" "$PROCESSED_FILE"
+
+echo "✅ Added postal codes to $(basename "$PROCESSED_FILE")"
+echo "   Original: $FILE"
+echo "   Processed: $PROCESSED_FILE"
