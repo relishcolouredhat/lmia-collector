@@ -1,0 +1,10 @@
+{
+  "endpoints": [
+    {
+      "name": "2017-11-10_2017q1q2_positive_en.csv",
+      "url": "outputs/csv/unprocessed/quarterly_format/2017-11-10_2017q1q2_positive_en.csv",
+      "published_date": "2017-11-10", 
+      "type": "quarterly_format"
+    }
+  ]
+}

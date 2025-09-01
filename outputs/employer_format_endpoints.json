@@ -1,0 +1,22 @@
+{
+  "endpoints": [
+    {
+      "name": "2016-10-21_positive_employers_en.csv",
+      "url": "outputs/csv/unprocessed/employer_format/2016-10-21_positive_employers_en.csv",
+      "published_date": "2016-10-21",
+      "type": "employer_format"
+    },
+    {
+      "name": "2016-10-21_2015_positive_employers_en.csv", 
+      "url": "outputs/csv/unprocessed/employer_format/2016-10-21_2015_positive_employers_en.csv",
+      "published_date": "2016-10-21",
+      "type": "employer_format"
+    },
+    {
+      "name": "2017-08-04_2016_positive_employer_en.csv",
+      "url": "outputs/csv/unprocessed/employer_format/2017-08-04_2016_positive_employer_en.csv", 
+      "published_date": "2017-08-04",
+      "type": "employer_format"
+    }
+  ]
+}

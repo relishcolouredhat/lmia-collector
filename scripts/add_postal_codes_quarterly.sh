@@ -75,11 +75,11 @@ head -1 "$FILE" | sed 's/$/,Postal Code,Latitude,Longitude/' > "$TEMP_FILE"
 tail -n +2 "$FILE" | while IFS= read -r line; do
     if [[ -n "$line" ]]; then
         # Extract address from the line (assuming it's the fourth field in quarterly CSV)
-        local address=$(echo "$line" | cut -d',' -f4 | sed 's/"//g')
-        local postal_code=$(extract_postal_code "$address")
-        local coordinates=$(get_postal_code_coordinates "$postal_code")
-        local lat=$(echo "$coordinates" | cut -d',' -f1)
-        local lon=$(echo "$coordinates" | cut -d',' -f2)
+        address=$(echo "$line" | cut -d',' -f4 | sed 's/"//g')
+        postal_code=$(extract_postal_code "$address")
+        coordinates=$(get_postal_code_coordinates "$postal_code")
+        lat=$(echo "$coordinates" | cut -d',' -f1)
+        lon=$(echo "$coordinates" | cut -d',' -f2)
         
         echo "${line},${postal_code},${lat},${lon}" >> "$TEMP_FILE"
     fi
