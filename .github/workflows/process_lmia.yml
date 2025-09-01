@@ -1,9 +1,9 @@
-name: Fetch and Process LMIA Reports
+name: "[DEPRECATED] Fetch and Process LMIA Reports"
 
 on:
-  # Run automatically every day at 05:00 UTC
-  schedule:
-    - cron: '0 5 * * *'
+  # DEPRECATED: Use daily-pipeline.yml instead
+  # schedule:
+  #   - cron: '0 5 * * *'
   # Allow manual runs from the GitHub Actions tab
   workflow_dispatch:
     inputs:
@@ -64,9 +64,25 @@ jobs:
           echo "Commit: ${{ github.sha }}"
           echo "Actor: ${{ github.actor }}"
 
-      - name: Fetch raw LMIA reports (no geocoding)
+      - name: Deprecation Notice
+        run: |
+          echo "⚠️  DEPRECATION WARNING ⚠️"
+          echo ""
+          echo "This workflow is DEPRECATED. Please use the new modular workflows instead:"
+          echo "🔄 Daily Pipeline: .github/workflows/daily-pipeline.yml"
+          echo "📥 Data Collection: .github/workflows/collect-data.yml"  
+          echo "📍 Post-Processing: .github/workflows/postprocess-data.yml"
+          echo "🗂️  Cache Updates: .github/workflows/update-cache.yml"
+          echo ""
+          echo "The new architecture provides better separation of concerns,"
+          echo "conditional cache updates, and improved error handling."
+          echo ""
+          echo "This workflow will be removed in a future version."
+          
+      - name: Fetch raw LMIA reports (no geocoding) [DEPRECATED]
         id: collect
         run: |
+          echo "Running deprecated collection script..."
           # Create the directory for the script if it doesn't exist
           mkdir -p scripts
           # Collect raw CSV files without postal code processing
