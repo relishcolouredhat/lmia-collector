@@ -8,6 +8,7 @@
 : ${CACHE_HITS:=0}
 : ${API_CALLS:=0}
 : ${FAILED_LOOKUPS:=0}
+: ${TOTAL_PROCESSED:=0}
 
 # Default configuration (can be overridden by calling script)
 # Turbo mode uses faster defaults
@@ -71,6 +72,16 @@ get_bogons_count() {
     fi
 }
 
+# Show rolling statistics for hits vs misses
+# Usage: show_rolling_stats
+show_rolling_stats() {
+    if [[ $((TOTAL_PROCESSED % 5)) -eq 0 && $TOTAL_PROCESSED -gt 0 ]]; then
+        local hit_rate=$((CACHE_HITS * 100 / TOTAL_PROCESSED))
+        local miss_rate=$((100 - hit_rate))
+        echo "    📊 Stats: ${CACHE_HITS}/${TOTAL_PROCESSED} (${hit_rate}% hits, ${miss_rate}% misses, ${API_CALLS} API calls)"
+    fi
+}
+
 # Multi-source geocoding function
 # Usage: get_coordinates_for_postal_code "A1C6C9"
 # Returns: "lat,lon" or "," if not found
@@ -91,7 +102,9 @@ get_coordinates_for_postal_code() {
         local cached_coords=$(grep "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null | head -1 | cut -d';' -f2,3 | tr ';' ',')
         if [[ -n "$cached_coords" && "$cached_coords" != "," ]]; then
             CACHE_HITS=$((CACHE_HITS + 1))
-            echo "  ✓ Cache hit: $postal_code" >&2
+            TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
+            echo "  🟢 Cache hit: $postal_code" >&2
+            show_rolling_stats >&2
             echo "$cached_coords"
             return  # Early return - NO SLEEP for cache hits!
         fi
@@ -99,7 +112,9 @@ get_coordinates_for_postal_code() {
     
     # Check if postal code is in bogons (known failures) - avoid repeated API calls
     if is_postal_code_bogon "$normalized_pc"; then
+        TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
         echo "  ⚠️  Bogon (known failure): $postal_code - skipping API calls" >&2
+        show_rolling_stats >&2
         echo ","
         return
     fi
@@ -255,12 +270,16 @@ get_coordinates_for_postal_code() {
     # Check final result
     if [[ "$coordinates" == "null,null" || "$coordinates" == "," || -z "$coordinates" ]]; then
         FAILED_LOOKUPS=$((FAILED_LOOKUPS + 1))
+        TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
         echo "    ❌ No coordinates found for $postal_code (tried all available sources)" >&2
+        show_rolling_stats >&2
         # Add to bogons to prevent future API calls for this postal code
         add_postal_code_to_bogons "$normalized_pc"
         echo ","
     else
+        TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
         echo "    ✅ Found coordinates: $coordinates (source: $source)" >&2
+        show_rolling_stats >&2
         echo "$coordinates"
     fi
     

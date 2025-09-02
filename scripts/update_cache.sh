@@ -183,7 +183,7 @@ process_csv_files() {
                                 local normalized_pc=$(echo "$pc" | tr -d ' ')
                                 if [[ -f "$GEOCODING_CACHE_FILE" ]] && grep -q "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null; then
                                     # Already cached - skip geocoding processing entirely
-                                    echo "    ⚡ Skipped cached: $pc"
+                                    echo "    🟢 Skipped cached: $pc"
                                     continue
                                 fi
                                 
@@ -247,7 +247,7 @@ process_csv_files() {
                                 local normalized_pc=$(echo "$pc" | tr -d ' ')
                                 if [[ -f "$GEOCODING_CACHE_FILE" ]] && grep -q "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null; then
                                     # Already cached - skip geocoding processing entirely
-                                    echo "    ⚡ Skipped cached: $pc"
+                                    echo "    🟢 Skipped cached: $pc"
                                     continue
                                 fi
                                 
