@@ -52,10 +52,7 @@ extract_postal_code() {
     echo "$address" | grep -o '[A-Z][0-9][A-Z] [0-9][A-Z][0-9]\|[A-Z][0-9][A-Z][0-9][A-Z][0-9]' | head -1 || echo ""
 }
 
-# Global counters for statistics
-CACHE_HITS=0
-API_CALLS=0
-FAILED_LOOKUPS=0
+# Global counters for statistics - initialized by geocoding library
 
 # Wrapper function for backward compatibility - delegates to central geocoding library
 get_postal_code_coordinates() {
@@ -178,15 +175,16 @@ process_csv_files() {
                             # Extract postal code from address
                             local pc=$(extract_postal_code "$address")
                             if [[ -n "$pc" ]]; then
-                                printf "                                    · Extracted postal code: %s from: %.50s...\n" "$pc" "$address"
+                                show_rolling_stats
+                                printf "· Extracted: %s from: %.25s...\n" "$pc" "$address"
                                 # Skip geocoding if already cached - MAJOR PERFORMANCE OPTIMIZATION
                                 local normalized_pc=$(echo "$pc" | tr -d ' ')
                                 if [[ -f "$GEOCODING_CACHE_FILE" ]] && grep -q "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null; then
                                     # Already cached - skip geocoding processing entirely
                                     CACHE_HITS=$((CACHE_HITS + 1))
                                     TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
-                                    show_rolling_stats >&2
-                                    echo "████ SKIP: $pc"
+                                    show_rolling_stats
+                                    echo "████ SKIP: $pc" >&2
                                     continue
                                 fi
                                 
@@ -245,15 +243,16 @@ process_csv_files() {
                             # Extract postal code from address
                             local pc=$(extract_postal_code "$address")
                             if [[ -n "$pc" ]]; then
-                                printf "                                    · Extracted postal code: %s from: %.50s...\n" "$pc" "$address"
+                                show_rolling_stats
+                                printf "· Extracted: %s from: %.25s...\n" "$pc" "$address"
                                 # Skip geocoding if already cached - MAJOR PERFORMANCE OPTIMIZATION
                                 local normalized_pc=$(echo "$pc" | tr -d ' ')
                                 if [[ -f "$GEOCODING_CACHE_FILE" ]] && grep -q "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null; then
                                     # Already cached - skip geocoding processing entirely
                                     CACHE_HITS=$((CACHE_HITS + 1))
                                     TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
-                                    show_rolling_stats >&2
-                                    echo "████ SKIP: $pc"
+                                    show_rolling_stats
+                                    echo "████ SKIP: $pc" >&2
                                     continue
                                 fi
                                 

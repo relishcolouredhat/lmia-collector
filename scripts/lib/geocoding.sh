@@ -109,7 +109,7 @@ get_coordinates_for_postal_code() {
         if [[ -n "$cached_coords" && "$cached_coords" != "," ]]; then
             CACHE_HITS=$((CACHE_HITS + 1))
             TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
-            show_rolling_stats
+            show_rolling_stats >&2
             echo "████ CACHE HIT: $postal_code" >&2
             echo "$cached_coords"
             return  # Early return - NO SLEEP for cache hits!

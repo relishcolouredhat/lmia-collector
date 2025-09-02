@@ -7,23 +7,23 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/load_env.sh"
 
-# Load central geocoding library
-source "$SCRIPT_DIR/lib/geocoding.sh"
-
 FILE="$1"
 SLEEP_TIMER="${2:-1}"
-CACHE_FILE="./outputs/cache/location_cache.csv"
+CACHE_FILE="../outputs/cache/location_cache.csv"
 
-# Configure geocoding library
+# Configure geocoding library BEFORE loading it
 export GEOCODING_SLEEP_TIMER="$SLEEP_TIMER"
 export GEOCODING_CACHE_FILE="$CACHE_FILE"
+
+# Load central geocoding library AFTER setting cache file
+source "$SCRIPT_DIR/lib/geocoding.sh"
 
 if [[ ! -f "$FILE" ]]; then
     echo "Error: File not found: $FILE"
     exit 1
 fi
 
-echo "Adding postal codes to quarterly format file: $(basename "$FILE")"
+echo "Adding postal codes to quarterly format file: $(basename "$FILE")" >&2
 
 # Function to extract postal code from address
 extract_postal_code() {
@@ -36,6 +36,8 @@ extract_postal_code() {
 # Wrapper function that delegates to central geocoding library and handles caching
 get_postal_code_coordinates() {
     local postal_code="$1"
+    
+    # Direct call - stderr messages will show, but coordinates are captured
     local coordinates=$(get_coordinates_for_postal_code "$postal_code")
     
     # If coordinates found and not cached, add to cache with "Unknown" placeholder data
@@ -106,6 +108,6 @@ PROCESSED_FILE="$PROCESSED_DIR/$(basename "$FILE")"
 
 mv "$TEMP_FILE" "$PROCESSED_FILE"
 
-echo "✅ Added postal codes to $(basename "$PROCESSED_FILE")"
-echo "   Original: $FILE"
-echo "   Processed: $PROCESSED_FILE"
+echo "✅ Added postal codes to $(basename "$PROCESSED_FILE")" >&2
+echo "   Original: $FILE" >&2
+echo "   Processed: $PROCESSED_FILE" >&2

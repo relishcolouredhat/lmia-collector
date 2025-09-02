@@ -7,16 +7,16 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/load_env.sh"
 
-# Load central geocoding library
-source "$SCRIPT_DIR/lib/geocoding.sh"
-
 FILE="$1"
 SLEEP_TIMER="${2:-1}"
-CACHE_FILE="./outputs/cache/location_cache.csv"
+CACHE_FILE="../outputs/cache/location_cache.csv"
 
-# Configure geocoding library
+# Configure geocoding library BEFORE loading it
 export GEOCODING_SLEEP_TIMER="$SLEEP_TIMER"
 export GEOCODING_CACHE_FILE="$CACHE_FILE"
+
+# Load central geocoding library AFTER setting cache file
+source "$SCRIPT_DIR/lib/geocoding.sh"
 
 if [[ ! -f "$FILE" ]]; then
     echo "Error: File not found: $FILE"

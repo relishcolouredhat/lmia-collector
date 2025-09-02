@@ -1,3 +1,4 @@
+Postal Code;Latitude;Longitude;Sample Address;Sample Employer
 A0A1C0;47.3202414;-52.8183469;92 Farm Road, Bay Bulls, NL A0A1C0;Ocean View Farm
 A0A1G0;47.5871535;-53.2787055;1 Hope Avenue, Bay Roberts, NL A0A1G0;Atlantic Grocery Distributors
 A0A1P0;47.0960066;-52.9472844;PO Box29, Cape Broyle, NL A0A1P0;Conche Seafoods Ltd.
@@ -687,7 +688,6 @@ E4N2J6;46.1923701;-64.1680616;Petit-Cap, NB E4N 2J6;Petit-Cap Fisheries Ltd.
 E4N2P9;46.1489377;-64.14431549999999;Shemogue, NB E4N 2P9;La Scierie Cap-PelÃ© Sawmill Ltd/LtÃ©e
 E4N2Z6;46.2073109;-64.20476839999999;trois ruisseaux, NB E4N 2Z6;Alvin & Rufin Boudreau and Sons LTD
 E4N3A9;46.2144912;-64.2709964;2488 Acadie Road, PO Box1323, Cap-Pele, NB E4N3A9;Fred's Bakery (2007) Ltd
-E4N3B3;46.2187703;-64.2721825;"Botsford Fisheries Ltd., Les Pcheries Botsford lte","PO Box1093, Cap-Pele, NB E4N3B3",33;Botsford Fisheries Ltd., Les Pcheries Botsford lte","PO Box1093, Cap-Pele, NB E4N3B3",33
 E4P2A6;46.2189690;-64.5525238;261 Main Street, Shediac, NB E4P2A6;Shediac Lobster Shop Ltd.
 E4P2G1;46.2199998;-64.5394966;406 Main Street, Shediac, NB E4P2G1;Sushiko Sushi & Grill
 E4P2G9;46.5874141;-64.9688113;Shediac, NB E4P 2G9;638001 NB Inc oa Pizza Delight
@@ -814,7 +814,6 @@ G0E1T0;49.1684497;-65.6929107;Saint-Maxime-du-Mont-Louis, QC G0E 1T0;Cusimer ( 1
 G0G1J0;52.5373228;-68.9231712;17 De Brouage Street, Fermont, QC G0G1J0;Blackburn Quartz Inc..(9112-3760 Quebec Inc.)
 G0G1L0;50.1354559;-66.6309563;3232, route138 Ouest, Sept-les (Gallix Area), QC G0G1L0;2549-6274 Qubec Inc.
 G0G1P0;51.0717795;-62.9959;Havre-Saint-Pierre, QC G0G 1P0;Poissonnerie du Havre LtÃ©e.
-G0G1V0;51.30506;-63.9528456;Longue-Pointe de Mingan, QC G0G 1V0;Poseidon ""Les Poissons et CrustacÃ©s""Inc
 G0G1W0;51.710746;-57.2175349;P.O. Box 363, Lourdes-de-Blanc-Sablon, QC G0G 1W0;Automoteur M.M.R. Inc.
 G0H1A0;49.491373;-67.3465758;Îlets Caribou, QC G0H 1A0;Pneumatique Transports Inc.
 G0H1C0;49.12503239999999;-68.3999074;CHUTE-AUX-OUTARDES, QC G0H 1C0;Poissonnerie Jean-Guy Laprise. Inc
@@ -3245,7 +3244,6 @@ H7L5R2;45.5929738;-73.7610493;Laval, QC H7L 5R2;Exceltec Instrumentation & Autom
 H7L5T6;45.6008018;-73.7732199;Laval, QC H7L 5T6;9434-5873 QuÃ©bec inc.
 H7L5V1;45.58884519999999;-73.7670091;Laval, QC H7L 5V1;Hydrolico Inc.
 H7L5W5;45.5799141;-73.77220989999999;Laval, QC H7L 5W5;9330-1455 Quebec inc.
-H7L5X9;45.5837104;-73.77125359999999;"COBA, logiciels de gestion Inc","2130 Dagenais Boulevard West, Suite200, Laval, QC H7L5X9",1;COBA, logiciels de gestion Inc","2130 Dagenais Boulevard West, Suite200, Laval, QC H7L5X9",1
 H7L5Y2;45.5832102;-73.7750983;Laval, QC H7L 5Y2;Can-Aqua International Ltée
 H7L6C4;45.5822601;-73.77377020000002;Laval, QC H7L 6C4;Mecaer America Inc.
 H7L6E3;45.5989976;-73.75042669999999;Laval, QC H7L 6E3;Wolseley Canada Inc
@@ -3954,7 +3952,6 @@ J2G7A7;45.393596;-72.7328869;Granby, QC J2G 7A7;Service d'Ãchange Rapidgaz
 J2G7N2;45.3933335;-72.73898629999999;Granby, QC J2G 7N2;Les Aliments Chicoine Inc.
 J2G7X1;45.411209;-72.7513089;Granby, QC J2G 7X1;9409-0669 QuÃ©bec inc.
 J2G8N1;45.39115169999999;-72.7522115;Granby, QC J2G 8N1;9028-0843 QuÃ©bec INC
-J2G8V1;45.3911278;-72.7549813;"Aldex Chemical Company, Ltd.","630 Laurent Street, Granby, QC J2G8V1",1;Aldex Chemical Company, Ltd.","630 Laurent Street, Granby, QC J2G8V1",1
 J2G9J5;45.3883926;-72.75392479999999;Granby, QC J2G 9J5;Comptoirs Verte Feuille inc.
 J2G9R5;45.4122355;-72.75841079999999;Granby, QC J2G 9R5;MIEC INC
 J2G9S6;45.3934068;-72.7477377;GRANBY, QC J2G 9S6;COLOREX INC.
@@ -17847,3 +17844,6 @@ Y1A4L2;60.7805755;-135.1481788;Whitehorse, YT Y1A 4L2;Kluane Drilling Ltd.
 Y1A5B4;60.70434040000001;-135.0274487;38A Lewes Boulevard, Whitehorse, YT Y1A 5B4;Leaping Feats Creative Danceworks Ltd.
 Y1A6A9;60.74294620000001;-135.0701971;114 Platinum Road, Whitehorse, YT Y1A 6A9;All Yukon Refrigeration
 Y1A7A2;61.3850674;-135.5680966;Whitehorse, YT Y1A 7A2;National Outdoor Leadership Society
+E4N3B3;46.2187703;-64.2721825;Cap-Pele, NB E4N 3B3;Botsford Fisheries Ltd., Les Pêcheries Botsford ltée
+H7L5X9;45.5837104;-73.77125359999999;Laval, QC H7L 5X9;COBA, logiciels de gestion inc
+A1N4R6;47.5147803;-52.84059019999999;Unknown;Unknown
