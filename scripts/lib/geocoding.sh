@@ -143,7 +143,7 @@ get_coordinates_for_postal_code() {
             if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" && "$lat" != "null" && "$lon" != "null" ]]; then
                 coordinates="$lat,$lon"
                 source="Google-Turbo"
-                echo "    \033[32m██\033[0m FOUND: $coordinates (source: $source)" >&2
+                echo "    \033[35m▼▼\033[0m FOUND: $coordinates (source: $source)" >&2
                 echo "$coordinates"
                 return  # Early return - we got our result fast!
             fi
@@ -283,7 +283,7 @@ get_coordinates_for_postal_code() {
         echo ","
     else
         TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
-        echo "    \033[32m██\033[0m FOUND: $coordinates (source: $source)" >&2
+        echo "    \033[35m▼▼\033[0m FOUND: $coordinates (source: $source)" >&2
         show_rolling_stats >&2
         echo "$coordinates"
     fi
