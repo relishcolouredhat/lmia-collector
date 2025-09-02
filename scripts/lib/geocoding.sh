@@ -72,20 +72,9 @@ get_bogons_count() {
     fi
 }
 
-# Show rolling statistics for hits vs misses
-# Usage: show_rolling_stats
+# Simple progress display function (placeholder for compatibility)
 show_rolling_stats() {
-    local hit_rate=0
-    if [[ $TOTAL_PROCESSED -gt 0 ]]; then
-        hit_rate=$((CACHE_HITS * 100 / TOTAL_PROCESSED))
-    fi
-    local bar_length=10
-    local hit_chars=$((hit_rate * bar_length / 100))
-    local miss_chars=$((bar_length - hit_chars))
-    local hit_bar=$(printf "%*s" $hit_chars | tr ' ' '█')
-    local miss_bar=$(printf "%*s" $miss_chars | tr ' ' '░')
-    local bogons=$(get_bogons_count)
-    printf "[%s%s] H:%d M:%d A:%d B:%d | " "$hit_bar" "$miss_bar" "$CACHE_HITS" "$FAILED_LOOKUPS" "$API_CALLS" "$bogons"
+    echo "" >&2  # Empty line for clean output
 }
 
 # Multi-source geocoding function
@@ -107,9 +96,6 @@ get_coordinates_for_postal_code() {
     if [[ -f "$GEOCODING_CACHE_FILE" ]]; then
         local cached_coords=$(grep "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null | head -1 | cut -d';' -f2,3 | tr ';' ',')
         if [[ -n "$cached_coords" && "$cached_coords" != "," ]]; then
-            CACHE_HITS=$((CACHE_HITS + 1))
-            TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
-            show_rolling_stats >&2
             echo "████ CACHE HIT: $postal_code" >&2
             echo "$cached_coords"
             return  # Early return - NO SLEEP for cache hits!
@@ -118,17 +104,13 @@ get_coordinates_for_postal_code() {
     
     # Check if postal code is in bogons (known failures) - avoid repeated API calls
     if is_postal_code_bogon "$normalized_pc"; then
-        TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
-        show_rolling_stats >&2
         echo "⚠️⚠️⚠️⚠️ BOGON: $postal_code" >&2
         echo ","
         return
     fi
     
     # Not in cache and not a bogon, try multiple geocoding sources
-    API_CALLS=$((API_CALLS + 1))
-    show_rolling_stats >&2
-    echo "◆◆◆◆ API LOOKUP: $postal_code (#$API_CALLS)" >&2
+    echo "◆◆◆◆ API LOOKUP: $postal_code" >&2
     
     # TURBO MODE: Try Google first if API key available and turbo mode enabled
     if [[ "$GEOCODING_TURBO_MODE" == "true" && -n "$GOOGLE_GEOCODING_API_KEY" ]]; then
@@ -276,16 +258,11 @@ get_coordinates_for_postal_code() {
     
     # Check final result
     if [[ "$coordinates" == "null,null" || "$coordinates" == "," || -z "$coordinates" ]]; then
-        FAILED_LOOKUPS=$((FAILED_LOOKUPS + 1))
-        TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
-        show_rolling_stats >&2
         echo "❌ No coordinates found for $postal_code (tried all available sources)" >&2
         # Add to bogons to prevent future API calls for this postal code
         add_postal_code_to_bogons "$normalized_pc"
         echo ","
     else
-        TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
-        show_rolling_stats >&2
         echo "▼▼▼▼ FOUND: $coordinates (source: $source)" >&2
         echo "$coordinates"
     fi

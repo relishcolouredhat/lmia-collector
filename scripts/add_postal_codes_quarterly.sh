@@ -9,7 +9,7 @@ source "$SCRIPT_DIR/load_env.sh"
 
 FILE="$1"
 SLEEP_TIMER="${2:-1}"
-CACHE_FILE="../outputs/cache/location_cache.csv"
+CACHE_FILE="$SCRIPT_DIR/../outputs/cache/location_cache.csv"
 
 # Configure geocoding library BEFORE loading it
 export GEOCODING_SLEEP_TIMER="$SLEEP_TIMER"
@@ -67,11 +67,33 @@ fi
 
 # Process each line to extract postal code and coordinates from address
 # Quarterly format typically has address in the 4th column
+
+# Count total lines to process for progress tracking
+total_lines=$(tail -n +$skip_lines "$FILE" | wc -l)
+current_line=0
+
 tail -n +$skip_lines "$FILE" | while IFS= read -r line; do
     if [[ -n "$line" ]]; then
+        current_line=$((current_line + 1))
+        
+        # Show progress every 100 lines or on first/last line
+        if [[ $((current_line % 100)) -eq 0 || $current_line -eq 1 || $current_line -eq $total_lines ]]; then
+            percentage=$((current_line * 100 / total_lines))
+            bar_length=20
+            filled=$((percentage * bar_length / 100))
+            empty=$((bar_length - filled))
+            progress_bar=$(printf "%*s" $filled | tr ' ' '█')
+            empty_bar=$(printf "%*s" $empty | tr ' ' '░')
+            printf "[%s%s] %d/%d (%d%%) | " "$progress_bar" "$empty_bar" "$current_line" "$total_lines" "$percentage" >&2
+        fi
+        
+        # Clean up the line: remove excessive whitespace and normalize line breaks
+        # Replace multiple spaces with single space, trim leading/trailing whitespace
+        cleaned_line=$(echo "$line" | sed 's/[[:space:]]\+/ /g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+        
         # Extract address using proper CSV parsing - address is in quotes as 4th field
         # Use awk to properly parse CSV with quoted fields
-        address=$(echo "$line" | awk -F',' '{
+        address=$(echo "$cleaned_line" | awk -F',' '{
             field_num = 4
             # If field starts with quote, find the matching end quote
             if ($field_num ~ /^"/) {
@@ -97,7 +119,7 @@ tail -n +$skip_lines "$FILE" | while IFS= read -r line; do
         lat=$(echo "$coordinates" | cut -d',' -f1)
         lon=$(echo "$coordinates" | cut -d',' -f2)
         
-        echo "${line},${postal_code},${lat},${lon}" >> "$TEMP_FILE"
+        echo "${cleaned_line},${postal_code},${lat},${lon}" >> "$TEMP_FILE"
     fi
 done
 
