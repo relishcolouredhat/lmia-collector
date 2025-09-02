@@ -86,7 +86,7 @@ process_file_by_format() {
         if command -v in2csv >/dev/null 2>&1; then
             echo "  -> Converting Excel file with in2csv..." >&2
             # Convert Excel to CSV with error handling (specify format explicitly)
-            if in2csv --format xlsx "$temp_file" | sed '/^Remarques:/,$d' | sed '/^Notes:/,$d' > "$new_target_file" 2>&1; then
+            if in2csv --format xlsx "$temp_file" | tail -n +2 | sed '/^Remarques:/,$d' | sed '/^Notes:/,$d' > "$new_target_file" 2>&1; then
                 # Check if conversion was successful (file has content)
                 if [[ -s "$new_target_file" ]]; then
                     echo "  -> ✅ Excel conversion successful: $(wc -l < "$new_target_file") lines" >&2
@@ -94,7 +94,7 @@ process_file_by_format() {
                     echo "  -> ❌ Excel conversion failed: empty output file" >&2
                     echo "  -> 🔧 Attempting direct conversion without sed filters..." >&2
                     # Try without sed filters as fallback
-                    if in2csv --format xlsx "$temp_file" > "$new_target_file" 2>&1 && [[ -s "$new_target_file" ]]; then
+                    if in2csv --format xlsx "$temp_file" | tail -n +2 > "$new_target_file" 2>&1 && [[ -s "$new_target_file" ]]; then
                         echo "  -> ✅ Direct conversion successful: $(wc -l < "$new_target_file") lines" >&2
                     else
                         echo "  -> ❌ All Excel conversion attempts failed" >&2

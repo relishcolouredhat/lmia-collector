@@ -91,7 +91,7 @@ get_coordinates_for_postal_code() {
         local cached_coords=$(grep "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null | head -1 | cut -d';' -f2,3 | tr ';' ',')
         if [[ -n "$cached_coords" && "$cached_coords" != "," ]]; then
             CACHE_HITS=$((CACHE_HITS + 1))
-            echo "  ✓ Cache hit: $postal_code"
+            echo "  ✓ Cache hit: $postal_code" >&2
             echo "$cached_coords"
             return  # Early return - NO SLEEP for cache hits!
         fi
@@ -106,11 +106,11 @@ get_coordinates_for_postal_code() {
     
     # Not in cache and not a bogon, try multiple geocoding sources
     API_CALLS=$((API_CALLS + 1))
-    echo "  → Looking up postal code: $postal_code (API call #$API_CALLS)"
+    echo "  → Looking up postal code: $postal_code (API call #$API_CALLS)" >&2
     
     # TURBO MODE: Try Google first if API key available and turbo mode enabled
     if [[ "$GEOCODING_TURBO_MODE" == "true" && -n "$GOOGLE_GEOCODING_API_KEY" ]]; then
-        echo "    🚀 TURBO MODE: Trying Google Geocoding API first..."
+        echo "    🚀 TURBO MODE: Trying Google Geocoding API first..." >&2
         sleep 0.05  # Google can handle ~50 requests/second, so 0.05s = 20/sec (conservative)
         
         # Google Geocoding API with country component filtering
@@ -123,7 +123,7 @@ get_coordinates_for_postal_code() {
             if [[ -n "$lat" && -n "$lon" && "$lat" != "" && "$lon" != "" && "$lat" != "null" && "$lon" != "null" ]]; then
                 coordinates="$lat,$lon"
                 source="Google-Turbo"
-                echo "    ✅ Found coordinates: $coordinates (source: $source)"
+                echo "    ✅ Found coordinates: $coordinates (source: $source)" >&2
                 echo "$coordinates"
                 return  # Early return - we got our result fast!
             fi
@@ -306,7 +306,9 @@ add_to_cache() {
     
     # Check if this postal code already exists in cache
     if [[ -f "$GEOCODING_CACHE_FILE" ]] && ! grep -q "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null; then
+        # Write to cache file only (no stdout mixing)
         echo "$normalized_pc;$lat;$lon;$address;$employer" >> "$GEOCODING_CACHE_FILE"
+        # Log to stdout separately
         echo "    ✓ Cached postal code: $normalized_pc ($lat,$lon) [$employer]"
     fi
 }
