@@ -260,7 +260,7 @@ get_coordinates_for_postal_code() {
         add_postal_code_to_bogons "$normalized_pc"
         echo ","
     else
-        echo "    ✅ Found coordinates: $coordinates (source: $source)"
+        echo "    ✅ Found coordinates: $coordinates (source: $source)" >&2
         echo "$coordinates"
     fi
     
