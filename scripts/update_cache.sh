@@ -178,16 +178,16 @@ process_csv_files() {
                             # Extract postal code from address
                             local pc=$(extract_postal_code "$address")
                             if [[ -n "$pc" ]]; then
-                                echo "    📮 Extracted postal code: $pc from: ${address:0:50}..."
+                                echo "    · Extracted postal code: $pc from: ${address:0:50}..."
                                 # Skip geocoding if already cached - MAJOR PERFORMANCE OPTIMIZATION
                                 local normalized_pc=$(echo "$pc" | tr -d ' ')
                                 if [[ -f "$GEOCODING_CACHE_FILE" ]] && grep -q "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null; then
                                     # Already cached - skip geocoding processing entirely
-                                    echo "    🟢 Skipped cached: $pc"
+                                    echo "    \033[32m▓▓\033[0m SKIP: $pc"
                                     continue
                                 fi
                                 
-                                echo "    🔍 Processing new: $pc"
+                                                                    echo "    \033[36m◇◇\033[0m NEW: $pc"
                                 local coords=$(get_postal_code_coordinates "$pc")
                                 local latitude=$(echo "$coords" | cut -d',' -f1)
                                 local longitude=$(echo "$coords" | cut -d',' -f2)
@@ -242,16 +242,16 @@ process_csv_files() {
                             # Extract postal code from address
                             local pc=$(extract_postal_code "$address")
                             if [[ -n "$pc" ]]; then
-                                echo "    📮 Extracted postal code: $pc from: ${address:0:50}..."
+                                echo "    · Extracted postal code: $pc from: ${address:0:50}..."
                                 # Skip geocoding if already cached - MAJOR PERFORMANCE OPTIMIZATION
                                 local normalized_pc=$(echo "$pc" | tr -d ' ')
                                 if [[ -f "$GEOCODING_CACHE_FILE" ]] && grep -q "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null; then
                                     # Already cached - skip geocoding processing entirely
-                                    echo "    🟢 Skipped cached: $pc"
+                                    echo "    \033[32m▓▓\033[0m SKIP: $pc"
                                     continue
                                 fi
                                 
-                                echo "    🔍 Processing new: $pc"
+                                                                    echo "    \033[36m◇◇\033[0m NEW: $pc"
                                 local coords=$(get_postal_code_coordinates "$pc")
                                 local latitude=$(echo "$coords" | cut -d',' -f1)
                                 local longitude=$(echo "$coords" | cut -d',' -f2)
