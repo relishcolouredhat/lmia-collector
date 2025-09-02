@@ -65,39 +65,32 @@ get_postal_code_coordinates() {
 # Function to parse CSV line with proper handling of quoted fields
 parse_csv_line() {
     local line="$1"
-    local field_num="$2"
+    local format="$2"  # "employer" or "quarterly"
     
-    # Clean the line of problematic characters first - handle multiple encodings
-    local cleaned_line
-    if cleaned_line=$(echo "$line" | iconv -f iso-8859-1 -t utf-8//IGNORE 2>/dev/null); then
-        # Successfully converted from ISO-8859-1
-        :
-    elif cleaned_line=$(echo "$line" | iconv -f utf-8 -t utf-8//IGNORE 2>/dev/null); then
-        # Successfully cleaned UTF-8
-        :
+    # Clean encoding issues
+    local cleaned_line=$(echo "$line" | iconv -f iso-8859-1 -t utf-8//IGNORE 2>/dev/null || echo "$line")
+    
+    if [[ "$format" == "quarterly" ]]; then
+        # Quarterly format: Province,Stream,Employer,Address,Occupation,Status,LMIAs,Positions
+        echo "$cleaned_line" | awk '
+        BEGIN { FPAT = "([^,]+)|(\"[^\"]*\")" }
+        {
+            # Extract fields 3 and 4 (employer and address)
+            gsub(/^[ \t]*"?|"?[ \t]*$/, "", $3)  # Clean field 3
+            gsub(/^[ \t]*"?|"?[ \t]*$/, "", $4)  # Clean field 4
+            print "emp=" $3 " addr=" $4
+        }'
     else
-        # Fallback: remove problematic characters
-        cleaned_line=$(echo "$line" | tr -d '\200-\377' | tr -d '\000-\037')
-    fi
-    
-    # Additional cleaning: remove any remaining problematic patterns
-    cleaned_line=$(echo "$cleaned_line" | sed 's/[[:cntrl:]]//g')
-    
-    # Simple but effective CSV parsing for our specific format
-    if [[ $field_num -eq 1 ]]; then
-        # Extract first field (employer) - everything before first comma outside quotes
-        echo "$cleaned_line" | sed 's/^\([^"]*\),.*$/\1/' | sed 's/^"//' | sed 's/"$//' | sed 's/[[:space:]]*$//'
-    elif [[ $field_num -eq 2 ]]; then
-        # Extract second field (address) - quoted field between first and last comma
-        echo "$cleaned_line" | sed 's/^[^,]*,"\([^"]*\)".*$/\1/' | sed 's/[[:space:]]*$//'
-    elif [[ $field_num -eq 3 ]]; then
-        # Extract employer for quarterly format (third field)
-        echo "$cleaned_line" | sed 's/^[^,]*,[^,]*,\([^,]*\),.*$/\1/' | sed 's/^"//' | sed 's/"$//' | sed 's/[[:space:]]*$//'
-    elif [[ $field_num -eq 4 ]]; then
-        # Extract address for quarterly format (fourth field) 
-        echo "$cleaned_line" | sed 's/^[^,]*,[^,]*,[^,]*,"\([^"]*\)".*$/\1/' | sed 's/[[:space:]]*$//'
-    else
-        echo ""
+        # Employer format: Province,Employer,Address,Occupation,Positions
+        # FPAT skips empty first field, so employer=field1, address=field2
+        echo "$cleaned_line" | awk '
+        BEGIN { FPAT = "([^,]+)|(\"[^\"]*\")" }
+        {
+            # Extract fields 1 and 2 (employer and address)
+            gsub(/^[ \t]*"?|"?[ \t]*$/, "", $1)  # Clean field 1
+            gsub(/^[ \t]*"?|"?[ \t]*$/, "", $2)  # Clean field 2
+            print "emp=" $1 " addr=" $2
+        }'
     fi
 }
 
@@ -149,7 +142,7 @@ process_csv_files() {
         echo ""
         echo "🏢 Processing employer format files..."
         
-        for file in "$CSV_DIR/employer_format"/*.csv; do
+        for file in $(find "$CSV_DIR/employer_format" -name "*.csv" | sort -r); do
             if [[ -f "$file" ]]; then
                 local file_lines=$(wc -l < "$file")
                 local file_start_time=$(date +%s)
@@ -158,25 +151,43 @@ process_csv_files() {
                 lines_processed=$((lines_processed + file_lines))
                 
                 # Process each line (skip header) - handle proper CSV parsing
+                local line_count=0
                 tail -n +2 "$file" | while IFS= read -r line; do
+                    line_count=$((line_count + 1))
+                    if (( line_count % 100 == 0 )); then
+                        echo "    📊 Processed $line_count lines from $(basename "$file")"
+                    fi
                     if [[ -n "$line" && "$line" != *"test "* ]]; then
+                        # DEBUG: Show raw line every 500 lines
+                        if (( line_count % 500 == 0 )); then
+                            echo "    🔍 RAW LINE $line_count: ${line:0:100}..."
+                        fi
+                        
                         # Parse employer format CSV line (Employer,Address,Positions)
-                        local employer=$(parse_csv_line "$line" 1)
-                        local address=$(parse_csv_line "$line" 2)
+                        local parse_result=$(parse_csv_line "$line" "employer")
+                        local employer=$(echo "$parse_result" | sed -n 's/emp=\(.*\) addr=.*/\1/p')
+                        local address=$(echo "$parse_result" | sed -n 's/emp=.* addr=\(.*\)/\1/p')
+                        
+                        # DEBUG: Log parsing results every 1000 lines
+                        if (( line_count % 1000 == 0 )); then
+                            echo "    🔍 Line $line_count: emp='$employer' addr='$address'"
+                        fi
                         
                         # Skip empty or invalid entries
                         if [[ -n "$employer" && -n "$address" && "$employer" != "" ]]; then
                             # Extract postal code from address
                             local pc=$(extract_postal_code "$address")
                             if [[ -n "$pc" ]]; then
+                                echo "    📮 Extracted postal code: $pc from: ${address:0:50}..."
                                 # Skip geocoding if already cached - MAJOR PERFORMANCE OPTIMIZATION
                                 local normalized_pc=$(echo "$pc" | tr -d ' ')
                                 if [[ -f "$GEOCODING_CACHE_FILE" ]] && grep -q "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null; then
                                     # Already cached - skip geocoding processing entirely
-                                    echo "    ⚡ Skipped cached: $pc" >&2
+                                    echo "    ⚡ Skipped cached: $pc"
                                     continue
                                 fi
                                 
+                                echo "    🔍 Processing new: $pc"
                                 local coords=$(get_postal_code_coordinates "$pc")
                                 local latitude=$(echo "$coords" | cut -d',' -f1)
                                 local longitude=$(echo "$coords" | cut -d',' -f2)
@@ -197,7 +208,7 @@ process_csv_files() {
         echo ""
         echo "📊 Processing quarterly format files..."
         
-        for file in "$CSV_DIR/quarterly_format"/*.csv; do
+        for file in $(find "$CSV_DIR/quarterly_format" -name "*.csv" | sort -r); do
             if [[ -f "$file" ]]; then
                 local file_lines=$(wc -l < "$file")
                 local file_start_time=$(date +%s)
@@ -222,22 +233,25 @@ process_csv_files() {
                 tail -n +$skip_lines "$file" | while IFS= read -r line; do
                     if [[ -n "$line" ]]; then
                         # Parse quarterly CSV line (Period,Stream,Employer,Address,Positions)
-                        local employer=$(parse_csv_line "$line" 3)
-                        local address=$(parse_csv_line "$line" 4)
+                        local parse_result=$(parse_csv_line "$line" "quarterly")
+                        local employer=$(echo "$parse_result" | sed -n 's/emp=\(.*\) addr=.*/\1/p')
+                        local address=$(echo "$parse_result" | sed -n 's/emp=.* addr=\(.*\)/\1/p')
                         
                         # Skip empty or invalid entries
                         if [[ -n "$employer" && -n "$address" && "$employer" != "" ]]; then
                             # Extract postal code from address
                             local pc=$(extract_postal_code "$address")
                             if [[ -n "$pc" ]]; then
+                                echo "    📮 Extracted postal code: $pc from: ${address:0:50}..."
                                 # Skip geocoding if already cached - MAJOR PERFORMANCE OPTIMIZATION
                                 local normalized_pc=$(echo "$pc" | tr -d ' ')
                                 if [[ -f "$GEOCODING_CACHE_FILE" ]] && grep -q "^$normalized_pc;" "$GEOCODING_CACHE_FILE" 2>/dev/null; then
                                     # Already cached - skip geocoding processing entirely
-                                    echo "    ⚡ Skipped cached: $pc" >&2
+                                    echo "    ⚡ Skipped cached: $pc"
                                     continue
                                 fi
                                 
+                                echo "    🔍 Processing new: $pc"
                                 local coords=$(get_postal_code_coordinates "$pc")
                                 local latitude=$(echo "$coords" | cut -d',' -f1)
                                 local longitude=$(echo "$coords" | cut -d',' -f2)
