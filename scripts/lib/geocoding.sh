@@ -85,7 +85,7 @@ show_rolling_stats() {
     local hit_bar=$(printf "%*s" $hit_chars | tr ' ' '█')
     local miss_bar=$(printf "%*s" $miss_chars | tr ' ' '░')
     local bogons=$(get_bogons_count)
-    printf "[%s%s] H:%d M:%d A:%d B:%d | " "$hit_bar" "$miss_bar" "$CACHE_HITS" "$FAILED_LOOKUPS" "$API_CALLS" "$bogons" >&2
+    printf "[%s%s] H:%d M:%d A:%d B:%d | " "$hit_bar" "$miss_bar" "$CACHE_HITS" "$FAILED_LOOKUPS" "$API_CALLS" "$bogons"
 }
 
 # Multi-source geocoding function
@@ -109,7 +109,7 @@ get_coordinates_for_postal_code() {
         if [[ -n "$cached_coords" && "$cached_coords" != "," ]]; then
             CACHE_HITS=$((CACHE_HITS + 1))
             TOTAL_PROCESSED=$((TOTAL_PROCESSED + 1))
-            show_rolling_stats >&2
+            show_rolling_stats
             echo "████ CACHE HIT: $postal_code" >&2
             echo "$cached_coords"
             return  # Early return - NO SLEEP for cache hits!
@@ -318,9 +318,9 @@ add_to_cache() {
         return
     fi
     
-    # Clean fields for cache storage (normalize whitespace, no extra escaping needed for semicolon format)
-    address=$(echo "$address" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//')
-    employer=$(echo "$employer" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//')
+    # Clean fields for cache storage (normalize whitespace, escape semicolons)
+    address=$(echo "$address" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//' | sed 's/;/ -/g')
+    employer=$(echo "$employer" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g' | sed 's/^ *//;s/ *$//' | sed 's/;/ -/g')
     
     # Defensive: Remove obvious duplications (same text repeated twice)
     address=$(echo "$address" | sed 's/\(.*\) \1$/\1/')
